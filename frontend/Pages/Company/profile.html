@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Company Profile | Freelancer Nepal</title>
+  <link rel="stylesheet" href="/resources/styles/profile.css" />
+</head>
+<body>
+  <div class="profile-container">
+    <h2>Welcome, <span id="companyName"></span> 👋</h2>
+    <p class="intro-text">
+      Complete your company profile to build trust and attract the best freelancers.
+    </p>
+
+    <form id="profileForm" class="profile-form" enctype="multipart/form-data">
+      <label>Company Logo</label>
+      <input type="file" id="logo" accept="image/*" />
+
+      <label>Company Name</label>
+      <input type="text" id="name" placeholder="Tilasmi Inc." required />
+
+      <label>Industry</label>
+      <input type="text" id="industry" placeholder="IT, Marketing, Design..." />
+
+      <label>Company Size</label>
+      <select id="size">
+        <option value="">Select size</option>
+        <option value="1-10">1-10 employees</option>
+        <option value="11-50">11-50 employees</option>
+        <option value="51-200">51-200 employees</option>
+        <option value="200+">200+</option>
+      </select>
+
+      <label>Location</label>
+      <input type="text" id="location" placeholder="Kathmandu, Nepal" />
+
+      <label>About Company</label>
+      <textarea id="about" placeholder="Describe your company..."></textarea>
+
+      <label>Website</label>
+      <input type="url" id="website" placeholder="https://tilasmi.com" />
+
+      <button type="submit">Save Profile</button>
+      <p id="message"></p>
+    </form>
+  </div>
+
+  <script src="/resources/scripts/profileCompany.js" defer></script>
+</body>
+</html>

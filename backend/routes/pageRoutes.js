@@ -12,5 +12,7 @@ router.get('/', (req, res) => {
 
 // ----- Company Pages -----
 router.get('/company/register', (req, res) => res.sendFile(page('Company/registerCompany.html')));
+router.get('/company/profile', (req, res) => res.sendFile(page('Company/profile.html')));
+
 
 module.exports = router;
