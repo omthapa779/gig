@@ -2,50 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Company Profile | Freelancer Nepal</title>
   <link rel="stylesheet" href="/resources/styles/profile.css" />
 </head>
 <body>
-  <div class="profile-container">
-    <h2>Welcome, <span id="companyName"></span> 👋</h2>
-    <p class="intro-text">
-      Complete your company profile to build trust and attract the best freelancers.
-    </p>
+  <div class="profile-summary">
+    <div class="profile-header">
+      <img id="companyLogo" src="/resources/essentials/default-logo.png" alt="Company Logo" />
+      <div>
+        <h1 id="companyName">Loading...</h1>
+        <p id="industry">Industry: —</p>
+        <p id="size">Company Size: —</p>
+        <p id="location">Location: —</p>
+      </div>
+      <div style="margin-left:20px;">
+        <button id="logoutBtn">Logout</button>
+      </div>
+    </div>
 
-    <form id="profileForm" class="profile-form" enctype="multipart/form-data">
-      <label>Company Logo</label>
-      <input type="file" id="logo" accept="image/*" />
+    <div class="profile-details">
+      <h3>About Company</h3>
+      <p id="about">Loading description...</p>
 
-      <label>Company Name</label>
-      <input type="text" id="name" placeholder="Tilasmi Inc." required />
+      <h3>Website</h3>
+      <p><a id="website" href="#" target="_blank">—</a></p>
 
-      <label>Industry</label>
-      <input type="text" id="industry" placeholder="IT, Marketing, Design..." />
+      <h3>Contact</h3>
+      <p id="email">Email: —</p>
+      <p id="phone">Phone: —</p>
+    </div>
 
-      <label>Company Size</label>
-      <select id="size">
-        <option value="">Select size</option>
-        <option value="1-10">1-10 employees</option>
-        <option value="11-50">11-50 employees</option>
-        <option value="51-200">51-200 employees</option>
-        <option value="200+">200+</option>
-      </select>
-
-      <label>Location</label>
-      <input type="text" id="location" placeholder="Kathmandu, Nepal" />
-
-      <label>About Company</label>
-      <textarea id="about" placeholder="Describe your company..."></textarea>
-
-      <label>Website</label>
-      <input type="url" id="website" placeholder="https://tilasmi.com" />
-
-      <button type="submit">Save Profile</button>
-      <p id="message"></p>
-    </form>
+    <button id="editBtn">Complete / Edit Profile</button>
   </div>
 
-  <script src="/resources/scripts/profileCompany.js" defer></script>
+  <script src="/resources/scripts/profileSummaryCompany.js"></script>
 </body>
 </html>

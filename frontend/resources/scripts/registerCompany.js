@@ -10,9 +10,8 @@ form.addEventListener('submit', async (e) => {
     email: document.getElementById('email').value.trim(),
     password: document.getElementById('password').value,
     phone: document.getElementById('phone').value.trim(),
-    address: document.getElementById('address').value.trim(),
+    location: document.getElementById('location').value.trim(),
     website: document.getElementById('website').value.trim(),
-    description: document.getElementById('description').value.trim(),
   };
 
   try {
@@ -29,6 +28,8 @@ form.addEventListener('submit', async (e) => {
       messageBox.style.color = 'green';
       messageBox.textContent = result.message;
       form.reset();
+      // redirect to login so the user can sign in
+      setTimeout(() => { window.location.href = '/company/login'; }, 900);
     } else {
       messageBox.style.color = 'red';
       messageBox.textContent = result.message || 'Registration failed';

@@ -1,71 +1,68 @@
-# Gig — Freelancer Marketplace (backend + simple frontend)
+# Gig — Freelancer Marketplace
 
-Short description
-A minimal marketplace project for companies to register, log in, and manage profiles. Node/Express backend with MongoDB, basic frontend pages served statically.
+Quick start
+1. npm install
+2. Create .env (see below)
+3. Development: npm run dev
+4. Production: npm start
 
-Tech stack
-- Node.js (CommonJS)
-- Express
-- MongoDB (Mongoose)
-- Argon2 for password hashing
-- Joi for request validation
-- sanitize-html + simple sanitization utils
-- Helmet, CORS, rate-limit for basic security
-- Static frontend served from /frontend
-
-Quickstart (local)
-1. Install dependencies
-   - npm install
-
-2. Create a .env file in project root (see example below)
-
-3. Run in development
-   - npm run dev
-   This uses nodemon and watches backend/server.js
-
-4. Run in production
-   - npm start
-
-Example .env
-# filepath: c:\Projects\gig\.env
+Required environment (.env)
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/gig
-JWT_SECRET=change_this_to_a_strong_random_value
+JWT_SECRET=<strong-secret>
 JWT_EXPIRE=7d
 NODE_ENV=development
 
-Important scripts (package.json)
-- start: node backend/server.js
-- dev: nodemon backend/server.js
+Important scripts
+- npm start       — run server
+- npm run dev     — nodemon development
 
-Application structure (important files)
-- backend/
-  - server.js           - Express app setup and middleware
-  - config/db.js        - MongoDB connection helper
-  - models/Company.js   - Mongoose model (password hashing with argon2)
-  - middleware/
-    - authMiddleware.js - verifies JWT from httpOnly cookie and attaches req.company
-  - routes/
-    - companyRoutes.js  - API: /api/company/register, /api/company/login, /api/company/profile (protected)
-    - pageRoutes.js     - Serves frontend pages
-  - utils/sanitizeInput.js - Recursively sanitizes strings
-- frontend/
-  - index.html
-  - Pages/Company/registerCompany.html - company signup page
-  - Pages/Company/loginCompany.html    - company login page
-  - Pages/Company/profile.html        - company profile completion page (protected)
-  - resources/
-    - scripts/registerCompany.js - client-side signup logic
-    - scripts/loginCompany.js    - client-side login logic (uses credentials: 'include')
-    - scripts/profileCompany.js  - client-side profile upload logic (multipart/form-data)
-    - styles/style.css
+What’s included (high level)
+- Backend (backend/)
+  - server.js — app bootstrap, static + API routes, uploads static serving
+  - routes/companyRoutes.js — registration, login (JWT cookie), protected profile endpoints
+  - middleware/authMiddleware.js — verifies JWT from httpOnly cookie
+  - models/Company.js — Mongoose model (Argon2 pre-save)
+  - utils/ — input sanitization, profile completion calc
+- Frontend (frontend/)
+  - Pages/Company — register, login, profile (view + edit)
+  - resources/scripts — client-side logic for auth and profile
+  - resources/styles — basic styles and assets
 
-New / Updated features
-- Login system:
-  - POST /api/company/login authenticates a company using email + password.
-  - On success, server issues a signed JWT and sets it in an httpOnly cookie named `token`.
-  - The backend uses cookie-parser and a protect middleware that verifies the JWT and attaches req.company.
-  - Frontend login uses fetch('/api/company/login', { credentials: 'include' }) to keep cookies.
+API (concise)
+- POST /api/company/register
+  - JSON: { companyName, email, password, phone?, location?, website? }
+  - Returns 201 on success.
+- POST /api/company/login
+  - JSON: { email, password }
+  - Sets httpOnly cookie `token` on success. Use fetch with credentials: 'include'.
+- POST /api/company/logout
+  - Clears token cookie.
+- POST /api/company/profile
+  - Protected. multipart/form-data, optional file field `logo`.
+- GET /api/company/me
+  - Protected. Returns company + profile completion.
+- GET /api/company/profile/data
+  - Protected. Returns company data for edit form.
+
+Auth & security notes
+- JWT stored in httpOnly cookie; protect pages and APIs with auth middleware.
+- Passwords hashed with Argon2 in model pre-save (avoid double hashing).
+- Use HTTPS & secure cookie flags in production.
+- Validate uploads (type/size) and consider cloud storage for production.
+
+Uploads
+- Local path: backend/uploads/logos (created at startup).
+- Add /backend/uploads to .gitignore for local development.
+
+Developer tips
+- Ensure JWT_SECRET + JWT_EXPIRE set before testing auth.
+- Use credentials: 'include' when calling protected endpoints from the browser.
+- Add server-side file validation and tighten CORS in production.
+- Tests and logging recommended before productionization.
+
+Contact
+Repo: https://github.com/omthapa779/gig
 - Protected profile:
   - POST /api/company/profile is now protected by the auth middleware.
   - Clients must be authenticated (cookie present) to update profile and upload logos.
