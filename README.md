@@ -24,7 +24,7 @@ Quickstart (local)
    - npm start
 
 Example .env
-# filepath: c:\Projects\gig\.env
+# filepath: gig\.env
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/gig
 # Optional/hints
