@@ -86,23 +86,16 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
+const protect = require('../middleware/authMiddleware');
 
-/**
- * POST /api/company/profile
- * Handles company profile completion (temporary static user until JWT)
- */
-router.post('/profile', upload.single('logo'), async (req, res) => {
+router.post('/profile', protect, upload.single('logo'), async (req, res) => {
   try {
-    const { name, industry, size, location, about, website } = req.body;
-    const logoPath = req.file ? `/uploads/logos/${req.file.filename}` : null;
+    const { industry, size, location, about, website } = req.body;
+    const logoPath = req.file ? `/uploads/logos/${req.file.filename}` : req.company.logo;
 
-    // ⚠️ Temporary logic (until login system is ready)
-    // Later, this will use req.user from JWT/session
-    const company = await Company.findOne({ email: 'info@tilasmi.com' });
+    const company = await Company.findById(req.company._id);
     if (!company) return res.status(404).json({ message: 'Company not found' });
 
-    // Update fields
-    company.companyName = name || company.companyName;
     company.industry = industry;
     company.size = size;
     company.location = location;
@@ -113,7 +106,49 @@ router.post('/profile', upload.single('logo'), async (req, res) => {
     await company.save();
     res.json({ message: 'Profile updated successfully!' });
   } catch (err) {
-    console.error('Profile error:', err);
+    console.error('Profile update error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+/* -------------------------------------------------------------------------- */
+/* 🧩 COMPANY LOGIN */
+/* -------------------------------------------------------------------------- */
+
+
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
+
+// ✅ LOGIN
+router.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Check company exists
+    const company = await Company.findOne({ email });
+    if (!company) return res.status(400).json({ message: 'Invalid credentials' });
+
+    // Verify password
+    const isMatch = await argon2.verify(company.password, password);
+    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+
+    // Create JWT token
+    const token = jwt.sign({ id: company._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE });
+
+    // Send token as secure cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      sameSite: 'lax', // change to 'strict' or 'none' (with https) in production
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
+    res.json({
+      message: 'Login successful!',
+      company: { id: company._id, companyName: company.companyName, email: company.email },
+    });
+  } catch (err) {
+    console.error('Login error:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
