@@ -3,11 +3,9 @@ document.getElementById('editBtn').addEventListener('click', () => {
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // include credentials so cookie is sent
   const res = await fetch('/api/company/me', { credentials: 'include' });
 
   if (!res.ok) {
-    // not authenticated -> redirect to login
     window.location.href = '/company/login';
     return;
   }
@@ -17,7 +15,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const c = data.company;
   const percent = data.completion;
 
-  // fill data like before...
   document.getElementById('companyName').textContent = c.companyName;
   document.getElementById('industry').textContent = `Industry: ${c.industry || '—'}`;
   document.getElementById('size').textContent = `Company Size: ${c.size || '—'}`;
@@ -33,7 +30,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     editBtn.style.display = 'none';
   }
 
-  // show progress bar
   const progress = document.createElement('div');
   progress.className = 'progress-bar';
   progress.innerHTML = `
