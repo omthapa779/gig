@@ -15,9 +15,6 @@
         <p id="size">Company Size: —</p>
         <p id="location">Location: —</p>
       </div>
-      <div style="margin-left:20px;">
-        <button id="logoutBtn">Logout</button>
-      </div>
     </div>
 
     <div class="profile-details">
@@ -30,6 +27,22 @@
       <h3>Contact</h3>
       <p id="email">Email: —</p>
       <p id="phone">Phone: —</p>
+    </div>
+
+    <!-- Jobs summary + link to manage page -->
+    <section id="jobsSection" style="border-top:1px solid #eee; padding-top:20px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2>Active Jobs</h2>
+        <a href="/company/jobs"><button id="manageJobsBtn">Manage Jobs</button></a>
+      </div>
+
+      <div id="jobList" style="max-width:900px; margin-top:20px;">
+        <!-- populated by JS -->
+      </div>
+    </section>
+
+    <div style="margin-left:20px;">
+      <button id="logoutBtn">Logout</button>
     </div>
 
     <button id="editBtn">Complete / Edit Profile</button>

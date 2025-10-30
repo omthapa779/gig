@@ -1,13 +1,19 @@
-
+//imports
 const express = require('express');
 const Joi = require('joi');
 const path = require('path');
 const multer = require('multer');
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
-const Company = require('../models/Company');
+const fs = require('fs'); 
+
+// utils
 const sanitizeInput = require('../utils/sanitizeInput');
 const calcProfileCompletion = require('../utils/calcProfileCompletion');
+
+// models
+const Company = require('../models/Company');
+const Job = require('../models/Job');
 
 const router = express.Router();
 
@@ -171,7 +177,7 @@ router.get('/profile/data', protectCompany, async (req, res) => {
 });
 
 /* -------------------------------------------------------------------------- */
-/* 🧩 COMPANY Profile Logout                                                     */
+/* 🧩 COMPANY Profile Logout                                                  */
 /* -------------------------------------------------------------------------- */
 
 router.post('/logout', (req, res) => {
@@ -183,5 +189,218 @@ router.post('/logout', (req, res) => {
     return res.status(500).json({ message: 'Server error' });
   }
 });
+
+
+// ---------------------------
+// Multer for job attachments
+// ---------------------------
+const jobStorage = multer.diskStorage({
+  destination: path.join(__dirname, '../uploads/jobs'),
+  filename: (req, file, cb) => {
+    const safe = file.originalname.replace(/\s+/g, '-');
+    cb(null, Date.now() + '-' + safe);
+  },
+});
+
+const ALLOWED_MIMETYPES = new Set([
+  'image/jpeg',
+  'image/png',
+  'image/gif',
+  'application/pdf',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+]);
+
+const uploadJob = multer({
+  storage: jobStorage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB per file
+  fileFilter: (req, file, cb) => {
+    if (ALLOWED_MIMETYPES.has(file.mimetype)) cb(null, true);
+    else cb(new Error('Unsupported file type'));
+  },
+});
+
+/* -------------------------------------------------------------------------- */
+/* 🧩 COMPANY Profile List Jobs                                               */
+/* -------------------------------------------------------------------------- */
+
+router.get('/jobs', protectCompany, async (req, res) => {
+  try {
+    const jobs = await Job.find({ company: req.company._id, active: true }).sort({ createdAt: -1 });
+    res.json({ jobs });
+  } catch (err) {
+    console.error('Fetch jobs error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+/* -------------------------------------------------------------------------- */
+/* 🧩 COMPANY Profile Add Jobs                                               */
+/* -------------------------------------------------------------------------- */
+router.post('/jobs', protectCompany, uploadJob.array('attachments', 5), async (req, res) => {
+  try {
+    const raw = req.body || {};
+    const body = sanitizeInput(raw);
+    const { title, category, description, pay, deadline, isPhysical, location } = body;
+
+    if (!title || !description) {
+      return res.status(400).json({ message: 'Title and description are required' });
+    }
+
+    const physical = !!(isPhysical === 'true' || isPhysical === true);
+    if (physical && (!location || String(location).trim() === '')) {
+      return res.status(400).json({ message: 'Location is required for physical/on-site jobs' });
+    }
+
+    const attachments = (req.files || []).map((f) => `/uploads/jobs/${f.filename}`);
+
+    const job = new Job({
+      company: req.company._id,
+      title: title.trim(),
+      category: (category || '').trim(),
+      description: description.trim(),
+      pay: (pay || '').trim(),
+      deadline: deadline ? new Date(deadline) : undefined,
+      isPhysical: physical,
+      location: (location || '').trim(),
+      attachments,
+    });
+
+    await job.save();
+    res.status(201).json({ message: 'Job posted', job });
+  } catch (err) {
+    console.error('Create job error:', err);
+    if (err.message && (err.message.includes('Unsupported file type') || err.message.includes('File too large') || err.code === 'LIMIT_FILE_SIZE')) {
+      return res.status(400).json({ message: err.message.includes('Unsupported') ? 'Unsupported file type' : 'File too large (max 5MB per file)' });
+    }
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+router.put('/jobs/:id', protectCompany, uploadJob.array('attachments', 5), async (req, res) => {
+   try {
+    const id = req.params.id;
+    const raw = req.body || {};
+    const body = sanitizeInput(raw);
+    const job = await Job.findById(id);
+    if (!job) return res.status(404).json({ message: 'Job not found' });
+    if (job.company.toString() !== req.company._id.toString()) {
+      return res.status(403).json({ message: 'Not allowed' });
+    }
+
+    const up = {};
+    ['title', 'category', 'description', 'pay', 'location'].forEach((k) => {
+      if (body[k] && String(body[k]).trim() !== '') up[k] = body[k].trim();
+    });
+    if (body.deadline) up.deadline = new Date(body.deadline);
+    if (body.isPhysical !== undefined) up.isPhysical = !!(body.isPhysical === 'true' || body.isPhysical === true);
+    // enforce location if becoming physical
+    const willBePhysical = up.isPhysical !== undefined ? up.isPhysical : job.isPhysical;
+    const locationVal = up.location !== undefined ? up.location : job.location;
+    if (willBePhysical && (!locationVal || String(locationVal).trim() === '')) {
+     return res.status(400).json({ message: 'Location is required for physical/on-site jobs' });
+    }
+    if (body.active !== undefined) up.active = !!(body.active === 'true' || body.active === true);
+
+    // if new attachments uploaded, replace/append (here we append)
+    const newAttachments = (req.files || []).map((f) => `/uploads/jobs/${f.filename}`);
+    if (newAttachments.length) {
+     up.attachments = (job.attachments || []).concat(newAttachments);
+    }
+
+    const updated = await Job.findByIdAndUpdate(id, { $set: up }, { new: true });
+    res.json({ message: 'Job updated', job: updated });
+   } catch (err) {
+    console.error('Update job error:', err);
+    res.status(500).json({ message: 'Server error' });
+   }
+});
+
+/* -------------------------------------------------------------------------- */
+/* 🧩 COMPANY Profile Jobs Edit                                               */
+/* -------------------------------------------------------------------------- */
+router.put('/jobs/:id', protectCompany, uploadJob.array('attachments', 5), async (req, res) => {
+  try {
+    const id = req.params.id;
+    const raw = req.body || {};
+    const body = sanitizeInput(raw);
+    const job = await Job.findById(id);
+    if (!job) return res.status(404).json({ message: 'Job not found' });
+    if (job.company.toString() !== req.company._id.toString()) {
+      return res.status(403).json({ message: 'Not allowed' });
+    }
+
+    const up = {};
+    ['title', 'category', 'description', 'pay', 'location'].forEach((k) => {
+      if (body[k] && String(body[k]).trim() !== '') up[k] = body[k].trim();
+    });
+    if (body.deadline) up.deadline = new Date(body.deadline);
+    if (body.isPhysical !== undefined) up.isPhysical = !!(body.isPhysical === 'true' || body.isPhysical === true);
+
+    // enforce location if becoming physical
+    const willBePhysical = up.isPhysical !== undefined ? up.isPhysical : job.isPhysical;
+    const locationVal = up.location !== undefined ? up.location : job.location;
+    if (willBePhysical && (!locationVal || String(locationVal).trim() === '')) {
+      return res.status(400).json({ message: 'Location is required for physical/on-site jobs' });
+    }
+
+    if (body.active !== undefined) up.active = !!(body.active === 'true' || body.active === true);
+
+    // append new attachments if any
+    const newAttachments = (req.files || []).map((f) => `/uploads/jobs/${f.filename}`);
+    if (newAttachments.length) {
+      up.attachments = (job.attachments || []).concat(newAttachments);
+    }
+
+    const updated = await Job.findByIdAndUpdate(id, { $set: up }, { new: true });
+    res.json({ message: 'Job updated', job: updated });
+  } catch (err) {
+    console.error('Update job error:', err);
+    if (err.message && (err.message.includes('Unsupported file type') || err.message.includes('File too large') || err.code === 'LIMIT_FILE_SIZE')) {
+      return res.status(400).json({ message: err.message.includes('Unsupported') ? 'Unsupported file type' : 'File too large (max 5MB per file)' });
+    }
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+/* -------------------------------------------------------------------------- */
+/* 🧩 COMPANY Remove single attachment                                         */
+/* DELETE /api/company/jobs/:id/attachments?filename=basename.ext             */
+/* -------------------------------------------------------------------------- */
+
+router.delete('/jobs/:id/attachments', protectCompany, async (req, res) => {
+  try {
+    const id = req.params.id;
+    const filename = req.query.filename;
+    if (!filename) return res.status(400).json({ message: 'filename query parameter required' });
+
+    const job = await Job.findById(id);
+    if (!job) return res.status(404).json({ message: 'Job not found' });
+    if (job.company.toString() !== req.company._id.toString()) {
+      return res.status(403).json({ message: 'Not allowed' });
+    }
+
+    const matchIndex = (job.attachments || []).findIndex((p) => p.endsWith(`/${filename}`) || p.endsWith(filename));
+    if (matchIndex === -1) return res.status(404).json({ message: 'Attachment not found' });
+
+    const removedPath = job.attachments.splice(matchIndex, 1)[0];
+    job.attachments = job.attachments;
+    await job.save();
+
+    try {
+      const diskPath = path.join(__dirname, '..', removedPath); // removedPath starts with /uploads/...
+      if (fs.existsSync(diskPath)) fs.unlinkSync(diskPath);
+    } catch (unlinkErr) {
+      console.error('Failed to unlink attachment:', unlinkErr);
+    }
+
+    res.json({ message: 'Attachment removed', attachments: job.attachments });
+  } catch (err) {
+    console.error('Delete attachment error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 
 module.exports = router;

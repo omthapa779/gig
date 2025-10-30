@@ -44,6 +44,32 @@ const protectRole = (role) => async (req, res, next) => {
   }
 };
 
+function wantJson(req) {
+  return req.originalUrl?.startsWith('/api/') || (req.headers.accept || '').includes('application/json') || req.xhr;
+}
+
+exports.protectCompany = async (req, res, next) => {
+  try {
+    // ...existing token extraction/verification...
+    if (!token) {
+      if (wantJson(req)) return res.status(401).json({ message: 'Not authenticated' });
+      return res.redirect('/company/login');
+    }
+
+    // ...existing role check...
+    if (decoded.role !== 'company') {
+      if (wantJson(req)) return res.status(403).json({ message: 'Forbidden' });
+      return res.redirect('/company/login');
+    }
+
+    // ...existing attach req.company and next()...
+  } catch (err) {
+    console.error('Auth error:', err);
+    if (wantJson(req)) return res.status(401).json({ message: 'Not authenticated' });
+    return res.redirect('/company/login');
+  }
+};
+
 module.exports = {
   protectCompany: protectRole('company'),
   protectFreelancer: protectRole('freelancer'),

@@ -41,6 +41,10 @@ router.get('/company/profile', ensureRolePage('company'), (req, res) =>
 router.get('/company/profile/edit', ensureRolePage('company'), (req, res) =>
   res.sendFile(page('Company/profileEdit.html'))
 );
+// Jobs management page
+router.get('/company/jobs', ensureRolePage('company'), (req, res) =>
+  res.sendFile(page('Company/jobs.html'))
+);
 
 // ------- Freelancer Pages ---- //
 router.get('/freelancer/register', (req, res) => res.sendFile(page('Freelancer/freelancerRegister.html')));

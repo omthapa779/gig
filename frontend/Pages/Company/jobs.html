@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Jobs — Company | Gig</title>
+  <link rel="stylesheet" href="/resources/styles/profile.css" />
+</head>
+<body>
+  <div class="jobs-container" style="max-width:900px; margin:20px auto;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h2>Post / Edit Job</h2>
+      <div>
+        <a href="/company/profile"><button>Back to Profile</button></a>
+        <button id="logoutBtn">Logout</button>
+      </div>
+    </div>
+
+    <form id="jobForm" style="margin-top:18px;" enctype="multipart/form-data">
+      <input type="hidden" id="editJobId" value="" />
+      <div><input id="jobTitle" name="title" placeholder="Job title" required style="width:100%; padding:8px;"/></div>
+      <div style="margin-top:8px;">
+        <input id="jobCategory" name="category" placeholder="Category (e.g. Music, IT, Delivery)" style="width:48%; padding:8px;"/>
+        <input id="jobPay" name="pay" placeholder="Pay (e.g. $50/hr or 1000 NPR)" style="width:48%; padding:8px; margin-left:4%;" />
+      </div>
+      <div style="margin-top:8px;">
+        <textarea id="jobDescription" name="description" placeholder="Describe the job..." rows="6" style="width:100%; padding:8px;" required></textarea>
+      </div>
+      <div style="margin-top:8px;">
+        <label><input type="checkbox" id="jobIsPhysical" /> Physical / on-site</label>
+        <input id="jobLocation" name="location" placeholder="Location (required if physical)" style="width:60%; padding:8px; margin-left:12px;"/>
+        <input id="jobDeadline" name="deadline" type="date" style="padding:8px; margin-left:8px;"/>
+      </div>
+      <div style="margin-top:8px;">
+        <label>Supporting files (images, pdf) — optional, up to 5 files, 5MB each</label><br/>
+        <input id="jobAttachments" name="attachments" type="file" multiple accept=".png,.jpg,.jpeg,.gif,.pdf,.doc,.docx" />
+        <!-- NEW: preview / selected files UI -->
+        <div id="attachmentsPreview" style="margin-top:8px;"></div>
+        <!-- when editing, show existing attachments (server URLs) -->
+        <div id="existingAttachments" style="margin-top:8px;"></div>
+      </div>
+      <div style="margin-top:10px;">
+        <button id="jobSubmit">Save Job</button>
+        <span id="jobMessage" style="margin-left:12px;"></span>
+      </div>
+    </form>
+
+    <hr style="margin:20px 0;" />
+
+    <h3>Your active jobs</h3>
+    <div id="jobList" style="margin-top:12px;"></div>
+  </div>
+
+  <script src="/resources/scripts/company/jobsCompany.js"></script>
+</body>
+</html>
