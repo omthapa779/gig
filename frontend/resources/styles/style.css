@@ -1,23 +1,56 @@
+/* 
+  Most styles are handled by Tailwind CSS in index.html.
+  This file is for any custom overrides or complex animations not easily done with utility classes.
+*/
+
+/* Smooth scrolling behavior is already enabled via 'scroll-smooth' class on html tag */
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Ensure full height for sticky footer if needed */
 body {
-  font-family: Arial, sans-serif;
-  background: #f6f6f6;
-  text-align: center;
-  padding: 50px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-h1 {
-  color: #333;
+main {
+    flex: 1;
 }
 
-button {
-  padding: 10px 20px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+/* Marquee Animation */
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
-button:hover {
-  background: #0056b3;
+.marquee-content {
+    animation: marquee 30s linear infinite;
+    width: max-content;
+    /* Ensure content doesn't wrap */
+}
+
+.group:hover .marquee-content {
+    animation-play-state: paused;
 }
