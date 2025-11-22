@@ -60,13 +60,34 @@
           <a href="/" class="text-2xl font-bold tracking-tighter text-brand-dark">GIG<span
               class="text-blue-600">.</span></a>
         </div>
-        <div class="hidden md:flex items-center space-x-8 whitespace-nowrap">
+        <div class="hidden md:flex items-center space-x-8">
           <a href="#how-it-works" class="text-sm font-medium text-gray-600 hover:text-brand-dark transition-colors">How
             it Works</a>
           <a href="#services"
             class="text-sm font-medium text-gray-600 hover:text-brand-dark transition-colors">Services</a>
           <a href="#features" class="text-sm font-medium text-gray-600 hover:text-brand-dark transition-colors">Why
             Us</a>
+
+          <!-- Login Dropdown -->
+          <div class="relative group">
+            <button
+              class="text-sm font-medium text-gray-600 hover:text-brand-dark transition-colors flex items-center focus:outline-none">
+              Log In <i class="fa-solid fa-chevron-down ml-1 text-xs transition-transform group-hover:rotate-180"></i>
+            </button>
+            <div
+              class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right z-50 border border-gray-100 translate-y-2 group-hover:translate-y-0">
+              <a href="/freelancer/login"
+                class="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                <i class="fa-solid fa-user-tie mr-2 text-gray-400"></i>Freelancer Login
+              </a>
+              <a href="/company/login"
+                class="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors border-t border-gray-50">
+                <i class="fa-solid fa-building mr-2 text-gray-400"></i>Company Login
+              </a>
+            </div>
+          </div>
+
+          <!-- Search Bar -->
           <div class="relative group">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <i class="fa-solid fa-search text-gray-400 group-focus-within:text-blue-600 transition-colors"></i>
@@ -294,21 +315,39 @@
         <div class="relative gsap-fade-in-right opacity-0 translate-x-8">
           <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/10 shadow-2xl">
             <!-- Mock UI Element -->
-            <div class="flex items-center gap-4 mb-6">
-              <div class="h-12 w-12 rounded-full bg-gray-300"></div>
-              <div>
-                <div class="h-4 w-32 bg-gray-300 rounded mb-2"></div>
-                <div class="h-3 w-20 bg-gray-300/50 rounded"></div>
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center gap-3">
+                <div class="h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400"></div>
+                <div>
+                  <div class="h-3 w-24 bg-white/20 rounded-full mb-2"></div>
+                  <div class="h-2 w-16 bg-white/10 rounded-full"></div>
+                </div>
+              </div>
+              <div class="h-8 w-20 bg-blue-500/20 rounded-full text-blue-300 text-xs flex items-center justify-center">
+                Verified
               </div>
             </div>
-            <div class="space-y-3">
-              <div class="h-3 w-full bg-gray-300/20 rounded"></div>
-              <div class="h-3 w-full bg-gray-300/20 rounded"></div>
-              <div class="h-3 w-2/3 bg-gray-300/20 rounded"></div>
+            <div class="space-y-4">
+              <div class="h-4 w-full bg-white/10 rounded-full"></div>
+              <div class="h-4 w-3/4 bg-white/10 rounded-full"></div>
+              <div class="h-4 w-5/6 bg-white/10 rounded-full"></div>
             </div>
-            <div class="mt-6 flex gap-2">
-              <div class="h-8 w-20 bg-blue-500 rounded"></div>
-              <div class="h-8 w-20 bg-white/20 rounded"></div>
+            <div class="mt-8 flex gap-4">
+              <div class="h-10 flex-1 bg-white/10 rounded-lg"></div>
+              <div class="h-10 w-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                <i class="fa-solid fa-check text-white"></i>
+              </div>
+            </div>
+          </div>
+          <!-- Floating Badge -->
+          <div
+            class="absolute -bottom-6 -left-6 bg-white text-brand-dark p-4 rounded-xl shadow-xl flex items-center gap-3 animate-bounce">
+            <div class="h-10 w-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
+              <i class="fa-solid fa-money-bill-wave"></i>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500">Average Savings</p>
+              <p class="font-bold">NPR 15,000+</p>
             </div>
           </div>
         </div>
@@ -316,37 +355,23 @@
     </div>
   </section>
 
-  <!-- CTA Section -->
-  <section class="py-24 bg-white">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center gsap-scale-up opacity-0 scale-90">
-      <h2 class="text-4xl font-bold text-brand-dark mb-6">Ready to get started?</h2>
-      <p class="text-xl text-gray-500 mb-10">Join thousands of freelancers and businesses growing with Gig.</p>
-      <div class="flex flex-col sm:flex-row justify-center gap-4">
-        <a href="/register"
-          class="px-8 py-4 text-base font-bold text-white bg-brand-dark rounded-full hover:bg-blue-700 transition-all shadow-lg">
-          Sign Up for Free
-        </a>
-      </div>
-    </div>
-  </section>
-
   <!-- Footer -->
-  <footer class="bg-gray-50 pt-16 pb-8 border-t border-gray-200">
+  <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
         <div class="col-span-1 md:col-span-1">
-          <a href="/" class="text-2xl font-bold tracking-tighter text-brand-dark mb-4 block">GIG<span
+          <a href="/" class="text-2xl font-bold tracking-tighter text-brand-dark mb-6 block">GIG<span
               class="text-blue-600">.</span></a>
-          <p class="text-gray-500 text-sm">
-            Nepal's premier marketplace for freelance talent. Connecting visionaries with doers.
+          <p class="text-gray-500 text-sm leading-relaxed">
+            Empowering Nepal's workforce with fair opportunities and secure payments. Join the revolution today.
           </p>
         </div>
         <div>
           <h4 class="font-bold text-brand-dark mb-4">For Clients</h4>
           <ul class="space-y-2 text-sm text-gray-500">
-            <li><a href="#" class="hover:text-blue-600">How to Hire</a></li>
-            <li><a href="#" class="hover:text-blue-600">Talent Marketplace</a></li>
-            <li><a href="#" class="hover:text-blue-600">Payroll Services</a></li>
+            <li><a href="#" class="hover:text-blue-600">Post a Job</a></li>
+            <li><a href="#" class="hover:text-blue-600">Find Talent</a></li>
+            <li><a href="#" class="hover:text-blue-600">Enterprise</a></li>
           </ul>
         </div>
         <div>
