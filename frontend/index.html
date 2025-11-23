@@ -47,65 +47,16 @@
 
   <!-- Lenis CSS -->
   <link rel="stylesheet" href="https://unpkg.com/lenis@1.0.45/dist/lenis.css">
+
+  <!-- Components -->
+  <script src="./resources/components/Navbar.js" defer></script>
+  <script src="./resources/components/Footer.js" defer></script>
 </head>
 
 <body class="bg-brand-white text-brand-dark antialiased selection:bg-brand-accent selection:text-brand-dark">
 
   <!-- Navigation -->
-  <nav id="navbar"
-    class="fixed w-full z-50 transition-all duration-300 py-4 bg-white/90 backdrop-blur-md border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-12">
-        <div class="flex-shrink-0 flex items-center">
-          <a href="/" class="text-2xl font-bold tracking-tighter text-brand-dark">GIG<span
-              class="text-blue-600">.</span></a>
-        </div>
-        <div class="hidden md:flex items-center space-x-8">
-          <a href="#how-it-works" class="text-sm font-medium text-gray-600 hover:text-brand-dark transition-colors">How
-            it Works</a>
-          <a href="#services"
-            class="text-sm font-medium text-gray-600 hover:text-brand-dark transition-colors">Services</a>
-          <a href="#features" class="text-sm font-medium text-gray-600 hover:text-brand-dark transition-colors">Why
-            Us</a>
-
-          <!-- Login Dropdown -->
-          <div class="relative group">
-            <button
-              class="text-sm font-medium text-gray-600 hover:text-brand-dark transition-colors flex items-center focus:outline-none">
-              Log In <i class="fa-solid fa-chevron-down ml-1 text-xs transition-transform group-hover:rotate-180"></i>
-            </button>
-            <div
-              class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right z-50 border border-gray-100 translate-y-2 group-hover:translate-y-0">
-              <a href="/freelancer/login"
-                class="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
-                <i class="fa-solid fa-user-tie mr-2 text-gray-400"></i>Freelancer Login
-              </a>
-              <a href="/company/login"
-                class="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors border-t border-gray-50">
-                <i class="fa-solid fa-building mr-2 text-gray-400"></i>Company Login
-              </a>
-            </div>
-          </div>
-
-          <!-- Search Bar -->
-          <div class="relative group">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <i class="fa-solid fa-search text-gray-400 group-focus-within:text-blue-600 transition-colors"></i>
-            </div>
-            <input type="text"
-              class="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-full leading-5 bg-gray-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 sm:text-sm w-64 focus:w-80"
-              placeholder="Search for services...">
-          </div>
-        </div>
-        <!-- Mobile menu button -->
-        <div class="md:hidden flex items-center">
-          <button class="text-gray-600 hover:text-brand-dark focus:outline-none">
-            <i class="fa-solid fa-bars text-xl"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
+  <app-navbar></app-navbar>
 
   <!-- Hero Section -->
   <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
@@ -134,12 +85,10 @@
         deserves.
       </p>
       <div class="gsap-hero-element flex flex-col sm:flex-row justify-center gap-4 opacity-0 translate-y-4">
-        <a href="/company/register"
-          class="px-8 py-4 text-base font-bold text-white bg-brand-dark rounded-full hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30">
+        <a href="/company/register" class="btn btn-primary">
           Hire Talent
         </a>
-        <a href="/freelancer/register"
-          class="px-8 py-4 text-base font-bold text-brand-dark bg-white border-2 border-gray-200 rounded-full hover:border-brand-dark hover:bg-gray-50 transition-all">
+        <a href="/freelancer/register" class="btn btn-secondary">
           Join as Freelancer
         </a>
       </div>
@@ -356,52 +305,7 @@
   </section>
 
   <!-- Footer -->
-  <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-        <div class="col-span-1 md:col-span-1">
-          <a href="/" class="text-2xl font-bold tracking-tighter text-brand-dark mb-6 block">GIG<span
-              class="text-blue-600">.</span></a>
-          <p class="text-gray-500 text-sm leading-relaxed">
-            Empowering Nepal's workforce with fair opportunities and secure payments. Join the revolution today.
-          </p>
-        </div>
-        <div>
-          <h4 class="font-bold text-brand-dark mb-4">For Clients</h4>
-          <ul class="space-y-2 text-sm text-gray-500">
-            <li><a href="#" class="hover:text-blue-600">Post a Job</a></li>
-            <li><a href="#" class="hover:text-blue-600">Find Talent</a></li>
-            <li><a href="#" class="hover:text-blue-600">Enterprise</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="font-bold text-brand-dark mb-4">For Freelancers</h4>
-          <ul class="space-y-2 text-sm text-gray-500">
-            <li><a href="#" class="hover:text-blue-600">How to Find Work</a></li>
-            <li><a href="#" class="hover:text-blue-600">Direct Contracts</a></li>
-            <li><a href="#" class="hover:text-blue-600">Opportunity Feed</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="font-bold text-brand-dark mb-4">Company</h4>
-          <ul class="space-y-2 text-sm text-gray-500">
-            <li><a href="#" class="hover:text-blue-600">About Us</a></li>
-            <li><a href="#" class="hover:text-blue-600">Careers</a></li>
-            <li><a href="#" class="hover:text-blue-600">Contact Support</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center">
-        <p class="text-sm text-gray-400">&copy; 2025 Gig Inc. All rights reserved.</p>
-        <div class="flex space-x-6 mt-4 md:mt-0">
-          <a href="#" class="text-gray-400 hover:text-brand-dark"><i class="fa-brands fa-twitter"></i></a>
-          <a href="#" class="text-gray-400 hover:text-brand-dark"><i class="fa-brands fa-linkedin"></i></a>
-          <a href="#" class="text-gray-400 hover:text-brand-dark"><i class="fa-brands fa-facebook"></i></a>
-          <a href="#" class="text-gray-400 hover:text-brand-dark"><i class="fa-brands fa-instagram"></i></a>
-        </div>
-      </div>
-    </div>
-  </footer>
+  <app-footer></app-footer>
 
   <!-- Scripts -->
   <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
