@@ -1,12 +1,24 @@
 # Gig — Freelancer Marketplace
 
-A lightweight Node.js + Express + MongoDB marketplace for companies and freelancers. Companies can register, manage profiles, and post short-term or remote freelance jobs (including on‑site gigs). Freelancers can register, complete profiles, and view opportunities.
+A lightweight Node.js + Express + MongoDB marketplace for companies and freelancers. Companies can register, manage profiles, and post short-term or remote freelance jobs (including on-site gigs). Freelancers can register, complete profiles, and view opportunities.
 
-Quick start
+## Quick start (backend)
 - npm install
 - Create a .env (example below)
 - Development: npm run dev
 - Production: npm start
+
+## Frontend (React)
+A new React + Vite frontend is being ported.
+
+- Location: `frontend/react`
+- Start frontend dev server:
+  ```bash
+  cd frontend/react
+  npm install
+  npm run dev
+
+The original vanilla HTML/CSS/JS frontend under frontend/Pages is still present during migration.
 
 Required environment (.env)
 - PORT=5000
@@ -45,9 +57,11 @@ Project layout (high level)
     - calcProfileCompletion.js
   - uploads/ (runtime: logos, avatars, jobs — gitignored)
 - frontend/
-  - Pages/Company/ (profile.html, profileEdit.html, jobs.html, etc.)
-  - resources/scripts/company/ (profileSummaryCompany.js, jobsCompany.js, ...)
+  - Pages/Company/ (legacy vanilla pages during migration)
+  - Pages/Freelancer/ (legacy vanilla pages during migration)
+  - resources/scripts/ (legacy vanilla scripts)
   - resources/styles/
+  - react/ (new React + Vite frontend)
 
 Notes & operational tips
 - Ensure JWT_SECRET and MONGO_URI are set before testing auth flows.
