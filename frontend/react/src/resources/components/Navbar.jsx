@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Navbar() {
   return (
     <nav
@@ -40,20 +42,20 @@ export default function Navbar() {
               </button>
 
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right z-50 border border-gray-100 translate-y-2 group-hover:translate-y-0">
-                <a
-                  href="/freelancer/login"
+                <Link
+                  to="/freelancer/login"
                   className="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
                 >
                   <i className="fa-solid fa-user-tie mr-2 text-gray-400" />
                   Freelancer Login
-                </a>
-                <a
-                  href="/company/login"
+                </Link>
+                <Link
+                  to="/company/login"
                   className="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors border-t border-gray-50"
                 >
                   <i className="fa-solid fa-building mr-2 text-gray-400" />
                   Company Login
-                </a>
+                </Link>
               </div>
             </div>
 
