@@ -1,68 +1,135 @@
-import { Link } from "react-router-dom";
+import React, { useState  , useEffect} from 'react';
+import { Link } from 'react-router-dom';
+import './resources/styles/home.css';
 
-export default function Home() {
-  return(
-    <div className='bg-brand-white text-brand-dark antialiased selection:bg-brand-accent selection:text-brand-dark'>
+const App = () => {
 
-      {/*hero secotion*/}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-        <div className="absolute top-0 right-0 -z-10 opacity-10" id="hero-svg">
+  useEffect(() => {
+      document.title = "Freelancer Login | Freelancer Nepal";
+    }, []);
+
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleSmoothScroll = (e, targetId) => {
+    e.preventDefault();
+    const element = document.querySelector(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  return (
+    <div className="app">
+      {/* Navigation */}
+      <nav id="navbar" className="navbar">
+        <div className="container">
+          <div className="nav-content">
+            <div className="logo">
+              <Link to="/" className="logo-text">
+                GIG<span className="logo-dot">.</span>
+              </Link>
+            </div>
+            <div className="nav-links">
+              <a href="#how-it-works" className="nav-link" onClick={(e) => handleSmoothScroll(e, '#how-it-works')}>How it Works</a>
+              <a href="#services" className="nav-link" onClick={(e) => handleSmoothScroll(e, '#services')}>Services</a>
+              <a href="#features" className="nav-link" onClick={(e) => handleSmoothScroll(e, '#features')}>Why Us</a>
+              
+              {/* Login Dropdown */}
+              <div className="login-dropdown">
+                <button className="dropdown-button">
+                  Log In <i className="fa-solid fa-chevron-down"></i>
+                </button>
+                <div className="dropdown-menu">
+                  <Link to="/freelancer/login" className="dropdown-item">
+                    <i className="fa-solid fa-user-tie"></i>
+                    Freelancer Login
+                  </Link>
+                  <Link to="/company/login" className="dropdown-item">
+                    <i className="fa-solid fa-building"></i>
+                    Company Login
+                  </Link>
+                </div>
+              </div>
+
+              {/* Search Bar */}
+              <div className="search-bar">
+                <i className="fa-solid fa-search search-icon"></i>
+                <input
+                  type="text"
+                  className="search-input"
+                  placeholder="Search for services..."
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Mobile menu button */}
+            <div className="mobile-menu-button">
+              <button className="menu-btn">
+                <i className="fa-solid fa-bars"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="hero">
+        <div className="hero-bg-svg" id="hero-svg">
           <svg width="800" height="800" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <path
-              fill="#0F62FE"
+            <path fill="#0F62FE"
               d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,81.6,-46.6C91.4,-34.1,98.1,-19.2,95.8,-5.3C93.5,8.6,82.2,21.4,71.1,32.8C60,44.2,49.1,54.2,37.1,62.8C25.1,71.4,12,78.6,-0.6,79.6C-13.2,80.6,-25.9,75.4,-37.4,67.4C-48.9,59.4,-59.2,48.6,-67.6,36.3C-76,24,-82.5,10.2,-81.1,-3.1C-79.7,-16.4,-70.4,-29.2,-60.2,-39.8C-50,-50.4,-38.9,-58.8,-27.1,-67.8C-15.3,-76.8,-2.8,-86.4,10.2,-84.6C23.2,-82.8,30.5,-83.6,44.7,-76.4Z"
-              transform="translate(100 100)"
-            />
+              transform="translate(100 100)" />
           </svg>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-8">
-            <span className="flex h-2 w-2 rounded-full bg-blue-600 mr-2"></span>
+        <div className="container hero-content">
+          <div className="badge">
+            <span className="badge-dot"></span>
             #1 Fair Marketplace in Nepal
           </div>
-
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-brand-dark mb-6 leading-tight">
+          <h1 className="hero-title">
             Nepal's Fair Marketplace for <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400">
-              Digital & Local Work.
-            </span>
+            <span className="gradient-text">Digital & Local Work.</span>
           </h1>
-
-          <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500 mb-10">
+          <p className="hero-description">
             From coding to physical tasks, find work near you without buying 'connects'. The fair start every beginner deserves.
           </p>
-
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link to="/company/register" className="btn btn-primary">
-                Hire Talent
-            </Link>
-            <Link to="/freelancer/register" className="btn btn-secondary">
-              Join as Freelancer
-            </Link>
+          <div className="hero-buttons">
+            <Link to="/company/register" className="btn-primary">Hire Talent</Link>
+            <Link to="/freelancer/register" className="btn-secondary">Join as Freelancer</Link>
           </div>
 
           {/* Trust Strip */}
-          <div className="mt-16 pt-8 border-t border-gray-100 overflow-hidden">
-            <p className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-6">
-              Trusted by Nepalese Businesses
-            </p>
-            <div className="relative w-full overflow-hidden">
-              <div className="flex gap-16 whitespace-nowrap">
-                {/* Repeated for visual completeness - you may animate via CSS/Framer Motion if needed */}
-                <span className="text-xl font-bold text-gray-400 hover:text-brand-dark transition-colors cursor-pointer">Daraz</span>
-                <span className="text-xl font-bold text-gray-400 hover:text-brand-dark transition-colors cursor-pointer">eSewa</span>
-                <span className="text-xl font-bold text-gray-400 hover:text-brand-dark transition-colors cursor-pointer">Khalti</span>
-                <span className="text-xl font-bold text-gray-400 hover:text-brand-dark transition-colors cursor-pointer">Pathao</span>
-                <span className="text-xl font-bold text-gray-400 hover:text-brand-dark transition-colors cursor-pointer">WorldLink</span>
-                <span className="text-xl font-bold text-gray-400 hover:text-brand-dark transition-colors cursor-pointer">Foodmandu</span>
-                
-                <span className="text-xl font-bold text-gray-400 hover:text-brand-dark transition-colors cursor-pointer">Daraz</span>
-                <span className="text-xl font-bold text-gray-400 hover:text-brand-dark transition-colors cursor-pointer">eSewa</span>
-                <span className="text-xl font-bold text-gray-400 hover:text-brand-dark transition-colors cursor-pointer">Khalti</span>
-                <span className="text-xl font-bold text-gray-400 hover:text-brand-dark transition-colors cursor-pointer">Pathao</span>
-                <span className="text-xl font-bold text-gray-400 hover:text-brand-dark transition-colors cursor-pointer">WorldLink</span>
-                <span className="text-xl font-bold text-gray-400 hover:text-brand-dark transition-colors cursor-pointer">Foodmandu</span>
+          <div className="trust-strip">
+            <p className="trust-label">Trusted by Nepalese Businesses</p>
+            <div className="marquee-container">
+              <div className="marquee-content">
+                <span>Daraz</span>
+                <span>eSewa</span>
+                <span>Khalti</span>
+                <span>Pathao</span>
+                <span>WorldLink</span>
+                <span>Foodmandu</span>
+                <span>Daraz</span>
+                <span>eSewa</span>
+                <span>Khalti</span>
+                <span>Pathao</span>
+                <span>WorldLink</span>
+                <span>Foodmandu</span>
+                <span>Daraz</span>
+                <span>eSewa</span>
+                <span>Khalti</span>
+                <span>Pathao</span>
+                <span>WorldLink</span>
+                <span>Foodmandu</span>
+                <span>Daraz</span>
+                <span>eSewa</span>
+                <span>Khalti</span>
+                <span>Pathao</span>
+                <span>WorldLink</span>
+                <span>Foodmandu</span>
               </div>
             </div>
           </div>
@@ -70,107 +137,96 @@ export default function Home() {
       </section>
 
       {/* Services Grid */}
-      <section id="services" className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-brand-dark mb-4">
-              Popular Services
-            </h2>
-            <p className="text-lg text-gray-500">
-              Everything you need to grow your business.
-            </p>
+      <section id="services" className="services">
+        <div className="container">
+          <div className="section-header">
+            <h2 className="section-title">Popular Services</h2>
+            <p className="section-description">Everything you need to grow your business.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Card 1 - Development */}
-            <div className="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer">
-              <div className="h-12 w-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-6 group-hover:scale-110 transition-transform">
-                <i className="fa-solid fa-code text-xl"></i>
+          <div className="services-grid">
+            <div className="service-card">
+              <div className="service-icon blue">
+                <i className="fa-solid fa-code"></i>
               </div>
-              <h3 className="text-xl font-bold text-brand-dark mb-2">Development</h3>
-              <p className="text-gray-500 text-sm">Web, Mobile, AI & more.</p>
+              <h3 className="service-title">Development</h3>
+              <p className="service-text">Web, Mobile, AI & more.</p>
             </div>
 
-            {/* Card 2 - Design */}
-            <div className="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer">
-              <div className="h-12 w-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 mb-6 group-hover:scale-110 transition-transform">
-                <i className="fa-solid fa-pen-nib text-xl"></i>
+            <div className="service-card">
+              <div className="service-icon purple">
+                <i className="fa-solid fa-pen-nib"></i>
               </div>
-              <h3 className="text-xl font-bold text-brand-dark mb-2">Design</h3>
-              <p className="text-gray-500 text-sm">Logo, UI/UX, Art.</p>
+              <h3 className="service-title">Design</h3>
+              <p className="service-text">Logo, UI/UX, Art.</p>
             </div>
 
-            {/* Card 3 - Local Gigs */}
-            <div className="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer">
-              <div className="h-12 w-12 bg-green-100 rounded-xl flex items-center justify-center text-green-600 mb-6 group-hover:scale-110 transition-transform">
-                <i className="fa-solid fa-map-location-dot text-xl"></i>
+            <div className="service-card">
+              <div className="service-icon green">
+                <i className="fa-solid fa-map-location-dot"></i>
               </div>
-              <h3 className="text-xl font-bold text-brand-dark mb-2">Local Gigs</h3>
-              <p className="text-gray-500 text-sm">Plumbing, Moving, Help.</p>
+              <h3 className="service-title">Local Gigs</h3>
+              <p className="service-text">Plumbing, Moving, Help.</p>
             </div>
 
-            {/* Card 4 - Video */}
-            <div className="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer">
-              <div className="h-12 w-12 bg-orange-100 rounded-xl flex items-center justify-center text-orange-600 mb-6 group-hover:scale-110 transition-transform">
-                <i className="fa-solid fa-video text-xl"></i>
+            <div className="service-card">
+              <div className="service-icon orange">
+                <i className="fa-solid fa-video"></i>
               </div>
-              <h3 className="text-xl font-bold text-brand-dark mb-2">Video</h3>
-              <p className="text-gray-500 text-sm">Editing, Animation.</p>
+              <h3 className="service-title">Video</h3>
+              <p className="service-text">Editing, Animation.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-24 bg-brand-dark text-white overflow-hidden relative">
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
-          <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-blue-500 blur-3xl floating-blob-1"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-purple-500 blur-3xl floating-blob-2"></div>
+      <section id="features" className="features">
+        <div className="features-bg">
+          <div className="floating-blob blob-1"></div>
+          <div className="floating-blob blob-2"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Left Column - Text Content */}
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                Why businesses choose Gig?
-              </h2>
-              <p className="text-brand-light text-lg mb-8">
+        <div className="container features-content">
+          <div className="features-grid">
+            <div className="features-text">
+              <h2 className="features-title">Why businesses choose Gig?</h2>
+              <p className="features-description">
                 We're redefining how work gets done. No more headaches, just results.
               </p>
 
-              <div className="space-y-8">
-                <div className="flex gap-4">
-                  <div className="flex-shrink-0 h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center mt-1">
-                    <i className="fa-solid fa-map-pin text-sm text-white"></i>
+              <div className="features-list">
+                <div className="feature-item">
+                  <div className="feature-icon-circle">
+                    <i className="fa-solid fa-map-pin"></i>
                   </div>
-                  <div>
-                    <h4 className="text-xl font-bold mb-2">Hyper-Local Gigs</h4>
-                    <p className="text-brand-muted">
+                  <div className="feature-content">
+                    <h4 className="feature-heading">Hyper-Local Gigs</h4>
+                    <p className="feature-text">
                       Find temporary physical work in your neighborhood. Filter by location and start earning instantly.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex gap-4">
-                  <div className="flex-shrink-0 h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center mt-1">
-                    <i className="fa-solid fa-unlock text-sm text-white"></i>
+                <div className="feature-item">
+                  <div className="feature-icon-circle">
+                    <i className="fa-solid fa-unlock"></i>
                   </div>
-                  <div>
-                    <h4 className="text-xl font-bold mb-2">Zero Barriers</h4>
-                    <p className="text-brand-muted">
+                  <div className="feature-content">
+                    <h4 className="feature-heading">Zero Barriers</h4>
+                    <p className="feature-text">
                       No hidden fees or 'connects' to buy. Our algorithm promotes talent, not deep pockets.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex gap-4">
-                  <div className="flex-shrink-0 h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center mt-1">
-                    <i className="fa-solid fa-id-card text-sm text-white"></i>
+                <div className="feature-item">
+                  <div className="feature-icon-circle">
+                    <i className="fa-solid fa-id-card"></i>
                   </div>
-                  <div>
-                    <h4 className="text-xl font-bold mb-2">Verified Nepal ID</h4>
-                    <p className="text-brand-muted">
+                  <div className="feature-content">
+                    <h4 className="feature-heading">Verified Nepal ID</h4>
+                    <p className="feature-text">
                       Trust built on real identities. Secure and safe for everyone in Nepal.
                     </p>
                   </div>
@@ -178,53 +234,100 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column - Mock UI Card */}
-            <div className="relative">
-              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/10 shadow-2xl">
-                {/* Header */}
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400"></div>
-                    <div>
-                      <div className="h-3 w-24 bg-white/20 rounded-full mb-2"></div>
-                      <div className="h-2 w-16 bg-white/10 rounded-full"></div>
+            <div className="features-visual">
+              <div className="mock-ui">
+                <div className="mock-header">
+                  <div className="mock-user">
+                    <div className="mock-avatar"></div>
+                    <div className="mock-user-info">
+                      <div className="mock-line short"></div>
+                      <div className="mock-line tiny"></div>
                     </div>
                   </div>
-                  <div className="h-8 w-20 bg-blue-500/20 rounded-full text-blue-300 text-xs flex items-center justify-center">
-                    Verified
-                  </div>
+                  <div className="mock-badge">Verified</div>
                 </div>
-
-                {/* Content Lines */}
-                <div className="space-y-4">
-                  <div className="h-4 w-full bg-white/10 rounded-full"></div>
-                  <div className="h-4 w-3/4 bg-white/10 rounded-full"></div>
-                  <div className="h-4 w-5/6 bg-white/10 rounded-full"></div>
+                <div className="mock-content">
+                  <div className="mock-line full"></div>
+                  <div className="mock-line medium"></div>
+                  <div className="mock-line large"></div>
                 </div>
-
-                {/* Action Buttons */}
-                <div className="mt-8 flex gap-4">
-                  <div className="h-10 flex-1 bg-white/10 rounded-lg"></div>
-                  <div className="h-10 w-10 bg-blue-500 rounded-lg flex items-center justify-center">
-                    <i className="fa-solid fa-check text-white"></i>
+                <div className="mock-footer">
+                  <div className="mock-input"></div>
+                  <div className="mock-button">
+                    <i className="fa-solid fa-check"></i>
                   </div>
                 </div>
               </div>
 
-              {/* Floating Savings Badge */}
-              <div className="absolute -bottom-6 -left-6 bg-white text-brand-dark p-4 rounded-xl shadow-xl flex items-center gap-3">
-                <div className="h-10 w-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
+              <div className="floating-badge">
+                <div className="floating-badge-icon">
                   <i className="fa-solid fa-money-bill-wave"></i>
                 </div>
-                <div>
-                  <p className="text-xs text-gray-500">Average Savings</p>
-                  <p className="font-bold">NPR 15,000+</p>
+                <div className="floating-badge-text">
+                  <p className="floating-badge-label">Average Savings</p>
+                  <p className="floating-badge-value">NPR 15,000+</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="container">
+          <div className="footer-content">
+            <div className="footer-brand">
+              <Link to="/" className="footer-logo">
+                GIG<span className="footer-logo-dot">.</span>
+              </Link>
+              <p className="footer-tagline">
+                Empowering Nepal's workforce with fair opportunities and secure payments. Join the revolution today.
+              </p>
+            </div>
+            <div className="footer-links">
+              <div className="footer-column">
+                <h4 className="footer-heading">For Clients</h4>
+                <ul>
+                  <li><a href="#">Post a Job</a></li>
+                  <li><a href="#">Find Talent</a></li>
+                  <li><a href="#">Enterprise</a></li>
+                </ul>
+              </div>
+              <div className="footer-column">
+                <h4 className="footer-heading">For Freelancers</h4>
+                <ul>
+                  <li><a href="#">How to Find Work</a></li>
+                  <li><a href="#">Direct Contracts</a></li>
+                  <li><a href="#">Opportunity Feed</a></li>
+                </ul>
+              </div>
+              <div className="footer-column">
+                <h4 className="footer-heading">Company</h4>
+                <ul>
+                  <li><a href="#">About Us</a></li>
+                  <li><a href="#">Careers</a></li>
+                  <li><a href="#">Contact Support</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <p>&copy; 2025 Gig Inc. All rights reserved.</p>
+            <div className="footer-social">
+              <a href="#"><i className="fa-brands fa-twitter"></i></a>
+              <a href="#"><i className="fa-brands fa-linkedin"></i></a>
+              <a href="#"><i className="fa-brands fa-facebook"></i></a>
+              <a href="#"><i className="fa-brands fa-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      {/* Font Awesome CDN */}
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     </div>
-  )
-}
+  );
+};
+
+export default App;

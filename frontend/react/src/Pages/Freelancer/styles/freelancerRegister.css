@@ -1,0 +1,242 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* make sure the app can fill viewport */
+html, body, #root {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: #F9FAFB;
+  color: #0a192f;
+}
+
+/* ============ FULL SCREEN PAGE LAYOUT ============ */
+.register-page {
+  width: 100vw;          /* <-- force full width */
+  min-height: 100vh;     /* <-- full height */
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf4 100%);
+  margin: 0;             /* <-- kill any global margins */
+  padding: 0;            /* <-- kill any global padding */
+}
+
+/* ============ LEFT HERO (BLUE THEME) ============ */
+.register-hero {
+  padding: 7rem 3rem 3rem;
+  background: linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.hero-badge {
+  width: 3.8rem;
+  height: 3.8rem;
+  border-radius: 1rem;
+  display: grid;
+  place-items: center;
+  background: rgba(255,255,255,0.18);
+  border: 2px solid rgba(255,255,255,0.3);
+  font-size: 1.8rem;
+}
+
+.register-hero h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.hero-sub {
+  font-size: 1rem;
+  opacity: 0.95;
+  line-height: 1.6;
+  max-width: 460px;
+}
+
+.hero-points {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.hero-points li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.98rem;
+}
+
+.hero-points i {
+  color: #E0F2FE;
+  font-size: 1.05rem;
+}
+
+.hero-footer {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.hero-footer a {
+  color: #E0F2FE;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.hero-footer a:hover {
+  text-decoration: underline;
+}
+
+/* ============ RIGHT FORM SECTION ============ */
+.register-form-section {
+  padding: 6.5rem 3rem 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.form h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #0a192f;
+  margin-bottom: 0.2rem;
+}
+
+.grid.one-col {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.input-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.input-group label i {
+  color: #3B82F6;
+  font-size: 0.95rem;
+}
+
+.form input {
+  padding: 0.78rem 1rem;
+  border: 2px solid #E5E7EB;
+  border-radius: 0.75rem;
+  font-size: 0.92rem;
+  font-family: 'Outfit', sans-serif;
+  color: #111827;
+  background: #F9FAFB;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.form input::placeholder { color: #9CA3AF; }
+
+.form input:focus {
+  background: white;
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+.register-btn {
+  width: 100%;
+  padding: 0.95rem;
+  border: none;
+  border-radius: 0.8rem;
+  background: linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%);
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 14px rgba(59, 130, 246, 0.3);
+}
+
+.register-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
+}
+
+.register-btn i {
+  transition: transform 0.3s;
+}
+
+.register-btn:hover i {
+  transform: translateX(4px);
+}
+
+.message {
+  margin-top: 0.5rem;
+  padding: 0.85rem;
+  background: #D1FAE5;
+  color: #065F46;
+  border-radius: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid #A7F3D0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1024px) {
+  .register-page {
+    grid-template-columns: 1fr;
+  }
+
+  .register-hero {
+    padding: 6rem 2rem 2.5rem;
+  }
+
+  .register-form-section {
+    padding: 2.5rem 2rem 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .form h2 {
+    font-size: 1.5rem;
+  }
+
+  .register-hero,
+  .register-form-section {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+}
