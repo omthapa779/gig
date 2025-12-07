@@ -18,62 +18,89 @@ export default function CompanyLogin() {
   };
 
   return (
-    <div className="pt-32 px-4">
-      <div className="login-container">
-        <div className="login-header">
-          <div className="login-icon">
-            <i className="fa-solid fa-building"></i>
-          </div>
+    <div className="company-login-page">
+      {/* LEFT HERO */}
+      <section className="company-login-hero">
+        <div className="hero-badge">
+          <i className="fa-solid fa-building"></i>
+        </div>
+
+        <h1>Hire Top Freelancers</h1>
+        <p className="hero-sub">
+          Log in to post jobs, manage applicants, and build your remote team with
+          verified talent.
+        </p>
+
+        <ul className="hero-points">
+          <li>
+            <i className="fa-solid fa-check-circle"></i> Post jobs in minutes
+          </li>
+          <li>
+            <i className="fa-solid fa-check-circle"></i> Review skilled applicants
+          </li>
+          <li>
+            <i className="fa-solid fa-check-circle"></i> Hire securely & fast
+          </li>
+        </ul>
+
+        <p className="hero-footer">
+          New company? <a href="/company/register">Create an account</a>
+        </p>
+      </section>
+
+      {/* RIGHT FORM */}
+      <section className="company-login-form-section">
+        <form id="loginForm" className="form" onSubmit={handleSubmit}>
           <h2>Company Login</h2>
           <p className="login-desc">
             Welcome back! Login to hire top freelancers
           </p>
-        </div>
 
-        <form id="loginForm" className="login-form" onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="email">
-              <i className="fa-solid fa-envelope"></i>
-              Email Address
-            </label>
-            <input
-              type="email"
-              id="email"
-              placeholder="company@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="input-group">
-            <label htmlFor="password">
-              <i className="fa-solid fa-lock"></i>
-              Password
-            </label>
-
-            <div className="password-wrapper">
+          <div className="grid one-col">
+            <div className="input-group">
+              <label htmlFor="email">
+                <i className="fa-solid fa-envelope"></i>
+                Email
+              </label>
               <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                type="email"
+                id="email"
+                placeholder="company@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
+            </div>
 
-              <button
-                type="button"
-                className="toggle-password"
-                onClick={() => setShowPassword(!showPassword)}
-                aria-label={showPassword ? "Hide password" : "Show password"}
-              >
-                <i
-                  className={`fa-solid ${
-                    showPassword ? "fa-eye-slash" : "fa-eye"
-                  }`}
-                ></i>
-              </button>
+            <div className="input-group">
+              <label htmlFor="password">
+                <i className="fa-solid fa-lock"></i>
+                Password
+              </label>
+
+              <div className="password-wrapper">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+
+                <button
+                  type="button"
+                  className="toggle-password"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  <i
+                    className={`fa-solid ${
+                      showPassword ? "fa-eye-slash" : "fa-eye"
+                    }`}
+                  ></i>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -116,14 +143,20 @@ export default function CompanyLogin() {
               </p>
             </div>
           </div>
-        </form>
 
-        {message && (
-          <p id="message" className="message">
-            {message}
-          </p>
-        )}
-      </div>
+          {message && (
+            <p id="message" className="message">
+              <i className="fa-solid fa-circle-check"></i>
+              {message}
+            </p>
+          )}
+        </form>
+      </section>
+
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      />
     </div>
   );
 }

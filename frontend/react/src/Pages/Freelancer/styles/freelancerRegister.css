@@ -16,14 +16,15 @@ body {
 
 /* ============ FULL SCREEN PAGE LAYOUT ============ */
 .register-page {
-  width: 100vw;          /* <-- force full width */
-  min-height: 100vh;     /* <-- full height */
+  width: 100vw;
+  height: 100vh;
   min-height: 100dvh;
   display: grid;
   grid-template-columns: 1.05fr 1fr;
+  align-items: stretch;
   background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf4 100%);
-  margin: 0;             /* <-- kill any global margins */
-  padding: 0;            /* <-- kill any global padding */
+  margin: 0;
+  padding: 0;
 }
 
 /* ============ LEFT HERO (BLUE THEME) ============ */
@@ -35,6 +36,8 @@ body {
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .hero-badge {
@@ -102,6 +105,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .form {
@@ -165,6 +170,7 @@ body {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
 }
 
+/* Register button */
 .register-btn {
   width: 100%;
   padding: 0.95rem;
@@ -181,6 +187,7 @@ body {
   gap: 0.5rem;
   transition: all 0.3s ease;
   box-shadow: 0 6px 14px rgba(59, 130, 246, 0.3);
+  margin-top: 0.2rem;
 }
 
 .register-btn:hover {
@@ -196,6 +203,85 @@ body {
   transform: translateX(4px);
 }
 
+/* ===== GOOGLE/BOTTOM SECTION ===== */
+.bottom-section {
+  margin-top: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: #e2e8f0;
+}
+
+.social-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.social-btn {
+  width: 100%;
+  padding: 0.85rem;
+  border: 2px solid #E5E7EB;
+  border-radius: 0.75rem;
+  background: white;
+  color: #0f172a;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+  transition: all 0.25s ease;
+}
+
+.social-btn i {
+  font-size: 1.1rem;
+}
+
+.social-btn:hover {
+  border-color: #3B82F6;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  transform: translateY(-1px);
+}
+
+/* Links */
+.bottom-links {
+  margin-top: 0.2rem;
+  font-size: 0.92rem;
+  color: #475569;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.bottom-links a {
+  color: #3B82F6;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.bottom-links a:hover {
+  text-decoration: underline;
+}
+
+/* Success message */
 .message {
   margin-top: 0.5rem;
   padding: 0.85rem;

@@ -10,14 +10,6 @@ const App = () => {
 
   const [searchValue, setSearchValue] = useState('');
 
-  const handleSmoothScroll = (e, targetId) => {
-    e.preventDefault();
-    const element = document.querySelector(targetId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
   return (
     <div className="app">
       {/* Navigation */}

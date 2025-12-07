@@ -24,115 +24,145 @@ export default function RegisterCompany() {
       location,
       website,
     });
-    setMessage("Company registered successfully!");
+    setMessage("Welcome aboard! Your company account is ready.");
+  };
+
+  const handleGoogleSignup = () => {
+    console.log("Google company signup clicked");
+    setMessage("Google signup coming soon!");
   };
 
   return (
-    <div className="container">
-      <div className="register-card">
-        <div className="register-header">
-          <div className="register-icon">
-            <i className="fa-solid fa-building"></i>
-          </div>
-          <h2>Company Registration</h2>
-          <p className="register-desc">
-            Create your company account and start hiring top freelancers.
-          </p>
+    <div className="register-page">
+      {/* LEFT HERO */}
+      <section className="register-hero">
+        <div className="hero-badge">
+          <i className="fa-solid fa-building"></i>
         </div>
 
-        <form id="signupForm" className="form" onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="companyName">
-              <i className="fa-solid fa-building"></i>
-              Company Name
-            </label>
-            <input
-              type="text"
-              id="companyName"
-              placeholder="Company Name"
-              required
-              value={companyName}
-              onChange={(e) => setCompanyName(e.target.value)}
-            />
-          </div>
+        <h1>Register Your Company</h1>
+        <p className="hero-sub">
+          Create your company profile, post jobs, and hire skilled freelancers
+          fast — all in one place.
+        </p>
 
-          <div className="input-group">
-            <label htmlFor="email">
-              <i className="fa-solid fa-envelope"></i>
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              placeholder="Email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
+        <ul className="hero-points">
+          <li>
+            <i className="fa-solid fa-check-circle"></i> Post jobs & get applicants
+          </li>
+          <li>
+            <i className="fa-solid fa-check-circle"></i> Hire verified freelancers
+          </li>
+          <li>
+            <i className="fa-solid fa-check-circle"></i> Manage projects securely
+          </li>
+        </ul>
 
-          <div className="input-group">
-            <label htmlFor="password">
-              <i className="fa-solid fa-lock"></i>
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              placeholder="Password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+        <p className="hero-footer">
+          Already have an account? <a href="/company/login">Login here</a>
+        </p>
+      </section>
 
-          <div className="form-row">
+      {/* RIGHT FORM */}
+      <section className="register-form-section">
+        <form className="form" id="signupCompany" onSubmit={handleSubmit}>
+          <h2>Company Registration</h2>
+
+          <div className="grid one-col">
+            {/* Company Name */}
             <div className="input-group">
-              <label htmlFor="phone">
-                <i className="fa-solid fa-phone"></i>
-                Phone Number
+              <label htmlFor="companyName">
+                <i className="fa-solid fa-building"></i>
+                Company Name
               </label>
               <input
                 type="text"
-                id="phone"
-                placeholder="Phone Number"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                id="companyName"
+                placeholder="Company Name"
+                required
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
               />
             </div>
 
+            {/* Email */}
             <div className="input-group">
-              <label htmlFor="location">
-                <i className="fa-solid fa-location-dot"></i>
-                Location
+              <label htmlFor="email">
+                <i className="fa-solid fa-envelope"></i>
+                Email
               </label>
               <input
-                type="text"
-                id="location"
-                placeholder="Location"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
+                type="email"
+                id="email"
+                placeholder="Email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-          </div>
 
-          <div className="spacer">
-            <br />
-            <br />
-          </div>
+            {/* Password (left) + Phone (right) */}
+            <div className="form-row">
+              <div className="input-group">
+                <label htmlFor="password">
+                  <i className="fa-solid fa-lock"></i>
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="Password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
 
-          <div className="input-group">
-            <label htmlFor="website">
-              <i className="fa-solid fa-globe"></i>
-              Website (optional)
-            </label>
-            <input
-              type="text"
-              id="website"
-              placeholder="Website (optional)"
-              value={website}
-              onChange={(e) => setWebsite(e.target.value)}
-            />
+              <div className="input-group">
+                <label htmlFor="phone">
+                  <i className="fa-solid fa-phone"></i>
+                  Phone Number
+                </label>
+                <input
+                  type="text"
+                  id="phone"
+                  placeholder="Phone Number"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Location (left) + Website (right) */}
+            <div className="form-row">
+              <div className="input-group">
+                <label htmlFor="location">
+                  <i className="fa-solid fa-location-dot"></i>
+                  Location
+                </label>
+                <input
+                  type="text"
+                  id="location"
+                  placeholder="Location"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                />
+              </div>
+
+              <div className="input-group">
+                <label htmlFor="website">
+                  <i className="fa-solid fa-globe"></i>
+                  Website (optional)
+                </label>
+                <input
+                  type="text"
+                  id="website"
+                  placeholder="Website (optional)"
+                  value={website}
+                  onChange={(e) => setWebsite(e.target.value)}
+                />
+              </div>
+            </div>
           </div>
 
           <button type="submit" className="register-btn">
@@ -140,18 +170,28 @@ export default function RegisterCompany() {
             <i className="fa-solid fa-arrow-right"></i>
           </button>
 
+          {/* GOOGLE SIGNUP SECTION */}
+          <div className="bottom-section">
+            <div className="bottom-links">
+              <p className="signup-link">
+                Already have a company account?{" "}
+                <a href="/company/login">Login</a>
+              </p>
+              <p className="switch-login">
+                Are you a freelancer?{" "}
+                <a href="/freelancer/login">Login as Freelancer</a>
+              </p>
+            </div>
+          </div>
+
           {message && (
             <p id="message" className="message">
+              <i className="fa-solid fa-circle-check"></i>
               {message}
             </p>
           )}
-
-          <p className="bottom-link">
-            Already have a company account?{" "}
-            <a href="/company/login">Login</a>
-          </p>
         </form>
-      </div>
+      </section>
 
       <link
         rel="stylesheet"

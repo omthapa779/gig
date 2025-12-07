@@ -21,6 +21,11 @@ export default function FreelancerRegister() {
     setMessage("Welcome aboard! Your freelancer account is ready.");
   };
 
+  const handleGoogleSignup = () => {
+    console.log("Google signup clicked");
+    setMessage("Google signup coming soon!");
+  };
+
   return (
     <div className="register-page">
       {/* LEFT HERO */}
@@ -108,6 +113,35 @@ export default function FreelancerRegister() {
             Sign Up
             <i className="fa-solid fa-arrow-right"></i>
           </button>
+
+          {/* GOOGLE SIGNUP SECTION */}
+          <div className="bottom-section">
+            <div className="divider">
+              <span>or</span>
+            </div>
+
+            <div className="social-buttons">
+              <button
+                type="button"
+                className="social-btn google-btn"
+                onClick={handleGoogleSignup}
+              >
+                <i className="fa-brands fa-google"></i>
+                Continue with Google
+              </button>
+            </div>
+
+            <div className="bottom-links">
+              <p className="signup-link">
+                Already have an account?{" "}
+                <a href="/freelancer/login">Login</a>
+              </p>
+              <p className="switch-login">
+                Are you a company?{" "}
+                <a href="/company/login">Login as Company</a>
+              </p>
+            </div>
+          </div>
 
           {message && (
             <p id="message" className="message">
