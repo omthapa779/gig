@@ -23,7 +23,7 @@ body {
 
 .profile-container {
   max-width: 900px;
-  margin: 0 auto;
+  margin: 0;
 }
 
 /* Profile Summary */
@@ -371,9 +371,6 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .profile-page {
-    padding: 6rem 1rem 2rem;
-  }
 
   .profile-header {
     padding: 2rem 1.5rem;

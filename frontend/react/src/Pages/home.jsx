@@ -1,17 +1,62 @@
-import React, { useState  , useEffect} from 'react';
-import { Link } from 'react-router-dom';
-import './resources/styles/home.css';
+import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import "./resources/styles/home.css";
 
 const App = () => {
+  useEffect(() => {
+    document.title = "Freelancer Login | Freelancer Nepal";
+  }, []);
+
+  const [searchValue, setSearchValue] = useState("");
+
+  // ✅ Smooth scroll with fixed-navbar offset
+  const handleSmoothScroll = (e, targetId) => {
+    e.preventDefault();
+    const targetEl = document.querySelector(targetId);
+    if (!targetEl) return;
+
+    const navbar = document.getElementById("navbar");
+    const navHeight = navbar ? navbar.offsetHeight : 0;
+
+    const targetPosition =
+      targetEl.getBoundingClientRect().top +
+      window.pageYOffset -
+      navHeight -
+      8;
+
+    window.scrollTo({
+      top: targetPosition,
+      behavior: "smooth",
+    });
+  };
+
+  // ✅ Simple "GSAP-like" reveal system (pure JSX)
+  const rootRef = useRef(null);
 
   useEffect(() => {
-      document.title = "Freelancer Login | Freelancer Nepal";
-    }, []);
+    const root = rootRef.current;
+    if (!root) return;
 
-  const [searchValue, setSearchValue] = useState('');
+    const els = root.querySelectorAll("[data-animate]");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target); // animate once
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    els.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className="app">
+    <div className="app" ref={rootRef}>
       {/* Navigation */}
       <nav id="navbar" className="navbar">
         <div className="container">
@@ -21,11 +66,32 @@ const App = () => {
                 GIG<span className="logo-dot">.</span>
               </Link>
             </div>
+
             <div className="nav-links">
-              <a href="#how-it-works" className="nav-link" onClick={(e) => handleSmoothScroll(e, '#how-it-works')}>How it Works</a>
-              <a href="#services" className="nav-link" onClick={(e) => handleSmoothScroll(e, '#services')}>Services</a>
-              <a href="#features" className="nav-link" onClick={(e) => handleSmoothScroll(e, '#features')}>Why Us</a>
-              
+              <a
+                href="#how-it-works"
+                className="nav-link"
+                onClick={(e) => handleSmoothScroll(e, "#how-it-works")}
+              >
+                How it Works
+              </a>
+
+              <a
+                href="#services"
+                className="nav-link"
+                onClick={(e) => handleSmoothScroll(e, "#services")}
+              >
+                Services
+              </a>
+
+              <a
+                href="#features"
+                className="nav-link"
+                onClick={(e) => handleSmoothScroll(e, "#features")}
+              >
+                Why Us
+              </a>
+
               {/* Login Dropdown */}
               <div className="login-dropdown">
                 <button className="dropdown-button">
@@ -69,32 +135,67 @@ const App = () => {
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-bg-svg" id="hero-svg">
-          <svg width="800" height="800" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <path fill="#0F62FE"
+          <svg
+            width="800"
+            height="800"
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill="#0F62FE"
               d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,81.6,-46.6C91.4,-34.1,98.1,-19.2,95.8,-5.3C93.5,8.6,82.2,21.4,71.1,32.8C60,44.2,49.1,54.2,37.1,62.8C25.1,71.4,12,78.6,-0.6,79.6C-13.2,80.6,-25.9,75.4,-37.4,67.4C-48.9,59.4,-59.2,48.6,-67.6,36.3C-76,24,-82.5,10.2,-81.1,-3.1C-79.7,-16.4,-70.4,-29.2,-60.2,-39.8C-50,-50.4,-38.9,-58.8,-27.1,-67.8C-15.3,-76.8,-2.8,-86.4,10.2,-84.6C23.2,-82.8,30.5,-83.6,44.7,-76.4Z"
-              transform="translate(100 100)" />
+              transform="translate(100 100)"
+            />
           </svg>
         </div>
 
         <div className="container hero-content">
-          <div className="badge">
+          <div
+            className="badge reveal-up"
+            data-animate
+            style={{ "--delay": "0ms" }}
+          >
             <span className="badge-dot"></span>
             #1 Fair Marketplace in Nepal
           </div>
-          <h1 className="hero-title">
+
+          <h1
+            className="hero-title reveal-up"
+            data-animate
+            style={{ "--delay": "120ms" }}
+          >
             Nepal's Fair Marketplace for <br />
             <span className="gradient-text">Digital & Local Work.</span>
           </h1>
-          <p className="hero-description">
-            From coding to physical tasks, find work near you without buying 'connects'. The fair start every beginner deserves.
+
+          <p
+            className="hero-description reveal-up"
+            data-animate
+            style={{ "--delay": "240ms" }}
+          >
+            From coding to physical tasks, find work near you without buying
+            'connects'. The fair start every beginner deserves.
           </p>
-          <div className="hero-buttons">
-            <Link to="/company/register" className="btn-primary">Hire Talent</Link>
-            <Link to="/freelancer/register" className="btn-secondary">Join as Freelancer</Link>
+
+          <div
+            className="hero-buttons reveal-up"
+            data-animate
+            style={{ "--delay": "360ms" }}
+          >
+            <Link to="/company/register" className="btn-primary">
+              Hire Talent
+            </Link>
+            <Link to="/freelancer/register" className="btn-secondary">
+              Join as Freelancer
+            </Link>
           </div>
 
           {/* Trust Strip */}
-          <div className="trust-strip">
+          <div
+            className="trust-strip fade-in"
+            data-animate
+            style={{ "--delay": "200ms" }}
+          >
             <p className="trust-label">Trusted by Nepalese Businesses</p>
             <div className="marquee-container">
               <div className="marquee-content">
@@ -128,46 +229,46 @@ const App = () => {
         </div>
       </section>
 
+      {/* How it works placeholder */}
+      <section id="how-it-works" className="services">
+        <div className="container">
+          <div className="section-header fade-in" data-animate>
+            <h2 className="section-title">How it Works</h2>
+            <p className="section-description">Add your steps here later.</p>
+          </div>
+        </div>
+      </section>
+
       {/* Services Grid */}
       <section id="services" className="services">
         <div className="container">
-          <div className="section-header">
+          <div className="section-header fade-in" data-animate>
             <h2 className="section-title">Popular Services</h2>
-            <p className="section-description">Everything you need to grow your business.</p>
+            <p className="section-description">
+              Everything you need to grow your business.
+            </p>
           </div>
 
           <div className="services-grid">
-            <div className="service-card">
-              <div className="service-icon blue">
-                <i className="fa-solid fa-code"></i>
+            {[
+              { title: "Development", icon: "fa-code", color: "blue", text: "Web, Mobile, AI & more." },
+              { title: "Design", icon: "fa-pen-nib", color: "purple", text: "Logo, UI/UX, Art." },
+              { title: "Local Gigs", icon: "fa-map-location-dot", color: "green", text: "Plumbing, Moving, Help." },
+              { title: "Video", icon: "fa-video", color: "orange", text: "Editing, Animation." },
+            ].map((card, i) => (
+              <div
+                key={card.title}
+                className="service-card reveal-up"
+                data-animate
+                style={{ "--delay": `${i * 120}ms` }}
+              >
+                <div className={`service-icon ${card.color}`}>
+                  <i className={`fa-solid ${card.icon}`}></i>
+                </div>
+                <h3 className="service-title">{card.title}</h3>
+                <p className="service-text">{card.text}</p>
               </div>
-              <h3 className="service-title">Development</h3>
-              <p className="service-text">Web, Mobile, AI & more.</p>
-            </div>
-
-            <div className="service-card">
-              <div className="service-icon purple">
-                <i className="fa-solid fa-pen-nib"></i>
-              </div>
-              <h3 className="service-title">Design</h3>
-              <p className="service-text">Logo, UI/UX, Art.</p>
-            </div>
-
-            <div className="service-card">
-              <div className="service-icon green">
-                <i className="fa-solid fa-map-location-dot"></i>
-              </div>
-              <h3 className="service-title">Local Gigs</h3>
-              <p className="service-text">Plumbing, Moving, Help.</p>
-            </div>
-
-            <div className="service-card">
-              <div className="service-icon orange">
-                <i className="fa-solid fa-video"></i>
-              </div>
-              <h3 className="service-title">Video</h3>
-              <p className="service-text">Editing, Animation.</p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -181,10 +282,15 @@ const App = () => {
 
         <div className="container features-content">
           <div className="features-grid">
-            <div className="features-text">
+            <div
+              className="features-text reveal-left"
+              data-animate
+              style={{ "--delay": "0ms" }}
+            >
               <h2 className="features-title">Why businesses choose Gig?</h2>
               <p className="features-description">
-                We're redefining how work gets done. No more headaches, just results.
+                We're redefining how work gets done. No more headaches, just
+                results.
               </p>
 
               <div className="features-list">
@@ -195,7 +301,8 @@ const App = () => {
                   <div className="feature-content">
                     <h4 className="feature-heading">Hyper-Local Gigs</h4>
                     <p className="feature-text">
-                      Find temporary physical work in your neighborhood. Filter by location and start earning instantly.
+                      Find temporary physical work in your neighborhood. Filter
+                      by location and start earning instantly.
                     </p>
                   </div>
                 </div>
@@ -207,7 +314,8 @@ const App = () => {
                   <div className="feature-content">
                     <h4 className="feature-heading">Zero Barriers</h4>
                     <p className="feature-text">
-                      No hidden fees or 'connects' to buy. Our algorithm promotes talent, not deep pockets.
+                      No hidden fees or 'connects' to buy. Our algorithm promotes
+                      talent, not deep pockets.
                     </p>
                   </div>
                 </div>
@@ -219,14 +327,19 @@ const App = () => {
                   <div className="feature-content">
                     <h4 className="feature-heading">Verified Nepal ID</h4>
                     <p className="feature-text">
-                      Trust built on real identities. Secure and safe for everyone in Nepal.
+                      Trust built on real identities. Secure and safe for
+                      everyone in Nepal.
                     </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="features-visual">
+            <div
+              className="features-visual reveal-right"
+              data-animate
+              style={{ "--delay": "0ms" }}
+            >
               <div className="mock-ui">
                 <div className="mock-header">
                   <div className="mock-user">
@@ -268,13 +381,14 @@ const App = () => {
       {/* Footer */}
       <footer className="footer">
         <div className="container">
-          <div className="footer-content">
+          <div className="footer-content fade-in" data-animate>
             <div className="footer-brand">
               <Link to="/" className="footer-logo">
                 GIG<span className="footer-logo-dot">.</span>
               </Link>
               <p className="footer-tagline">
-                Empowering Nepal's workforce with fair opportunities and secure payments. Join the revolution today.
+                Empowering Nepal's workforce with fair opportunities and secure
+                payments. Join the revolution today.
               </p>
             </div>
             <div className="footer-links">
@@ -304,6 +418,7 @@ const App = () => {
               </div>
             </div>
           </div>
+
           <div className="footer-bottom">
             <p>&copy; 2025 Gig Inc. All rights reserved.</p>
             <div className="footer-social">
@@ -317,7 +432,10 @@ const App = () => {
       </footer>
 
       {/* Font Awesome CDN */}
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      />
     </div>
   );
 };

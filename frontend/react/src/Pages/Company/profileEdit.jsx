@@ -57,7 +57,7 @@ export default function ProfileEdit() {
                 <i className="fa-solid fa-building"></i>
               </div>
               <h2>
-                Welcome, <span id="companyName" className="company-highlight">{companyName || 'Company'}</span>
+                Welcome{companyName} <span id="companyName" className="company-highlight">{companyName}</span>
                 <span className="wave-emoji"> 👋</span>
               </h2>
             </div>

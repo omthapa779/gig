@@ -26,10 +26,10 @@ body {
 
 /* Profile Edit Header */
 .profile-edit-header {
-  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  background: linear-gradient(135deg, #0BA976 0%, #19C98E 100%);
   border-radius: 1.5rem;
   margin-bottom: 2rem;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 10px 30px rgba(16, 185, 129, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 10px 30px rgba(11, 169, 118, 0.1);
 }
 
 .header-content {
@@ -134,7 +134,7 @@ body {
   background: white;
   border-radius: 1.5rem;
   padding: 2rem;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 10px 30px rgba(16, 185, 129, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 10px 30px rgba(11, 169, 118, 0.1);
   margin-bottom: 2rem;
 }
 
@@ -148,7 +148,7 @@ body {
 }
 
 .form-header i {
-  color: #10B981;
+  color: #0BA976;
   font-size: 1.5rem;
 }
 
@@ -181,7 +181,7 @@ body {
 }
 
 .form-group label i {
-  color: #10B981;
+  color: #0BA976;
   font-size: 0.875rem;
 }
 
@@ -211,8 +211,8 @@ body {
 .form-input:focus,
 .form-select:focus {
   background-color: white;
-  border-color: #10B981;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  border-color: #0BA976;
+  box-shadow: 0 0 0 3px rgba(11, 169, 118, 0.1);
 }
 
 .form-select {
@@ -240,8 +240,8 @@ body {
 
 .form-textarea:focus {
   background-color: white;
-  border-color: #10B981;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  border-color: #0BA976;
+  box-shadow: 0 0 0 3px rgba(11, 169, 118, 0.1);
 }
 
 /* Form Row */
@@ -271,8 +271,8 @@ body {
   height: 120px;
   border-radius: 1rem;
   overflow: hidden;
-  border: 3px solid #10B981;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+  border: 3px solid #0BA976;
+  box-shadow: 0 4px 12px rgba(11, 169, 118, 0.2);
   flex-shrink: 0;
 }
 
@@ -289,7 +289,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #10B981;
+  color: #0BA976;
   font-size: 3rem;
 }
 
@@ -312,7 +312,7 @@ body {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  background: linear-gradient(135deg, #0BA976 0%, #19C98E 100%);
   color: white;
   border-radius: 0.75rem;
   font-size: 0.875rem;
@@ -320,13 +320,13 @@ body {
   font-family: 'Outfit', sans-serif;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 4px 12px rgba(11, 169, 118, 0.3);
   width: fit-content;
 }
 
 .upload-label:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 8px 20px rgba(11, 169, 118, 0.4);
 }
 
 .upload-label i {
@@ -348,7 +348,7 @@ body {
 
 .save-button {
   padding: 1rem 2rem;
-  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  background: linear-gradient(135deg, #0BA976 0%, #19C98E 100%);
   color: white;
   border: none;
   border-radius: 0.75rem;
@@ -360,19 +360,19 @@ body {
   align-items: center;
   gap: 0.5rem;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 4px 12px rgba(11, 169, 118, 0.3);
 }
 
 .save-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 8px 20px rgba(11, 169, 118, 0.4);
 }
 
 .success-message {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #10B981;
+  color: #0BA976;
   font-size: 0.938rem;
   font-weight: 600;
 }
@@ -425,7 +425,7 @@ body {
 }
 
 .tips-list i {
-  color: #10B981;
+  color: #0BA976;
   font-size: 1rem;
   margin-top: 0.125rem;
   flex-shrink: 0;
