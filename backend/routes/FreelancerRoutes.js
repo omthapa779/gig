@@ -102,6 +102,72 @@ router.post('/login', async (req, res) => {
 });
 
 /* -------------------------------------------------------------------------- */
+/* 🧩 FREELANCER GOOGLE LOGIN                                                  */
+/* -------------------------------------------------------------------------- */
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+router.post('/google', async (req, res) => {
+  try {
+    const { token } = req.body;
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const { name, email, picture } = ticket.getPayload();
+
+    let freelancer = await Freelancer.findOne({ email });
+
+    if (freelancer) {
+      // Login
+      const jwtToken = jwt.sign(
+        { id: freelancer._id.toString(), role: 'freelancer' },
+        process.env.JWT_SECRET,
+        { expiresIn: process.env.JWT_EXPIRE }
+      );
+      res.cookie('token', jwtToken, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+      });
+      return res.json({
+        message: 'Login successful!',
+        freelancer: { id: freelancer._id, fullName: freelancer.fullName, email: freelancer.email },
+      });
+    } else {
+      // Register
+      const newFreelancer = new Freelancer({
+        fullName: name,
+        email,
+        password: await argon2.hash(Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8)), // Random password
+        profile_picture: picture,
+      });
+      await newFreelancer.save();
+
+      const jwtToken = jwt.sign(
+        { id: newFreelancer._id.toString(), role: 'freelancer' },
+        process.env.JWT_SECRET,
+        { expiresIn: process.env.JWT_EXPIRE }
+      );
+      res.cookie('token', jwtToken, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+      });
+      return res.json({
+        message: 'Account created successfully!',
+        freelancer: { id: newFreelancer._id, fullName: newFreelancer.fullName, email: newFreelancer.email },
+      });
+    }
+  } catch (err) {
+    console.error('Google login error:', err);
+    res.status(400).json({ message: 'Google login failed' });
+  }
+});
+
+/* -------------------------------------------------------------------------- */
 /* FREELANCER PROFILE UPDATE (avatar upload + details)                        */
 /* -------------------------------------------------------------------------- */
 router.post('/profile', protectFreelancer, upload.single('profile_picture'), async (req, res) => {

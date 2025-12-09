@@ -5,7 +5,7 @@ const path = require('path');
 const multer = require('multer');
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
-const fs = require('fs'); 
+const fs = require('fs');
 
 // utils
 const sanitizeInput = require('../utils/sanitizeInput');
@@ -153,6 +153,72 @@ router.post('/login', async (req, res) => {
 });
 
 /* -------------------------------------------------------------------------- */
+/* 🧩 COMPANY GOOGLE LOGIN                                                     */
+/* -------------------------------------------------------------------------- */
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+router.post('/google', async (req, res) => {
+  try {
+    const { token } = req.body;
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const { name, email, picture } = ticket.getPayload();
+
+    let company = await Company.findOne({ email });
+
+    if (company) {
+      // Login
+      const jwtToken = jwt.sign(
+        { id: company._id.toString(), role: 'company' },
+        process.env.JWT_SECRET,
+        { expiresIn: process.env.JWT_EXPIRE }
+      );
+      res.cookie('token', jwtToken, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+      });
+      return res.json({
+        message: 'Login successful!',
+        company: { id: company._id, companyName: company.companyName, email: company.email },
+      });
+    } else {
+      // Register
+      const newCompany = new Company({
+        companyName: name,
+        email,
+        password: await argon2.hash(Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8)), // Random password
+        logo: picture,
+      });
+      await newCompany.save();
+
+      const jwtToken = jwt.sign(
+        { id: newCompany._id.toString(), role: 'company' },
+        process.env.JWT_SECRET,
+        { expiresIn: process.env.JWT_EXPIRE }
+      );
+      res.cookie('token', jwtToken, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+      });
+      return res.json({
+        message: 'Account created successfully!',
+        company: { id: newCompany._id, companyName: newCompany.companyName, email: newCompany.email },
+      });
+    }
+  } catch (err) {
+    console.error('Google login error:', err);
+    res.status(400).json({ message: 'Google login failed' });
+  }
+});
+
+/* -------------------------------------------------------------------------- */
 /* 🧩 COMPANY INFO SUMMARY                                                     */
 /* -------------------------------------------------------------------------- */
 
@@ -278,48 +344,6 @@ router.post('/jobs', protectCompany, uploadJob.array('attachments', 5), async (r
 });
 
 router.put('/jobs/:id', protectCompany, uploadJob.array('attachments', 5), async (req, res) => {
-   try {
-    const id = req.params.id;
-    const raw = req.body || {};
-    const body = sanitizeInput(raw);
-    const job = await Job.findById(id);
-    if (!job) return res.status(404).json({ message: 'Job not found' });
-    if (job.company.toString() !== req.company._id.toString()) {
-      return res.status(403).json({ message: 'Not allowed' });
-    }
-
-    const up = {};
-    ['title', 'category', 'description', 'pay', 'location'].forEach((k) => {
-      if (body[k] && String(body[k]).trim() !== '') up[k] = body[k].trim();
-    });
-    if (body.deadline) up.deadline = new Date(body.deadline);
-    if (body.isPhysical !== undefined) up.isPhysical = !!(body.isPhysical === 'true' || body.isPhysical === true);
-    // enforce location if becoming physical
-    const willBePhysical = up.isPhysical !== undefined ? up.isPhysical : job.isPhysical;
-    const locationVal = up.location !== undefined ? up.location : job.location;
-    if (willBePhysical && (!locationVal || String(locationVal).trim() === '')) {
-     return res.status(400).json({ message: 'Location is required for physical/on-site jobs' });
-    }
-    if (body.active !== undefined) up.active = !!(body.active === 'true' || body.active === true);
-
-    // if new attachments uploaded, replace/append (here we append)
-    const newAttachments = (req.files || []).map((f) => `/uploads/jobs/${f.filename}`);
-    if (newAttachments.length) {
-     up.attachments = (job.attachments || []).concat(newAttachments);
-    }
-
-    const updated = await Job.findByIdAndUpdate(id, { $set: up }, { new: true });
-    res.json({ message: 'Job updated', job: updated });
-   } catch (err) {
-    console.error('Update job error:', err);
-    res.status(500).json({ message: 'Server error' });
-   }
-});
-
-/* -------------------------------------------------------------------------- */
-/* 🧩 COMPANY Profile Jobs Edit                                               */
-/* -------------------------------------------------------------------------- */
-router.put('/jobs/:id', protectCompany, uploadJob.array('attachments', 5), async (req, res) => {
   try {
     const id = req.params.id;
     const raw = req.body || {};
@@ -336,17 +360,15 @@ router.put('/jobs/:id', protectCompany, uploadJob.array('attachments', 5), async
     });
     if (body.deadline) up.deadline = new Date(body.deadline);
     if (body.isPhysical !== undefined) up.isPhysical = !!(body.isPhysical === 'true' || body.isPhysical === true);
-
     // enforce location if becoming physical
     const willBePhysical = up.isPhysical !== undefined ? up.isPhysical : job.isPhysical;
     const locationVal = up.location !== undefined ? up.location : job.location;
     if (willBePhysical && (!locationVal || String(locationVal).trim() === '')) {
       return res.status(400).json({ message: 'Location is required for physical/on-site jobs' });
     }
-
     if (body.active !== undefined) up.active = !!(body.active === 'true' || body.active === true);
 
-    // append new attachments if any
+    // if new attachments uploaded, replace/append (here we append)
     const newAttachments = (req.files || []).map((f) => `/uploads/jobs/${f.filename}`);
     if (newAttachments.length) {
       up.attachments = (job.attachments || []).concat(newAttachments);
@@ -356,13 +378,9 @@ router.put('/jobs/:id', protectCompany, uploadJob.array('attachments', 5), async
     res.json({ message: 'Job updated', job: updated });
   } catch (err) {
     console.error('Update job error:', err);
-    if (err.message && (err.message.includes('Unsupported file type') || err.message.includes('File too large') || err.code === 'LIMIT_FILE_SIZE')) {
-      return res.status(400).json({ message: err.message.includes('Unsupported') ? 'Unsupported file type' : 'File too large (max 5MB per file)' });
-    }
     res.status(500).json({ message: 'Server error' });
   }
 });
-
 
 /* -------------------------------------------------------------------------- */
 /* 🧩 COMPANY Remove single attachment                                         */

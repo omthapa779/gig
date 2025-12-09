@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 import "./styles/freelancerLogin.css";
 
 export default function FreelancerLogin() {
@@ -36,9 +37,24 @@ export default function FreelancerLogin() {
     }
   };
 
-  const handleGoogleLogin = () => {
-    console.log("Google login clicked");
-    setMessage("Google login coming soon!");
+  const handleGoogleLogin = async (credentialResponse) => {
+    try {
+      const res = await fetch("/api/freelancer/google", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: credentialResponse.credential }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setMessage("Login successful! Welcome back.");
+        setTimeout(() => navigate("/freelancer/profile"), 1000);
+      } else {
+        setMessage(data.message || "Google login failed");
+      }
+    } catch (err) {
+      console.error(err);
+      setMessage("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -149,14 +165,11 @@ export default function FreelancerLogin() {
             </div>
 
             <div className="social-buttons">
-              <button
-                type="button"
-                className="social-btn google-btn"
-                onClick={handleGoogleLogin}
-              >
-                <i className="fa-brands fa-google"></i>
-                Continue with Google
-              </button>
+              <GoogleLogin
+                onSuccess={handleGoogleLogin}
+                onError={() => setMessage("Google Login Failed")}
+                useOneTap
+              />
             </div>
 
             <div className="bottom-links">

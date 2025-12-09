@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 import "./styles/freelancerRegister.css";
 
 export default function FreelancerRegister() {
@@ -40,9 +41,24 @@ export default function FreelancerRegister() {
     }
   };
 
-  const handleGoogleSignup = () => {
-    console.log("Google signup clicked");
-    setMessage("Google signup coming soon!");
+  const handleGoogleSignup = async (credentialResponse) => {
+    try {
+      const res = await fetch("/api/freelancer/google", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: credentialResponse.credential }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setMessage("Account created successfully!");
+        setTimeout(() => navigate("/freelancer/profile"), 1000);
+      } else {
+        setMessage(data.message || "Google signup failed");
+      }
+    } catch (err) {
+      console.error(err);
+      setMessage("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -140,14 +156,12 @@ export default function FreelancerRegister() {
             </div>
 
             <div className="social-buttons">
-              <button
-                type="button"
-                className="social-btn google-btn"
-                onClick={handleGoogleSignup}
-              >
-                <i className="fa-brands fa-google"></i>
-                Continue with Google
-              </button>
+              <GoogleLogin
+                onSuccess={handleGoogleSignup}
+                onError={() => setMessage("Google Signup Failed")}
+                text="signup_with"
+                useOneTap
+              />
             </div>
 
             <div className="bottom-links">
