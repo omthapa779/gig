@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./styles/companyLogin.css";
 
 export default function CompanyLogin() {
@@ -7,14 +8,32 @@ export default function CompanyLogin() {
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     document.title = "Company Login | Freelancer Nepal";
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Company login submitted:", { email, password });
-    setMessage("Login successful!");
+    setMessage("");
+    try {
+      const res = await fetch("/api/company/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setMessage("Login successful!");
+        setTimeout(() => navigate("/company/profile"), 1000);
+      } else {
+        setMessage(data.message || "Login failed");
+      }
+    } catch (err) {
+      console.error(err);
+      setMessage("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -95,9 +114,8 @@ export default function CompanyLogin() {
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   <i
-                    className={`fa-solid ${
-                      showPassword ? "fa-eye-slash" : "fa-eye"
-                    }`}
+                    className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"
+                      }`}
                   ></i>
                 </button>
               </div>

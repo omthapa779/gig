@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./styles/freelancerLogin.css";
 
 export default function FreelancerLogin() {
@@ -7,14 +8,32 @@ export default function FreelancerLogin() {
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     document.title = "Freelancer Login | Gig";
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Freelancer login submitted:", { email, password });
-    setMessage("Login successful! Welcome back.");
+    setMessage("");
+    try {
+      const res = await fetch("/api/freelancer/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setMessage("Login successful! Welcome back.");
+        setTimeout(() => navigate("/freelancer/profile"), 1000);
+      } else {
+        setMessage(data.message || "Login failed");
+      }
+    } catch (err) {
+      console.error(err);
+      setMessage("Something went wrong. Please try again.");
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -99,9 +118,8 @@ export default function FreelancerLogin() {
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   <i
-                    className={`fa-solid ${
-                      showPassword ? "fa-eye-slash" : "fa-eye"
-                    }`}
+                    className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"
+                      }`}
                   ></i>
                 </button>
               </div>

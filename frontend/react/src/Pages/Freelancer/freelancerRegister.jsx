@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./styles/freelancerRegister.css";
 
 export default function FreelancerRegister() {
@@ -7,18 +8,36 @@ export default function FreelancerRegister() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     document.title = "Join as Freelancer | Gig";
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Freelancer registration submitted:", {
-      fullName,
-      email,
-      password,
-    });
-    setMessage("Welcome aboard! Your freelancer account is ready.");
+    setMessage("");
+    try {
+      const res = await fetch("/api/freelancer/freelancerRegister", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName,
+          email,
+          password,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setMessage("Account created successfully! Redirecting to login...");
+        setTimeout(() => navigate("/freelancer/login"), 1500);
+      } else {
+        setMessage(data.message || "Registration failed");
+      }
+    } catch (err) {
+      console.error(err);
+      setMessage("Something went wrong. Please try again.");
+    }
   };
 
   const handleGoogleSignup = () => {

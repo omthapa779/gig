@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./styles/registerCompany.css";
 
 export default function RegisterCompany() {
@@ -10,21 +11,39 @@ export default function RegisterCompany() {
   const [website, setWebsite] = useState("");
   const [message, setMessage] = useState("");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     document.title = "Register Your Company | GiG";
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Company registration submitted:", {
-      companyName,
-      email,
-      password,
-      phone,
-      location,
-      website,
-    });
-    setMessage("Welcome aboard! Your company account is ready.");
+    setMessage("");
+    try {
+      const res = await fetch("/api/company/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          companyName,
+          email,
+          password,
+          phone,
+          location,
+          website,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setMessage("Registration successful! Redirecting to login...");
+        setTimeout(() => navigate("/company/login"), 1500);
+      } else {
+        setMessage(data.message || "Registration failed");
+      }
+    } catch (err) {
+      console.error(err);
+      setMessage("Something went wrong. Please try again.");
+    }
   };
 
   const handleGoogleSignup = () => {

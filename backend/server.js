@@ -13,7 +13,7 @@ const fs = require('fs');
 const connectDB = require('./config/db');
 const companyRoutes = require('./routes/companyRoutes');
 const freelancerRoutes = require('./routes/FreelancerRoutes');
-const pageRoutes = require('./routes/pageRoutes');
+
 
 const app = express();
 
@@ -78,10 +78,14 @@ app.use('/api/freelancer', freelancerRoutes);
 // 7️⃣ Frontend Routes
 // ============================
 // Serve all static frontend files (HTML, CSS, JS)
-app.use(express.static(path.join(__dirname, '../frontend')));
+// app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Mount page routes for clean URLs (e.g., /company/register)
-app.use('/', pageRoutes);
+// app.use('/', pageRoutes);
+
+app.get('/', (req, res) => {
+  res.send('API is running...');
+});
 
 // ============================
 // 8️⃣ Global Error Handler (optional but good)
