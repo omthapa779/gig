@@ -8,6 +8,7 @@ export default function FreelancerRegister() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -133,14 +134,27 @@ export default function FreelancerRegister() {
                 <i className="fa-solid fa-lock"></i>
                 Password
               </label>
-              <input
-                type="password"
-                id="password"
-                placeholder="Password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+
+              <div className="password-wrapper">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  placeholder="Password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className="toggle-password"
+                  onClick={() => setShowPassword((p) => !p)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  <i
+                    className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"}`}
+                  ></i>
+                </button>
+              </div>
             </div>
           </div>
 

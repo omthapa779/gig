@@ -326,3 +326,28 @@ body {
     padding-right: 1.25rem;
   }
 }
+
+/*hide left side, show only form */
+@media (max-width: 768px) {
+  .register-page {
+    grid-template-columns: 1fr;
+  }
+
+  .register-hero {
+    display: none;
+  }
+
+  .register-form-section {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 20px 20px 20px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form {
+    max-width: 520px;
+    width: 100%;
+  }
+}
