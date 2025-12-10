@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "./style/style.css";
-import { ReactLenis } from "lenis/react";
-import "lenis/dist/lenis.css";
+import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/homeNav";
 
 const FAQ = () => {
@@ -63,7 +62,7 @@ const FAQ = () => {
   );
 
   return (
-    <ReactLenis root options={{duration: 1.2 , smoothWheel: true}}>
+    <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
       <div className="page" ref={rootRef}>
         <Navbar />
         <section className="page-hero">
@@ -118,7 +117,7 @@ const FAQ = () => {
           </div>
         </section>
       </div>
-    </ReactLenis>
+    </SmoothScroll>
   );
 };
 

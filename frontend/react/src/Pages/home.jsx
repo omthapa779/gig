@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./resources/styles/home.css";
-import { ReactLenis } from "lenis/react";
-import "lenis/dist/lenis.css";
+import SmoothScroll from "@/components/SmoothScroll";
+// import "lenis/dist/lenis.css"; // Moved to SmoothScroll component
 
 const App = () => {
   useEffect(() => {
@@ -108,7 +108,7 @@ const App = () => {
   }, []);
 
   return (
-    <ReactLenis root options={{duration: 1.2 , smoothWheel: true}}>
+    <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
       <div className="app" ref={rootRef}>
         {/* ================= NAVBAR ================= */}
         <nav id="navbar" className="navbar">
@@ -485,7 +485,7 @@ const App = () => {
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         />
       </div>
-    </ReactLenis>
+    </SmoothScroll>
   );
 };
 

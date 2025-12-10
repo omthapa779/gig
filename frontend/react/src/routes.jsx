@@ -20,6 +20,8 @@ import FreelancerProfileEdit from "./Pages/Freelancer/profileEdit.jsx";
 import About from "./Pages/Support/FAQ/about.jsx";
 import FAQ from "./Pages/Support/FAQ/FAQ.jsx";
 import Support from "./Pages/Support/FAQ/support.jsx";
+import ForgotPassword from "./Pages/forgotPassword.jsx";
+import ResetPassword from "./Pages/resetPassword.jsx";
 
 export default function App() {
   return (
@@ -49,10 +51,13 @@ export default function App() {
             <Route path="/freelancer/profileEdit" element={<FreelancerProfileEdit />} />
           </Route>
 
+
           {/* Support Pages */}
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/support" element={<Support />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
 
           {/* 404 */}
           <Route path="*" element={<div className="p-10 text-center text-xl">404 - Page not found</div>} />

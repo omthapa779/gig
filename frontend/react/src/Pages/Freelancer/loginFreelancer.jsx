@@ -8,11 +8,17 @@ export default function FreelancerLogin() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Freelancer Login | Gig";
+    const savedEmail = localStorage.getItem("freelancerEmail");
+    if (savedEmail) {
+      setEmail(savedEmail);
+      setRememberMe(true);
+    }
   }, []);
 
   const handleSubmit = async (e) => {
@@ -26,6 +32,11 @@ export default function FreelancerLogin() {
       });
       const data = await res.json();
       if (res.ok) {
+        if (rememberMe) {
+          localStorage.setItem("freelancerEmail", email);
+        } else {
+          localStorage.removeItem("freelancerEmail");
+        }
         setMessage("Login successful! Welcome back.");
         setTimeout(() => navigate("/freelancer/profile"), 1000);
       } else {
@@ -144,7 +155,11 @@ export default function FreelancerLogin() {
 
           <div className="form-footer">
             <label className="remember-me">
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />
               <span>Remember me</span>
             </label>
 

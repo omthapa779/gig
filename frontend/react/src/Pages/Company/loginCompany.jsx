@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GoogleLogin } from "@react-oauth/google";
 import "./styles/companyLogin.css";
 
 export default function CompanyLogin() {
@@ -8,32 +7,18 @@ export default function CompanyLogin() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Company Login | Freelancer Nepal";
-  }, []);
-
-  const handleGoogleLogin = async (credentialResponse) => {
-    try {
-      const res = await fetch("/api/company/google", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: credentialResponse.credential }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setMessage("Login successful!");
-        setTimeout(() => navigate("/company/profile"), 1000);
-      } else {
-        setMessage(data.message || "Google login failed");
-      }
-    } catch (err) {
-      console.error(err);
-      setMessage("Something went wrong. Please try again.");
+    const savedEmail = localStorage.getItem("companyEmail");
+    if (savedEmail) {
+      setEmail(savedEmail);
+      setRememberMe(true);
     }
-  };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,6 +31,11 @@ export default function CompanyLogin() {
       });
       const data = await res.json();
       if (res.ok) {
+        if (rememberMe) {
+          localStorage.setItem("companyEmail", email);
+        } else {
+          localStorage.removeItem("companyEmail");
+        }
         setMessage("Login successful!");
         setTimeout(() => navigate("/company/profile"), 1000);
       } else {
@@ -145,7 +135,11 @@ export default function CompanyLogin() {
 
           <div className="form-footer">
             <label className="remember-me">
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />
               <span>Remember me</span>
             </label>
             <a href="/forgot-password" className="forgot-password">
@@ -158,31 +152,18 @@ export default function CompanyLogin() {
             <i className="fa-solid fa-arrow-right"></i>
           </button>
 
-          <div className="bottom-section">
-            <div className="divider">
-              <span>or</span>
-            </div>
+          <div className="bottom-links">
+            <p className="signup-link">
+              Don&apos;t have a company account?{" "}
+              <a href="/company/register">Sign up</a>
+            </p>
 
-            <div className="social-buttons">
-              <GoogleLogin
-                onSuccess={handleGoogleLogin}
-                onError={() => setMessage("Google Login Failed")}
-                useOneTap
-              />
-            </div>
-
-            <div className="bottom-links">
-              <p className="signup-link">
-                Don&apos;t have a company account?{" "}
-                <a href="/company/register">Sign up</a>
-              </p>
-
-              <p className="switch-login">
-                Are you a freelancer?{" "}
-                <a href="/freelancer/login">Login as Freelancer</a>
-              </p>
-            </div>
+            <p className="switch-login">
+              Are you a freelancer?{" "}
+              <a href="/freelancer/login">Login as Freelancer</a>
+            </p>
           </div>
+
 
           {message && (
             <p id="message" className="message">
@@ -197,6 +178,6 @@ export default function CompanyLogin() {
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       />
-    </div>
+    </div >
   );
 }

@@ -153,6 +153,91 @@ router.post('/login', async (req, res) => {
 });
 
 /* -------------------------------------------------------------------------- */
+/* 🧩 COMPANY FORGOT PASSWORD (MOCK)                                           */
+/* -------------------------------------------------------------------------- */
+// Import sendEmail (ensure this path is correct based on your file structure)
+const sendEmail = require('../utils/sendEmail');
+
+/* -------------------------------------------------------------------------- */
+/* 🧩 COMPANY FORGOT PASSWORD (REAL EMAIL)                                     */
+/* -------------------------------------------------------------------------- */
+router.post('/forgot-password', async (req, res) => {
+  try {
+    const { email } = req.body;
+    const company = await Company.findOne({ email });
+
+    if (!company) {
+      // Security: don't reveal existence
+      return res.json({ message: 'If an account exists, a reset link has been sent.' });
+    }
+
+    // Generate token (mock for now, or use crypto)
+    const resetToken = jwt.sign({ id: company._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const resetUrl = `http://localhost:5173/reset-password?token=${resetToken}&role=company`;
+
+    const message = `
+      <h1>Password Reset Request</h1>
+      <p>You requested a password reset for your Gig Company account.</p>
+      <p>Please click the link below to reset your password:</p>
+      <a href="${resetUrl}" clicktracking=off>${resetUrl}</a>
+      <p>This link expires in 1 hour.</p>
+    `;
+
+    try {
+      await sendEmail({
+        email: company.email,
+        subject: 'Gig - Password Reset Request',
+        message: `Please reset your password here: ${resetUrl}`,
+        html: message,
+      });
+
+      res.json({ message: 'Password reset link sent.' });
+    } catch (emailError) {
+      console.error('Email send failed:', emailError);
+      return res.status(500).json({ message: 'Email could not be sent' });
+    }
+
+  } catch (err) {
+    console.error('Forgot password error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+/* -------------------------------------------------------------------------- */
+/* 🧩 COMPANY RESET PASSWORD                                                   */
+/* -------------------------------------------------------------------------- */
+router.post('/reset-password/:token', async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    if (!password) {
+      return res.status(400).json({ message: 'Password is required' });
+    }
+
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (e) {
+      return res.status(400).json({ message: 'Invalid or expired token' });
+    }
+
+    const company = await Company.findById(decoded.id);
+    if (!company) {
+      return res.status(404).json({ message: 'Account not found' });
+    }
+
+    company.password = await argon2.hash(password);
+    await company.save();
+
+    res.json({ message: 'Password reset successful' });
+  } catch (err) {
+    console.error('Reset password error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+/* -------------------------------------------------------------------------- */
 /* 🧩 COMPANY GOOGLE LOGIN                                                     */
 /* -------------------------------------------------------------------------- */
 const { OAuth2Client } = require('google-auth-library');

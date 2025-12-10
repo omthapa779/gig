@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GoogleLogin } from "@react-oauth/google";
 import "./styles/registerCompany.css";
 
 export default function RegisterCompany() {
@@ -40,26 +39,6 @@ export default function RegisterCompany() {
         setTimeout(() => navigate("/company/login"), 1500);
       } else {
         setMessage(data.message || "Registration failed");
-      }
-    } catch (err) {
-      console.error(err);
-      setMessage("Something went wrong. Please try again.");
-    }
-  };
-
-  const handleGoogleSignup = async (credentialResponse) => {
-    try {
-      const res = await fetch("/api/company/google", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: credentialResponse.credential }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setMessage("Account created successfully!");
-        setTimeout(() => navigate("/company/profile"), 1000);
-      } else {
-        setMessage(data.message || "Google signup failed");
       }
     } catch (err) {
       console.error(err);
@@ -205,29 +184,15 @@ export default function RegisterCompany() {
             <i className="fa-solid fa-arrow-right"></i>
           </button>
 
-          {/* GOOGLE SIGNUP SECTION */}
-          <div className="bottom-section">
-            <div className="divider">
-              <span>or</span>
-            </div>
-            <div className="social-buttons" style={{ marginBottom: "1rem" }}>
-              <GoogleLogin
-                onSuccess={handleGoogleSignup}
-                onError={() => setMessage("Google Signup Failed")}
-                text="signup_with"
-                useOneTap
-              />
-            </div>
-            <div className="bottom-links">
-              <p className="signup-link">
-                Already have a company account?{" "}
-                <a href="/company/login">Login</a>
-              </p>
-              <p className="switch-login">
-                Are you a freelancer?{" "}
-                <a href="/freelancer/login">Login as Freelancer</a>
-              </p>
-            </div>
+          <div className="bottom-links">
+            <p className="signup-link">
+              Already have a company account?{" "}
+              <a href="/company/login">Login</a>
+            </p>
+            <p className="switch-login">
+              Are you a freelancer?{" "}
+              <a href="/freelancer/login">Login as Freelancer</a>
+            </p>
           </div>
 
           {message && (
