@@ -16,6 +16,11 @@ import FreelancerLogin from "./Pages/Freelancer/loginFreelancer.jsx";
 import FreelancerProfile from "./Pages/Freelancer/profile.jsx";
 import FreelancerProfileEdit from "./Pages/Freelancer/profileEdit.jsx";
 
+// About us , FAQ and Support Pages
+import About from "./Pages/Support/FAQ/about.jsx";
+import FAQ from "./Pages/Support/FAQ/FAQ.jsx";
+import Support from "./Pages/Support/FAQ/support.jsx";
+
 export default function App() {
   return (
     <div className="bg-brand-white text-brand-dark antialiased selection:bg-brand-accent selection:text-brand-dark min-h-screen flex flex-col">
@@ -43,6 +48,11 @@ export default function App() {
             <Route path="/freelancer/profile" element={<FreelancerProfile />} />
             <Route path="/freelancer/profileEdit" element={<FreelancerProfileEdit />} />
           </Route>
+
+          {/* Support Pages */}
+          <Route path="/about" element={<About />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/support" element={<Support />} />
 
           {/* 404 */}
           <Route path="*" element={<div className="p-10 text-center text-xl">404 - Page not found</div>} />

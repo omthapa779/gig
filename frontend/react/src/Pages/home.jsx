@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./resources/styles/home.css";
+import { ReactLenis } from "lenis/react";
+import "lenis/dist/lenis.css";
 
 const App = () => {
   useEffect(() => {
@@ -106,417 +108,384 @@ const App = () => {
   }, []);
 
   return (
-    <div className="app" ref={rootRef}>
-      {/* ================= NAVBAR ================= */}
-      <nav id="navbar" className="navbar">
-        <div className="container">
-          <div className="nav-content">
-            <div className="logo">
-              <Link to="/" className="logo-text">
-                GIG<span className="logo-dot">.</span>
+    <ReactLenis root options={{duration: 1.2 , smoothWheel: true}}>
+      <div className="app" ref={rootRef}>
+        {/* ================= NAVBAR ================= */}
+        <nav id="navbar" className="navbar">
+          <div className="container">
+            <div className="nav-content">
+              <div className="logo">
+                <Link to="/" className="logo-text">
+                  GIG<span className="logo-dot">.</span>
+                </Link>
+              </div>
+              {/* Desktop links */}
+              <div className="nav-links">
+                <a
+                  href="#how-it-works"
+                  className="nav-link"
+                  onClick={(e) => handleSmoothScroll(e, "#how-it-works")}
+                >
+                  How it Works
+                </a>
+                <a
+                  href="#services"
+                  className="nav-link"
+                  onClick={(e) => handleSmoothScroll(e, "#services")}
+                >
+                  Services
+                </a>
+                <a
+                  href="#features"
+                  className="nav-link"
+                  onClick={(e) => handleSmoothScroll(e, "#features")}
+                >
+                  Why Us
+                </a>
+                {/* Login Dropdown (click) */}
+                <div
+                  className={`login-dropdown ${loginOpen ? "open" : ""}`}
+                  ref={loginRef}
+                >
+                  <button
+                    className="dropdown-button"
+                    type="button"
+                    onClick={() => setLoginOpen((v) => !v)}
+                    aria-expanded={loginOpen}
+                  >
+                    Log In <i className="fa-solid fa-chevron-down"></i>
+                  </button>
+                  <div className="dropdown-menu" role="menu">
+                    <Link
+                      to="/freelancer/login"
+                      className="dropdown-item"
+                      onClick={() => setLoginOpen(false)}
+                    >
+                      <i className="fa-solid fa-user-tie"></i>
+                      Freelancer Login
+                    </Link>
+                    <Link
+                      to="/company/login"
+                      className="dropdown-item"
+                      onClick={() => setLoginOpen(false)}
+                    >
+                      <i className="fa-solid fa-building"></i>
+                      Company Login
+                    </Link>
+                  </div>
+                </div>
+                {/* Search Bar (expands on focus) */}
+                <div className="search-bar">
+                  <i className="fa-solid fa-search search-icon"></i>
+                  <input
+                    type="text"
+                    className="search-input"
+                    placeholder="Search for services..."
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                  />
+                </div>
+              </div>
+              {/* Mobile menu button */}
+              <div className="mobile-menu-button">
+                <button
+                  className="menu-btn"
+                  type="button"
+                  onClick={() => setSidebarOpen(true)}
+                  aria-label="Open menu"
+                >
+                  <i className="fa-solid fa-bars"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </nav>
+        {/* ================= MOBILE SIDEBAR ================= */}
+        <div
+          className={`sidebar-overlay ${sidebarOpen ? "open" : ""}`}
+          onClick={() => setSidebarOpen(false)}
+        />
+        <aside className={`sidebar ${sidebarOpen ? "open" : ""}`}>
+          <div className="sidebar-header">
+            <Link
+              to="/"
+              className="sidebar-logo"
+              onClick={() => setSidebarOpen(false)}
+            >
+              GIG<span className="logo-dot">.</span>
+            </Link>
+            <button
+              className="sidebar-close"
+              type="button"
+              onClick={() => setSidebarOpen(false)}
+              aria-label="Close menu"
+            >
+              <i className="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <nav className="sidebar-links">
+            <a href="#how-it-works" onClick={(e) => handleSmoothScroll(e, "#how-it-works")}>
+              How it Works
+            </a>
+            <a href="#services" onClick={(e) => handleSmoothScroll(e, "#services")}>
+              Services
+            </a>
+            <a href="#features" onClick={(e) => handleSmoothScroll(e, "#features")}>
+              Why Us
+            </a>
+          </nav>
+          <div className="sidebar-actions">
+            <div className="sidebar-section">
+              <p className="sidebar-section-title">Log In</p>
+              <Link to="/freelancer/login" onClick={() => setSidebarOpen(false)}>
+                <i className="fa-solid fa-user-tie"></i> Freelancer Login
+              </Link>
+              <Link to="/company/login" onClick={() => setSidebarOpen(false)}>
+                <i className="fa-solid fa-building"></i> Company Login
               </Link>
             </div>
-
-            {/* Desktop links */}
-            <div className="nav-links">
-              <a
-                href="#how-it-works"
-                className="nav-link"
-                onClick={(e) => handleSmoothScroll(e, "#how-it-works")}
-              >
-                How it Works
-              </a>
-
-              <a
-                href="#services"
-                className="nav-link"
-                onClick={(e) => handleSmoothScroll(e, "#services")}
-              >
-                Services
-              </a>
-
-              <a
-                href="#features"
-                className="nav-link"
-                onClick={(e) => handleSmoothScroll(e, "#features")}
-              >
-                Why Us
-              </a>
-
-              {/* Login Dropdown (click) */}
-              <div
-                className={`login-dropdown ${loginOpen ? "open" : ""}`}
-                ref={loginRef}
-              >
-                <button
-                  className="dropdown-button"
-                  type="button"
-                  onClick={() => setLoginOpen((v) => !v)}
-                  aria-expanded={loginOpen}
-                >
-                  Log In <i className="fa-solid fa-chevron-down"></i>
-                </button>
-
-                <div className="dropdown-menu" role="menu">
-                  <Link
-                    to="/freelancer/login"
-                    className="dropdown-item"
-                    onClick={() => setLoginOpen(false)}
-                  >
-                    <i className="fa-solid fa-user-tie"></i>
-                    Freelancer Login
-                  </Link>
-                  <Link
-                    to="/company/login"
-                    className="dropdown-item"
-                    onClick={() => setLoginOpen(false)}
-                  >
-                    <i className="fa-solid fa-building"></i>
-                    Company Login
-                  </Link>
-                </div>
-              </div>
-
-              {/* Search Bar (expands on focus) */}
-              <div className="search-bar">
-                <i className="fa-solid fa-search search-icon"></i>
-                <input
-                  type="text"
-                  className="search-input"
-                  placeholder="Search for services..."
-                  value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}
-                />
-              </div>
-            </div>
-
-            {/* Mobile menu button */}
-            <div className="mobile-menu-button">
-              <button
-                className="menu-btn"
-                type="button"
-                onClick={() => setSidebarOpen(true)}
-                aria-label="Open menu"
-              >
-                <i className="fa-solid fa-bars"></i>
-              </button>
+            <div className="sidebar-section">
+              <p className="sidebar-section-title">Join</p>
+              <Link to="/company/register" onClick={() => setSidebarOpen(false)} className="btn-primary full">
+                Hire Talent
+              </Link>
+              <Link to="/freelancer/register" onClick={() => setSidebarOpen(false)} className="btn-secondary full">
+                Join as Freelancer
+              </Link>
             </div>
           </div>
-        </div>
-      </nav>
-
-      {/* ================= MOBILE SIDEBAR ================= */}
-      <div
-        className={`sidebar-overlay ${sidebarOpen ? "open" : ""}`}
-        onClick={() => setSidebarOpen(false)}
-      />
-      <aside className={`sidebar ${sidebarOpen ? "open" : ""}`}>
-        <div className="sidebar-header">
-          <Link
-            to="/"
-            className="sidebar-logo"
-            onClick={() => setSidebarOpen(false)}
-          >
-            GIG<span className="logo-dot">.</span>
-          </Link>
-          <button
-            className="sidebar-close"
-            type="button"
-            onClick={() => setSidebarOpen(false)}
-            aria-label="Close menu"
-          >
-            <i className="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-
-        <nav className="sidebar-links">
-          <a href="#how-it-works" onClick={(e) => handleSmoothScroll(e, "#how-it-works")}>
-            How it Works
-          </a>
-          <a href="#services" onClick={(e) => handleSmoothScroll(e, "#services")}>
-            Services
-          </a>
-          <a href="#features" onClick={(e) => handleSmoothScroll(e, "#features")}>
-            Why Us
-          </a>
-        </nav>
-
-        <div className="sidebar-actions">
-          <div className="sidebar-section">
-            <p className="sidebar-section-title">Log In</p>
-            <Link to="/freelancer/login" onClick={() => setSidebarOpen(false)}>
-              <i className="fa-solid fa-user-tie"></i> Freelancer Login
-            </Link>
-            <Link to="/company/login" onClick={() => setSidebarOpen(false)}>
-              <i className="fa-solid fa-building"></i> Company Login
-            </Link>
+        </aside>
+        {/* ================= HERO ================= */}
+        <section className="hero">
+          <div className="hero-bg-svg" id="hero-svg">
+            <svg width="800" height="800" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <path
+                fill="#0F62FE"
+                d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,81.6,-46.6C91.4,-34.1,98.1,-19.2,95.8,-5.3C93.5,8.6,82.2,21.4,71.1,32.8C60,44.2,49.1,54.2,37.1,62.8C25.1,71.4,12,78.6,-0.6,79.6C-13.2,80.6,-25.9,75.4,-37.4,67.4C-48.9,59.4,-59.2,48.6,-67.6,36.3C-76,24,-82.5,10.2,-81.1,-3.1C-79.7,-16.4,-70.4,-29.2,-60.2,-39.8C-50,-50.4,-38.9,-58.8,-27.1,-67.8C-15.3,-76.8,-2.8,-86.4,10.2,-84.6C23.2,-82.8,30.5,-83.6,44.7,-76.4Z"
+                transform="translate(100 100)"
+              />
+            </svg>
           </div>
-
-          <div className="sidebar-section">
-            <p className="sidebar-section-title">Join</p>
-            <Link to="/company/register" onClick={() => setSidebarOpen(false)} className="btn-primary full">
-              Hire Talent
-            </Link>
-            <Link to="/freelancer/register" onClick={() => setSidebarOpen(false)} className="btn-secondary full">
-              Join as Freelancer
-            </Link>
-          </div>
-        </div>
-      </aside>
-
-      {/* ================= HERO ================= */}
-      <section className="hero">
-        <div className="hero-bg-svg" id="hero-svg">
-          <svg width="800" height="800" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <path
-              fill="#0F62FE"
-              d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,81.6,-46.6C91.4,-34.1,98.1,-19.2,95.8,-5.3C93.5,8.6,82.2,21.4,71.1,32.8C60,44.2,49.1,54.2,37.1,62.8C25.1,71.4,12,78.6,-0.6,79.6C-13.2,80.6,-25.9,75.4,-37.4,67.4C-48.9,59.4,-59.2,48.6,-67.6,36.3C-76,24,-82.5,10.2,-81.1,-3.1C-79.7,-16.4,-70.4,-29.2,-60.2,-39.8C-50,-50.4,-38.9,-58.8,-27.1,-67.8C-15.3,-76.8,-2.8,-86.4,10.2,-84.6C23.2,-82.8,30.5,-83.6,44.7,-76.4Z"
-              transform="translate(100 100)"
-            />
-          </svg>
-        </div>
-
-        <div className="container hero-content">
-          <div className="badge reveal-up" data-animate style={{ "--delay": "0ms" }}>
-            <span className="badge-dot"></span>
-            #1 Fair Marketplace in Nepal
-          </div>
-
-          <h1 className="hero-title reveal-up" data-animate style={{ "--delay": "120ms" }}>
-            Nepal's Fair Marketplace for <br />
-            <span className="gradient-text">Digital & Local Work.</span>
-          </h1>
-
-          <p className="hero-description reveal-up" data-animate style={{ "--delay": "240ms" }}>
-            From coding to physical tasks, find work near you without buying
-            'connects'. The fair start every beginner deserves.
-          </p>
-
-          <div className="hero-buttons reveal-up" data-animate style={{ "--delay": "360ms" }}>
-            <Link to="/company/register" className="btn-primary">
-              Hire Talent
-            </Link>
-            <Link to="/freelancer/register" className="btn-secondary">
-              Join as Freelancer
-            </Link>
-          </div>
-
-          <div className="trust-strip fade-in" data-animate style={{ "--delay": "200ms" }}>
-            <p className="trust-label">Trusted by Nepalese Businesses</p>
-            <div className="marquee-container">
-              <div className="marquee-content">
-                {Array(4)
-                  .fill(["Daraz", "eSewa", "Khalti", "Pathao", "WorldLink", "Foodmandu"])
-                  .flat()
-                  .map((brand, i) => (
-                    <span key={`${brand}-${i}`}>{brand}</span>
-                  ))}
-              </div>
+          <div className="container hero-content">
+            <div className="badge reveal-up" data-animate style={{ "--delay": "0ms" }}>
+              <span className="badge-dot"></span>
+              #1 Fair Marketplace in Nepal
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section id="how-it-works" className="services">
-        <div className="container">
-          <div className="section-header fade-in" data-animate>
-            <h2 className="section-title">How it Works</h2>
-            <p className="section-description">Add your steps here later.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Services */}
-      <section id="services" className="services alt">
-        <div className="container">
-          <div className="section-header fade-in" data-animate>
-            <h2 className="section-title">Popular Services</h2>
-            <p className="section-description">
-              Everything you need to grow your business.
+            <h1 className="hero-title reveal-up" data-animate style={{ "--delay": "120ms" }}>
+              Nepal's Fair Marketplace for <br />
+              <span className="gradient-text">Digital & Local Work.</span>
+            </h1>
+            <p className="hero-description reveal-up" data-animate style={{ "--delay": "240ms" }}>
+              From coding to physical tasks, find work near you without buying
+              'connects'. The fair start every beginner deserves.
             </p>
-          </div>
-
-          <div className="services-grid">
-            {[
-              { title: "Development", icon: "fa-code", color: "blue", text: "Web, Mobile, AI & more." },
-              { title: "Design", icon: "fa-pen-nib", color: "purple", text: "Logo, UI/UX, Art." },
-              { title: "Local Gigs", icon: "fa-map-location-dot", color: "green", text: "Plumbing, Moving, Help." },
-              { title: "Video", icon: "fa-video", color: "orange", text: "Editing, Animation." },
-            ].map((card, i) => (
-              <div
-                key={card.title}
-                className="service-card reveal-up"
-                data-animate
-                style={{ "--delay": `${i * 120}ms` }}
-              >
-                <div className={`service-icon ${card.color}`}>
-                  <i className={`fa-solid ${card.icon}`}></i>
-                </div>
-                <h3 className="service-title">{card.title}</h3>
-                <p className="service-text">{card.text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section id="features" className="features">
-        <div className="features-bg">
-          <div className="floating-blob blob-1"></div>
-          <div className="floating-blob blob-2"></div>
-        </div>
-
-        <div className="container features-content">
-          <div className="features-grid">
-            <div className="features-text reveal-left" data-animate style={{ "--delay": "0ms" }}>
-              <h2 className="features-title">Why businesses choose Gig?</h2>
-              <p className="features-description">
-                We're redefining how work gets done. No more headaches, just results.
-              </p>
-
-              <div className="features-list">
-                <div className="feature-item">
-                  <div className="feature-icon-circle">
-                    <i className="fa-solid fa-map-pin"></i>
-                  </div>
-                  <div className="feature-content">
-                    <h4 className="feature-heading">Hyper-Local Gigs</h4>
-                    <p className="feature-text">
-                      Find temporary physical work in your neighborhood. Filter by location and start earning instantly.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="feature-item">
-                  <div className="feature-icon-circle">
-                    <i className="fa-solid fa-unlock"></i>
-                  </div>
-                  <div className="feature-content">
-                    <h4 className="feature-heading">Zero Barriers</h4>
-                    <p className="feature-text">
-                      No hidden fees or 'connects' to buy. Our algorithm promotes talent, not deep pockets.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="feature-item">
-                  <div className="feature-icon-circle">
-                    <i className="fa-solid fa-id-card"></i>
-                  </div>
-                  <div className="feature-content">
-                    <h4 className="feature-heading">Verified Nepal ID</h4>
-                    <p className="feature-text">
-                      Trust built on real identities. Secure and safe for everyone in Nepal.
-                    </p>
-                  </div>
+            <div className="hero-buttons reveal-up" data-animate style={{ "--delay": "360ms" }}>
+              <Link to="/company/register" className="btn-primary">
+                Hire Talent
+              </Link>
+              <Link to="/freelancer/register" className="btn-secondary">
+                Join as Freelancer
+              </Link>
+            </div>
+            <div className="trust-strip fade-in" data-animate style={{ "--delay": "200ms" }}>
+              <p className="trust-label">Trusted by Nepalese Businesses</p>
+              <div className="marquee-container">
+                <div className="marquee-content">
+                  {Array(4)
+                    .fill(["Daraz", "eSewa", "Khalti", "Pathao", "WorldLink", "Foodmandu"])
+                    .flat()
+                    .map((brand, i) => (
+                      <span key={`${brand}-${i}`}>{brand}</span>
+                    ))}
                 </div>
               </div>
             </div>
-
-            <div className="features-visual reveal-right" data-animate style={{ "--delay": "0ms" }}>
-              <div className="mock-ui">
-                <div className="mock-header">
-                  <div className="mock-user">
-                    <div className="mock-avatar"></div>
-                    <div className="mock-user-info">
-                      <div className="mock-line short"></div>
-                      <div className="mock-line tiny"></div>
+          </div>
+        </section>
+        {/* How it works */}
+        <section id="how-it-works" className="services">
+          <div className="container">
+            <div className="section-header fade-in" data-animate>
+              <h2 className="section-title">How it Works</h2>
+              <p className="section-description">Add your steps here later.</p>
+            </div>
+          </div>
+        </section>
+        {/* Services */}
+        <section id="services" className="services alt">
+          <div className="container">
+            <div className="section-header fade-in" data-animate>
+              <h2 className="section-title">Popular Services</h2>
+              <p className="section-description">
+                Everything you need to grow your business.
+              </p>
+            </div>
+            <div className="services-grid">
+              {[
+                { title: "Development", icon: "fa-code", color: "blue", text: "Web, Mobile, AI & more." },
+                { title: "Design", icon: "fa-pen-nib", color: "purple", text: "Logo, UI/UX, Art." },
+                { title: "Local Gigs", icon: "fa-map-location-dot", color: "green", text: "Plumbing, Moving, Help." },
+                { title: "Video", icon: "fa-video", color: "orange", text: "Editing, Animation." },
+              ].map((card, i) => (
+                <div
+                  key={card.title}
+                  className="service-card reveal-up"
+                  data-animate
+                  style={{ "--delay": `${i * 120}ms` }}
+                >
+                  <div className={`service-icon ${card.color}`}>
+                    <i className={`fa-solid ${card.icon}`}></i>
+                  </div>
+                  <h3 className="service-title">{card.title}</h3>
+                  <p className="service-text">{card.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+        {/* Features */}
+        <section id="features" className="features">
+          <div className="features-bg">
+            <div className="floating-blob blob-1"></div>
+            <div className="floating-blob blob-2"></div>
+          </div>
+          <div className="container features-content">
+            <div className="features-grid">
+              <div className="features-text reveal-left" data-animate style={{ "--delay": "0ms" }}>
+                <h2 className="features-title">Why businesses choose Gig?</h2>
+                <p className="features-description">
+                  We're redefining how work gets done. No more headaches, just results.
+                </p>
+                <div className="features-list">
+                  <div className="feature-item">
+                    <div className="feature-icon-circle">
+                      <i className="fa-solid fa-map-pin"></i>
+                    </div>
+                    <div className="feature-content">
+                      <h4 className="feature-heading">Hyper-Local Gigs</h4>
+                      <p className="feature-text">
+                        Find temporary physical work in your neighborhood. Filter by location and start earning instantly.
+                      </p>
                     </div>
                   </div>
-                  <div className="mock-badge">Verified</div>
-                </div>
-
-                <div className="mock-content">
-                  <div className="mock-line full"></div>
-                  <div className="mock-line medium"></div>
-                  <div className="mock-line large"></div>
-                </div>
-
-                <div className="mock-footer">
-                  <div className="mock-input"></div>
-                  <div className="mock-button">
-                    <i className="fa-solid fa-check"></i>
+                  <div className="feature-item">
+                    <div className="feature-icon-circle">
+                      <i className="fa-solid fa-unlock"></i>
+                    </div>
+                    <div className="feature-content">
+                      <h4 className="feature-heading">Zero Barriers</h4>
+                      <p className="feature-text">
+                        No hidden fees or 'connects' to buy. Our algorithm promotes talent, not deep pockets.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="feature-item">
+                    <div className="feature-icon-circle">
+                      <i className="fa-solid fa-id-card"></i>
+                    </div>
+                    <div className="feature-content">
+                      <h4 className="feature-heading">Verified Nepal ID</h4>
+                      <p className="feature-text">
+                        Trust built on real identities. Secure and safe for everyone in Nepal.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-
-              <div className="floating-badge">
-                <div className="floating-badge-icon">
-                  <i className="fa-solid fa-money-bill-wave"></i>
+              <div className="features-visual reveal-right" data-animate style={{ "--delay": "0ms" }}>
+                <div className="mock-ui">
+                  <div className="mock-header">
+                    <div className="mock-user">
+                      <div className="mock-avatar"></div>
+                      <div className="mock-user-info">
+                        <div className="mock-line short"></div>
+                        <div className="mock-line tiny"></div>
+                      </div>
+                    </div>
+                    <div className="mock-badge">Verified</div>
+                  </div>
+                  <div className="mock-content">
+                    <div className="mock-line full"></div>
+                    <div className="mock-line medium"></div>
+                    <div className="mock-line large"></div>
+                  </div>
+                  <div className="mock-footer">
+                    <div className="mock-input"></div>
+                    <div className="mock-button">
+                      <i className="fa-solid fa-check"></i>
+                    </div>
+                  </div>
                 </div>
-                <div className="floating-badge-text">
-                  <p className="floating-badge-label">Average Savings</p>
-                  <p className="floating-badge-value">NPR 15,000+</p>
+                <div className="floating-badge">
+                  <div className="floating-badge-icon">
+                    <i className="fa-solid fa-money-bill-wave"></i>
+                  </div>
+                  <div className="floating-badge-text">
+                    <p className="floating-badge-label">Average Savings</p>
+                    <p className="floating-badge-value">NPR 15,000+</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-content fade-in" data-animate>
-            <div className="footer-brand">
-              <Link to="/" className="footer-logo">
-                GIG<span className="footer-logo-dot">.</span>
-              </Link>
-              <p className="footer-tagline">
-                Empowering Nepal's workforce with fair opportunities and secure payments. Join the revolution today.
-              </p>
-            </div>
-
-            <div className="footer-links">
-              <div className="footer-column">
-                <h4 className="footer-heading">For Clients</h4>
-                <ul>
-                  <li><a href="#">Post a Job</a></li>
-                  <li><a href="#">Find Talent</a></li>
-                  <li><a href="#">Enterprise</a></li>
-                </ul>
+        </section>
+        {/* Footer */}
+        <footer className="footer">
+          <div className="container">
+            <div className="footer-content fade-in" data-animate>
+              <div className="footer-brand">
+                <Link to="/" className="footer-logo">
+                  GIG<span className="footer-logo-dot">.</span>
+                </Link>
+                <p className="footer-tagline">
+                  Empowering Nepal's workforce with fair opportunities and secure payments. Join the revolution today.
+                </p>
               </div>
-
-              <div className="footer-column">
-                <h4 className="footer-heading">For Freelancers</h4>
-                <ul>
-                  <li><a href="#">How to Find Work</a></li>
-                  <li><a href="#">Direct Contracts</a></li>
-                  <li><a href="#">Opportunity Feed</a></li>
-                </ul>
-              </div>
-
-              <div className="footer-column">
-                <h4 className="footer-heading">Company</h4>
-                <ul>
-                  <li><a href="#">About Us</a></li>
-                  <li><a href="#">Careers</a></li>
-                  <li><a href="#">Contact Support</a></li>
-                </ul>
+              <div className="footer-links">
+                <div className="footer-column">
+                  <h4 className="footer-heading">For Clients</h4>
+                  <ul>
+                    <li><a href="#">Post a Job</a></li>
+                    <li><a href="#">Find Talent</a></li>
+                    <li><a href="#">Enterprise</a></li>
+                  </ul>
+                </div>
+                <div className="footer-column">
+                  <h4 className="footer-heading">For Freelancers</h4>
+                  <ul>
+                    <li><a href="#">How to Find Work</a></li>
+                    <li><a href="#">Direct Contracts</a></li>
+                    <li><a href="#">Opportunity Feed</a></li>
+                  </ul>
+                </div>
+                <div className="footer-column">
+                  <h4 className="footer-heading">Company</h4>
+                  <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact Support</a></li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div className="footer-bottom">
-            <p>&copy; 2025 Gig Inc. All rights reserved.</p>
-            <div className="footer-social">
-              <a href="#"><i className="fa-brands fa-twitter"></i></a>
-              <a href="#"><i className="fa-brands fa-linkedin"></i></a>
-              <a href="#"><i className="fa-brands fa-facebook"></i></a>
-              <a href="#"><i className="fa-brands fa-instagram"></i></a>
+            <div className="footer-bottom">
+              <p>&copy; 2025 Gig Inc. All rights reserved.</p>
+              <div className="footer-social">
+                <a href="#"><i className="fa-brands fa-twitter"></i></a>
+                <a href="#"><i className="fa-brands fa-linkedin"></i></a>
+                <a href="#"><i className="fa-brands fa-facebook"></i></a>
+                <a href="#"><i className="fa-brands fa-instagram"></i></a>
+              </div>
             </div>
           </div>
-        </div>
-      </footer>
-
-      {/* Font Awesome CDN */}
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      />
-    </div>
+        </footer>
+        {/* Font Awesome CDN */}
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+      </div>
+    </ReactLenis>
   );
 };
 
