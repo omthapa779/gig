@@ -44,7 +44,6 @@ const DashboardNavbar = ({ role }) => {
             { name: 'Find Talent', path: '#' },
         ]
         : [
-            { name: 'My Profile', path: '/freelancer/profile' },
             { name: 'Find Work', path: '#' },
             { name: 'My Proposals', path: '#' },
             { name: 'Saved Jobs', path: '#' },
