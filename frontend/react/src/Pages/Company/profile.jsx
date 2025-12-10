@@ -69,12 +69,7 @@ export default function CompanyProfile() {
                 </div>
               </div>
             </div>
-            <div className="company-profile-header-right">
-              <button id="logoutBtn" className="company-logout-btn" onClick={handleLogout}>
-                <i className="fa-solid fa-right-from-bracket"></i>
-                Logout
-              </button>
-            </div>
+            {/* Logout button removed - now in DashboardNavbar */}
           </div>
 
           <div className="company-profile-details">
@@ -104,10 +99,10 @@ export default function CompanyProfile() {
                 <h3>Company Links</h3>
               </div>
               <div className="company-links-grid">
-                <a 
-                  id="website" 
-                  href={profileData.website} 
-                  target="_blank" 
+                <a
+                  id="website"
+                  href={profileData.website}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="company-link-card website-link"
                 >
@@ -115,10 +110,10 @@ export default function CompanyProfile() {
                   <span>Visit Website</span>
                   <i className="fa-solid fa-arrow-up-right-from-square"></i>
                 </a>
-                <a 
-                  id="linkedin" 
-                  href={profileData.linkedin} 
-                  target="_blank" 
+                <a
+                  id="linkedin"
+                  href={profileData.linkedin}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="company-link-card linkedin-link"
                 >
@@ -152,8 +147,8 @@ export default function CompanyProfile() {
                 <strong>Profile Completion</strong>
               </div>
               <div className="company-completion-bar">
-                <div 
-                  className="company-completion-progress" 
+                <div
+                  className="company-completion-progress"
                   style={{ width: `${profileData.completionPercent}%` }}
                 ></div>
               </div>

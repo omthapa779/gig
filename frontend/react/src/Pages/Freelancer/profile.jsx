@@ -69,12 +69,7 @@ export default function Profile() {
                 </div>
               </div>
             </div>
-            <div className="profile-header-right">
-              <button id="logoutBtn" className="logout-btn" onClick={handleLogout}>
-                <i className="fa-solid fa-right-from-bracket"></i>
-                Logout
-              </button>
-            </div>
+            {/* Logout button removed - now in DashboardNavbar */}
           </div>
 
           <div className="profile-details">
@@ -104,10 +99,10 @@ export default function Profile() {
                 <h3>Portfolio & Resume</h3>
               </div>
               <div className="links-grid">
-                <a 
-                  id="portfolio" 
-                  href={profileData.portfolio} 
-                  target="_blank" 
+                <a
+                  id="portfolio"
+                  href={profileData.portfolio}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="link-card portfolio-link"
                 >
@@ -115,10 +110,10 @@ export default function Profile() {
                   <span>View Portfolio</span>
                   <i className="fa-solid fa-arrow-up-right-from-square"></i>
                 </a>
-                <a 
-                  id="resume" 
-                  href={profileData.resume} 
-                  target="_blank" 
+                <a
+                  id="resume"
+                  href={profileData.resume}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="link-card resume-link"
                 >
@@ -152,8 +147,8 @@ export default function Profile() {
                 <strong>Profile Completion</strong>
               </div>
               <div className="completion-bar">
-                <div 
-                  className="completion-progress" 
+                <div
+                  className="completion-progress"
                   style={{ width: `${profileData.completionPercent}%` }}
                 ></div>
               </div>
