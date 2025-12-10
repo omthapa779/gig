@@ -56,11 +56,11 @@ const DashboardNavbar = ({ role }) => {
     return (
         <nav
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-                    ? 'bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100 py-3'
-                    : 'bg-white py-4 border-b border-transparent'
+                ? 'bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100 py-3'
+                : 'bg-white py-4 border-b border-transparent'
                 }`}
         >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="w-full px-6 sm:px-10 lg:px-16">
                 <div className="flex justify-between items-center">
                     {/* Logo */}
                     <div className="flex items-center">
@@ -76,8 +76,8 @@ const DashboardNavbar = ({ role }) => {
                                 key={link.name}
                                 to={link.path}
                                 className={`text-sm font-medium transition-colors duration-200 ${location.pathname === link.path
-                                        ? 'text-blue-600'
-                                        : 'text-gray-600 hover:text-blue-600'
+                                    ? 'text-blue-600'
+                                    : 'text-gray-600 hover:text-blue-600'
                                     }`}
                             >
                                 {link.name}
@@ -162,8 +162,8 @@ const DashboardNavbar = ({ role }) => {
                             key={link.name}
                             to={link.path}
                             className={`block px-3 py-3 rounded-md text-base font-medium ${location.pathname === link.path
-                                    ? 'bg-blue-50 text-blue-600'
-                                    : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
+                                ? 'bg-blue-50 text-blue-600'
+                                : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
                                 }`}
                             onClick={() => setIsOpen(false)}
                         >

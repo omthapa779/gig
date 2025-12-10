@@ -1,171 +1,142 @@
 import { useEffect, useState } from "react";
-import './styles/profile.css';
+import { Link } from "react-router-dom";
 
 export default function CompanyProfile() {
-  const [profileData, setProfileData] = useState({
-    companyName: "Loading...",
-    email: "—",
-    phone: "—",
-    location: "—",
-    founded: "—",
-    description: "Loading company description...",
-    industry: ["—"],
-    website: "#",
-    linkedin: "#",
-    completionPercent: 0
-  });
+  const [loading, setLoading] = useState(true);
+  const [company, setCompany] = useState(null);
+  const [jobs, setJobs] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    document.title = "Company Profile | Freelancer Nepal";
-    // Add your data fetching logic here
+    document.title = "Company Overview";
+
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const profileRes = await fetch('/api/company/profile/data', { method: 'GET' });
+        if (!profileRes.ok) throw new Error('Failed to fetch profile');
+        const profileData = await profileRes.json();
+        setCompany(profileData.company);
+
+        const jobsRes = await fetch('/api/company/jobs', { method: 'GET' });
+        if (jobsRes.ok) {
+          const jobsData = await jobsRes.json();
+          setJobs(jobsData.jobs || []);
+        }
+
+      } catch (err) {
+        console.error(err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const handleLogout = () => {
-    console.log("Logout clicked");
-    // Add logout logic here
-  };
-
-  const handleEdit = () => {
-    console.log("Edit profile clicked");
-    // Add edit navigation logic here
-  };
+  if (loading) return <div className="text-center py-20">Loading...</div>;
+  if (error) return <div className="text-center py-20 text-red-600">{error}</div>;
 
   return (
-    <div className="company-profile-page">
-      <div className="company-profile-container">
-        <div className="company-profile-summary">
-          <div className="company-profile-header">
-            <div className="company-profile-header-left">
-              <div className="company-picture-wrapper">
-                <img
-                  id="companyLogo"
-                  src="/resources/essentials/default-company.png"
-                  alt="Company Logo"
-                  className="company-picture"
-                />
-                <div className="company-verified">
-                  <i className="fa-solid fa-check"></i>
-                </div>
-              </div>
-              <div className="company-info">
-                <h1 id="companyName">{profileData.companyName}</h1>
-                <div className="company-meta">
-                  <p id="emailLine">
-                    <i className="fa-solid fa-envelope"></i>
-                    <span>{profileData.email}</span>
-                  </p>
-                  <p id="phoneLine">
-                    <i className="fa-solid fa-phone"></i>
-                    <span>{profileData.phone}</span>
-                  </p>
-                  <p id="locationLine">
-                    <i className="fa-solid fa-location-dot"></i>
-                    <span>{profileData.location}</span>
-                  </p>
-                  <p id="foundedLine">
-                    <i className="fa-solid fa-calendar"></i>
-                    <span>Founded: {profileData.founded}</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/* Logout button removed - now in DashboardNavbar */}
-          </div>
+    <div className="max-w-4xl mx-auto py-12 px-6">
 
-          <div className="company-profile-details">
-            <div className="company-detail-section">
-              <div className="company-section-header">
-                <i className="fa-solid fa-building"></i>
-                <h3>About Company</h3>
-              </div>
-              <p id="description" className="company-description">{profileData.description}</p>
-            </div>
-
-            <div className="company-detail-section">
-              <div className="company-section-header">
-                <i className="fa-solid fa-industry"></i>
-                <h3>Industry</h3>
-              </div>
-              <ul id="industryList" className="industry-list">
-                {profileData.industry.map((ind, index) => (
-                  <li key={index} className="industry-tag">{ind}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="company-detail-section">
-              <div className="company-section-header">
-                <i className="fa-solid fa-link"></i>
-                <h3>Company Links</h3>
-              </div>
-              <div className="company-links-grid">
-                <a
-                  id="website"
-                  href={profileData.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="company-link-card website-link"
-                >
-                  <i className="fa-solid fa-globe"></i>
-                  <span>Visit Website</span>
-                  <i className="fa-solid fa-arrow-up-right-from-square"></i>
-                </a>
-                <a
-                  id="linkedin"
-                  href={profileData.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="company-link-card linkedin-link"
-                >
-                  <i className="fa-brands fa-linkedin"></i>
-                  <span>LinkedIn Profile</span>
-                  <i className="fa-solid fa-arrow-up-right-from-square"></i>
-                </a>
-              </div>
-            </div>
-
-            <div className="company-detail-section">
-              <div className="company-section-header">
-                <i className="fa-solid fa-address-book"></i>
-                <h3>Contact Information</h3>
-              </div>
-              <div className="company-contact-info">
-                <p id="contactEmail">
-                  <i className="fa-solid fa-envelope"></i>
-                  <span>{profileData.email}</span>
-                </p>
-                <p id="contactPhone">
-                  <i className="fa-solid fa-phone"></i>
-                  <span>{profileData.phone}</span>
-                </p>
-              </div>
-            </div>
-
-            <div id="completionBox" className="company-completion-box">
-              <div className="company-completion-header">
-                <i className="fa-solid fa-chart-pie"></i>
-                <strong>Profile Completion</strong>
-              </div>
-              <div className="company-completion-bar">
-                <div
-                  className="company-completion-progress"
-                  style={{ width: `${profileData.completionPercent}%` }}
-                ></div>
-              </div>
-              <span id="completionPercent" className="company-completion-percent">
-                {profileData.completionPercent}%
-              </span>
+      {/* Header Section */}
+      <div className="mb-16">
+        <div className="flex items-start justify-between">
+          <div className="flex gap-6 items-center">
+            <img
+              src={company.logo || "/resources/essentials/default-company.png"}
+              alt={company.companyName}
+              className="w-20 h-20 rounded-md object-cover grayscale opacity-90 hover:grayscale-0 transition-all"
+            />
+            <div>
+              <h1 className="text-4xl font-black text-gray-900 tracking-tight mb-2">{company.companyName}</h1>
+              <p className="text-lg text-gray-500 font-medium">
+                {company.industry || "Industry"} &mdash; {company.location || "Location"}
+              </p>
             </div>
           </div>
-
-          <button id="editBtn" className="company-edit-btn" onClick={handleEdit}>
-            <i className="fa-solid fa-pen-to-square"></i>
-            Complete / Edit Profile
-          </button>
+          <Link to="/company/profileEdit" className="text-sm font-bold text-gray-400 hover:text-black border-b border-transparent hover:border-black transition-colors pb-0.5">
+            Edit
+          </Link>
         </div>
       </div>
 
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+      {/* Stats - Minimal Text */}
+      <div className="mb-20 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-b border-gray-100 py-8">
+        <div>
+          <span className="block text-3xl font-black text-gray-900">{jobs.length}</span>
+          <span className="text-sm font-bold text-gray-400 uppercase tracking-widest">Active Jobs</span>
+        </div>
+        <div>
+          <span className="block text-3xl font-black text-gray-900">0</span>
+          <span className="text-sm font-bold text-gray-400 uppercase tracking-widest">Applicants</span>
+        </div>
+        <div>
+          <span className="block text-3xl font-black text-gray-900">12</span>
+          <span className="text-sm font-bold text-gray-400 uppercase tracking-widest">Views</span>
+        </div>
+        <div>
+          <span className="block text-3xl font-black text-gray-900">80%</span>
+          <span className="text-sm font-bold text-gray-400 uppercase tracking-widest">Complete</span>
+        </div>
+      </div>
+
+      {/* About Section */}
+      <div className="mb-20 grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="md:col-span-1">
+          <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest">About</h3>
+        </div>
+        <div className="md:col-span-3">
+          <p className="text-xl leading-relaxed text-gray-800 font-light">
+            {company.about || "No description added yet."}
+          </p>
+
+          <div className="mt-8 flex gap-8">
+            {company.website && (
+              <a href={company.website} target="_blank" className="text-sm font-bold text-gray-900 border-b-2 border-gray-200 hover:border-black transition-colors">
+                Website &nearr;
+              </a>
+            )}
+            {company.linkedin && (
+              <a href={company.linkedin} target="_blank" className="text-sm font-bold text-gray-900 border-b-2 border-gray-200 hover:border-black transition-colors">
+                LinkedIn &nearr;
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Jobs Section */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="md:col-span-1 flex flex-col justify-between">
+          <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest">Openings</h3>
+          <Link to="/company/jobs?action=new" className="text-2xl text-gray-300 hover:text-black transition-colors mt-4 self-start" title="Post New">
+            &plus;
+          </Link>
+        </div>
+        <div className="md:col-span-3 space-y-12">
+          {jobs.length > 0 ? (
+            jobs.map((job) => (
+              <div key={job._id} className="group cursor-pointer">
+                <h4 className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors mb-2">{job.title}</h4>
+                <div className="flex gap-4 text-sm text-gray-500 font-medium mb-3">
+                  <span>{job.category}</span>
+                  <span>&bull;</span>
+                  <span>{job.pay || "Negotiable"}</span>
+                  <span>&bull;</span>
+                  <span>{new Date(job.createdAt).toLocaleDateString()}</span>
+                </div>
+                <p className="text-gray-600 leading-relaxed max-w-2xl">{job.description}</p>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-400 italic">No active job openings.</p>
+          )}
+        </div>
+      </div>
+
     </div>
   );
 }
