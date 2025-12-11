@@ -17,9 +17,9 @@ import FreelancerProfile from "./Pages/Freelancer/profile.jsx";
 import FreelancerProfileEdit from "./Pages/Freelancer/profileEdit.jsx";
 
 // About us , FAQ and Support Pages
-import About from "./Pages/Support/FAQ/about.jsx";
-import FAQ from "./Pages/Support/FAQ/FAQ.jsx";
-import Support from "./Pages/Support/FAQ/support.jsx";
+import About from "./Pages/Support_FAQ_about/about.jsx";
+import FAQ from "./Pages/Support_FAQ_about/FAQ.jsx";
+import Support from "./Pages/Support_FAQ_about/support.jsx";
 import ForgotPassword from "./Pages/forgotPassword.jsx";
 import ResetPassword from "./Pages/resetPassword.jsx";
 

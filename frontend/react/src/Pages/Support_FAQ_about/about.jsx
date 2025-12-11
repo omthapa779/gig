@@ -58,7 +58,7 @@ const About = () => {
   ];
 
   return (
-    <ReactLenis root options={{ duration: 1.2, smoothWheel: true }}>
+    <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
       <div className="page" ref={rootRef}>
         <Navbar />
         <section className="page-hero">
@@ -144,7 +144,7 @@ const About = () => {
           </div>
         </section>
       </div>
-    </ReactLenis>
+    </SmoothScroll>
   );
 };
 
