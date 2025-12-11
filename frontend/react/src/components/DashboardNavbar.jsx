@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 
 const DashboardNavbar = ({ role }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -8,6 +9,7 @@ const DashboardNavbar = ({ role }) => {
     const dropdownRef = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
+    const { theme, toggleTheme } = useTheme();
 
     // Handle scroll effect
     useEffect(() => {
@@ -63,8 +65,9 @@ const DashboardNavbar = ({ role }) => {
                 <div className="flex justify-between items-center">
                     {/* Logo */}
                     <div className="flex items-center">
-                        <Link to="/" className="text-2xl font-bold tracking-tight text-gray-900 group">
-                            GIG<span className="text-blue-600 group-hover:animate-pulse">.</span>
+                        <Link to="/" className="flex items-center gap-1 group">
+                            <img src="/icon.png" alt="Gig Logo" className="h-14 w-auto object-contain" />
+                            <span className="text-4xl font-bold tracking-tight text-slate-900 leading-none mt-1">Gig</span>
                         </Link>
                     </div>
 
@@ -88,8 +91,21 @@ const DashboardNavbar = ({ role }) => {
                     <div className="hidden md:flex items-center space-x-4">
                         {/* Notification Icon */}
                         <button className="relative p-2 text-gray-500 hover:text-blue-600 transition-colors rounded-full hover:bg-gray-50">
-                            <i className="fa-regular fa-bell"></i>
+                            <i className="fa-regular fa-bell text-xl"></i>
                             <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full ring-2 ring-white"></span>
+                        </button>
+
+                        {/* Theme Toggle */}
+                        <button
+                            onClick={toggleTheme}
+                            className="p-1.5 rounded-full hover:bg-gray-100 transition-colors focus:outline-none"
+                            aria-label="Toggle Dark Mode"
+                        >
+                            <img
+                                src={theme === 'dark' ? '/light_mode.png' : '/dark_mode.png'}
+                                alt="Toggle Theme"
+                                className="w-8 h-8 object-contain"
+                            />
                         </button>
 
                         {/* Profile Dropdown */}

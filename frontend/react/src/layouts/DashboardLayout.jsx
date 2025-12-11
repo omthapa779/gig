@@ -6,7 +6,7 @@ const DashboardLayout = ({ role }) => {
         <div className="min-h-screen bg-gray-50">
             <DashboardNavbar role={role} />
             {/* Add top padding to account for fixed navbar height */}
-            <main className="pt-20 px-6 sm:px-10 lg:px-16 w-full pb-12">
+            <main className="pt-28 px-6 sm:px-10 lg:px-16 w-full pb-12">
                 <Outlet />
             </main>
         </div>

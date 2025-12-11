@@ -1,17 +1,23 @@
 /* ================= RESET + THEME ================= */
 :root {
-  --brand-dark: #0a192f;
-  --brand-primary: #112240;
-  --brand-accent: #64ffda;
-  --brand-light: #ccd6f6;
-  --brand-muted: #8892b0;
+  --brand-dark: #1A1A1A;
+  /* Primary Text: Dark Charcoal */
+  --brand-ui: #2A2F3A;
+  /* Primary UI: Deep Navy Gray */
+  --brand-accent: #FFD021;
+  /* Primary Accent: Spark Yellow */
+  --brand-bg: #FAFAFA;
+  /* Background Light */
+  --brand-light: #F2F3F5;
+  /* Soft Gray */
+  --brand-muted: #71717A;
   --brand-white: #ffffff;
 
-  --blue: #2563eb;
-  --cyan: #22d3ee;
-  --purple: #7c3aed;
-  --green: #22c55e;
-  --orange: #f97316;
+  --blue: #2A2F3A;
+  --cyan: #06B6D4;
+  --purple: #7C3AED;
+  --green: #10B981;
+  --orange: #F59E0B;
 
   --radius-xl: 16px;
   --radius-2xl: 20px;
@@ -87,22 +93,16 @@ button {
 }
 
 .nav-content {
-  height: 72px;
+  min-height: 80px;
+  padding: 12px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 14px;
 }
 
-.logo-text {
-  font-weight: 900;
-  letter-spacing: 0.5px;
-  font-size: 1.5rem;
-}
-
-.logo-dot {
-  color: var(--blue);
-}
+/* .logo-text styles removed as we use Tailwind classes now */
+/* .logo-dot styles can be kept if needed but we aren't using them in the new logo structure */
 
 .nav-links {
   display: flex;
@@ -213,8 +213,9 @@ button {
 }
 
 .search-input:focus {
-  border-color: var(--blue);
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+  border-color: var(--brand-accent);
+  /* Spark Yellow focus ring */
+  box-shadow: 0 0 0 4px rgba(255, 208, 33, 0.15);
 }
 
 /* Mobile button */
@@ -363,8 +364,8 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #eff6ff;
-  color: #1d4ed8;
+  background: var(--brand-light);
+  color: var(--brand-ui);
   padding: 8px 14px;
   border-radius: 999px;
   font-weight: 700;
@@ -375,7 +376,7 @@ button {
 .badge-dot {
   height: 8px;
   width: 8px;
-  background: #2563eb;
+  background: var(--brand-accent);
   border-radius: 50%;
   display: inline-block;
 }
@@ -388,7 +389,7 @@ button {
 }
 
 .gradient-text {
-  background: linear-gradient(90deg, var(--blue), var(--cyan));
+  background: linear-gradient(135deg, var(--brand-ui), var(--brand-dark));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -396,7 +397,7 @@ button {
 
 .hero-description {
   font-size: clamp(1.05rem, 2vw, 1.25rem);
-  color: #6b7280;
+  color: var(--brand-muted);
   max-width: 780px;
   margin: 18px auto 28px;
 }
@@ -422,19 +423,44 @@ button {
 }
 
 .btn-primary {
-  background: #0b5fff;
-  color: white;
+  background: var(--brand-ui);
+  color: #ffffff;
   box-shadow: var(--shadow-sm);
+  position: relative;
+  isolation: isolate;
+  border: none;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.3s ease;
+}
+
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #FFC107 0%, #FF9800 100%);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.4s ease;
+  border-radius: inherit;
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+  /* "Star Like Glow" - Spark Yellow shadow with stronger bloom */
+  box-shadow: 0 0 20px rgba(255, 208, 33, 0.7), 0 0 40px rgba(255, 208, 33, 0.3), 0 10px 30px rgba(16, 24, 40, 0.12);
+  filter: brightness(1.05);
+  color: #1A1A1A;
+  /* Switch text to Dark Charcoal for contrast on yellow */
+}
+
+.btn-primary:hover::before {
+  opacity: 1;
 }
 
 .btn-secondary {
   background: white;
   border: 1px solid #e5e7eb;
+  color: var(--brand-dark);
 }
 
 .btn-secondary:hover {

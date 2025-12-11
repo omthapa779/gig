@@ -6,9 +6,10 @@ export default function CompanyProfile() {
   const [company, setCompany] = useState(null);
   const [jobs, setJobs] = useState([]);
   const [error, setError] = useState(null);
+  const [completion, setCompletion] = useState(0);
 
   useEffect(() => {
-    document.title = "Company Overview";
+    document.title = "Company Overview | GiG";
 
     const fetchData = async () => {
       try {
@@ -17,6 +18,7 @@ export default function CompanyProfile() {
         if (!profileRes.ok) throw new Error('Failed to fetch profile');
         const profileData = await profileRes.json();
         setCompany(profileData.company);
+        calculateCompletion(profileData.company);
 
         const jobsRes = await fetch('/api/company/jobs', { method: 'GET' });
         if (jobsRes.ok) {
@@ -35,108 +37,227 @@ export default function CompanyProfile() {
     fetchData();
   }, []);
 
-  if (loading) return <div className="text-center py-20">Loading...</div>;
-  if (error) return <div className="text-center py-20 text-red-600">{error}</div>;
+  const calculateCompletion = (data) => {
+    let score = 0;
+    let total = 6; // Total criteria
+
+    if (data.companyName) score++;
+    if (data.logo) score++;
+    if (data.about && data.about.length > 20) score++;
+    if (data.industry) score++;
+    if (data.location) score++;
+    if (data.website) score++;
+
+    setCompletion(Math.round((score / total) * 100));
+  };
+
+
+  if (loading) return (
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+    </div>
+  );
+
+  if (error) return (
+    <div className="text-center py-20">
+      <div className="bg-red-50 text-red-600 px-6 py-4 rounded-lg inline-block">
+        <i className="fa-solid fa-circle-exclamation mr-2"></i>
+        {error}
+      </div>
+    </div>
+  );
 
   return (
-    <div className="max-w-4xl mx-auto py-12 px-6">
+    <div className="w-full mx-auto">
 
-      {/* Header Section */}
-      <div className="mb-16">
-        <div className="flex items-start justify-between">
-          <div className="flex gap-6 items-center">
+      {/* HEADER SECTION - Clean Design (No Box) */}
+      <div className="mb-12 pt-8 flex flex-col md:flex-row items-center md:items-start justify-between gap-8">
+        <div className="flex flex-col md:flex-row items-center gap-8 text-center md:text-left">
+          {/* Logo with Ring */}
+          <div className="relative group">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl opacity-75 group-hover:opacity-100 transition duration-200 blur"></div>
             <img
               src={company.logo || "/resources/essentials/default-company.png"}
               alt={company.companyName}
-              className="w-20 h-20 rounded-md object-cover grayscale opacity-90 hover:grayscale-0 transition-all"
+              className="relative w-32 h-32 md:w-40 md:h-40 rounded-xl object-cover border-4 border-white shadow-sm bg-white"
             />
-            <div>
-              <h1 className="text-4xl font-black text-gray-900 tracking-tight mb-2">{company.companyName}</h1>
-              <p className="text-lg text-gray-500 font-medium">
-                {company.industry || "Industry"} &mdash; {company.location || "Location"}
-              </p>
+          </div>
+
+          {/* Main Info */}
+          <div className="mt-2 text-center md:text-left">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-3">
+              {company.companyName}
+            </h1>
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-gray-600 font-medium">
+              {company.industry ? (
+                <span className="text-xl text-gray-800">{company.industry}</span>
+              ) : (
+                <span className="text-xl text-gray-400 italic">Industry Not Set</span>
+              )}
+              {company.location && (
+                <>
+                  <span className="hidden md:inline text-gray-300">|</span>
+                  <span className="flex items-center gap-1.5">
+                    <i className="fa-solid fa-location-dot text-gray-400"></i>
+                    {company.location}
+                  </span>
+                </>
+              )}
+            </div>
+
+            {/* Stats / Quick Info */}
+            <div className="mt-6 flex flex-wrap items-center justify-center md:justify-start gap-6 text-sm text-gray-500">
+              <div className="flex items-center gap-2">
+                <i className="fa-solid fa-briefcase text-blue-500"></i>
+                <span className="text-gray-900 font-bold">{jobs.length}</span> <span>Active Jobs</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <i className="fa-solid fa-users text-purple-500"></i>
+                <span className="text-gray-900 font-bold">0</span> <span>Applicants</span>
+              </div>
             </div>
           </div>
-          <Link to="/company/profileEdit" className="text-sm font-bold text-gray-400 hover:text-black border-b border-transparent hover:border-black transition-colors pb-0.5">
-            Edit
+        </div>
+
+        {/* Action Area */}
+        <div className="flex flex-col items-center md:items-end gap-4 w-full md:w-auto">
+          <Link to="/company/profileEdit" className="px-6 py-3 bg-black hover:bg-gray-800 text-white font-semibold rounded-full transition-all shadow-lg hover:shadow-xl flex items-center gap-2 transform hover:-translate-y-0.5">
+            <i className="fa-solid fa-pen-to-square"></i>
+            Edit Details
           </Link>
-        </div>
-      </div>
 
-      {/* Stats - Minimal Text */}
-      <div className="mb-20 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-b border-gray-100 py-8">
-        <div>
-          <span className="block text-3xl font-black text-gray-900">{jobs.length}</span>
-          <span className="text-sm font-bold text-gray-400 uppercase tracking-widest">Active Jobs</span>
-        </div>
-        <div>
-          <span className="block text-3xl font-black text-gray-900">0</span>
-          <span className="text-sm font-bold text-gray-400 uppercase tracking-widest">Applicants</span>
-        </div>
-        <div>
-          <span className="block text-3xl font-black text-gray-900">12</span>
-          <span className="text-sm font-bold text-gray-400 uppercase tracking-widest">Views</span>
-        </div>
-        <div>
-          <span className="block text-3xl font-black text-gray-900">80%</span>
-          <span className="text-sm font-bold text-gray-400 uppercase tracking-widest">Complete</span>
-        </div>
-      </div>
-
-      {/* About Section */}
-      <div className="mb-20 grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div className="md:col-span-1">
-          <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest">About</h3>
-        </div>
-        <div className="md:col-span-3">
-          <p className="text-xl leading-relaxed text-gray-800 font-light">
-            {company.about || "No description added yet."}
-          </p>
-
-          <div className="mt-8 flex gap-8">
-            {company.website && (
-              <a href={company.website} target="_blank" className="text-sm font-bold text-gray-900 border-b-2 border-gray-200 hover:border-black transition-colors">
-                Website &nearr;
-              </a>
-            )}
-            {company.linkedin && (
-              <a href={company.linkedin} target="_blank" className="text-sm font-bold text-gray-900 border-b-2 border-gray-200 hover:border-black transition-colors">
-                LinkedIn &nearr;
-              </a>
-            )}
+          {/* Completion Widget */}
+          <div className="px-4 py-2 bg-white rounded-lg border border-gray-100 shadow-sm flex items-center gap-3">
+            <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Profile Completion</div>
+            <div className="flex items-center gap-2">
+              <div className="w-24 h-2 bg-gray-100 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-blue-500 to-indigo-600" style={{ width: `${completion}%` }}></div>
+              </div>
+              <span className="text-sm font-bold text-indigo-600">{completion}%</span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Jobs Section */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div className="md:col-span-1 flex flex-col justify-between">
-          <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest">Openings</h3>
-          <Link to="/company/jobs?action=new" className="text-2xl text-gray-300 hover:text-black transition-colors mt-4 self-start" title="Post New">
-            &plus;
-          </Link>
-        </div>
-        <div className="md:col-span-3 space-y-12">
-          {jobs.length > 0 ? (
-            jobs.map((job) => (
-              <div key={job._id} className="group cursor-pointer">
-                <h4 className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors mb-2">{job.title}</h4>
-                <div className="flex gap-4 text-sm text-gray-500 font-medium mb-3">
-                  <span>{job.category}</span>
-                  <span>&bull;</span>
-                  <span>{job.pay || "Negotiable"}</span>
-                  <span>&bull;</span>
-                  <span>{new Date(job.createdAt).toLocaleDateString()}</span>
+      {/* CONTENT GRID */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        {/* LEFT COLUMN (Details) - 4 cols */}
+        <div className="lg:col-span-4 space-y-8">
+
+          {/* About */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+            <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+              <i className="fa-solid fa-circle-info text-blue-500"></i>
+              About Company
+            </h3>
+            <div className="prose prose-sm text-gray-600 leading-relaxed">
+              {company.about ? (
+                <p>{company.about}</p>
+              ) : (
+                <p className="text-gray-400 italic">No description provided yet.</p>
+              )}
+            </div>
+          </div>
+
+          {/* Contact / Links */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+            <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+              <i className="fa-solid fa-link text-blue-500"></i>
+              Links & Info
+            </h3>
+            <div className="space-y-4">
+              {company.website ? (
+                <a href={company.website} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors group">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600">
+                      <i className="fa-solid fa-globe"></i>
+                    </div>
+                    <span className="font-semibold text-gray-700">Official Website</span>
+                  </div>
+                  <i className="fa-solid fa-arrow-up-right-from-square text-gray-400 group-hover:text-gray-600"></i>
+                </a>
+              ) : (
+                <div className="p-3 rounded-xl bg-gray-50 border border-dashed border-gray-200 text-gray-400 text-sm text-center">
+                  No website linked
                 </div>
-                <p className="text-gray-600 leading-relaxed max-w-2xl">{job.description}</p>
+              )}
+
+              {company.linkedin ? (
+                <a href={company.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors group">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-blue-800 flex items-center justify-center text-white">
+                      <i className="fa-brands fa-linkedin-in"></i>
+                    </div>
+                    <span className="font-semibold text-gray-700">LinkedIn Profile</span>
+                  </div>
+                  <i className="fa-solid fa-arrow-up-right-from-square text-gray-400 group-hover:text-gray-600"></i>
+                </a>
+              ) : (
+                <div className="p-3 rounded-xl bg-gray-50 border border-dashed border-gray-200 text-gray-400 text-sm text-center">
+                  No LinkedIn profile linked
+                </div>
+              )}
+            </div>
+          </div>
+
+        </div>
+
+        {/* RIGHT COLUMN (Main Content) - 8 cols */}
+        <div className="lg:col-span-8 space-y-8">
+
+          {/* Active Jobs */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-10">
+            <div className="flex items-center justify-between mb-8">
+              <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                Active Job Openings
+                {jobs.length > 0 && (
+                  <span className="text-sm font-normal text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full ml-2">{jobs.length}</span>
+                )}
+              </h3>
+              <Link to="/company/jobs?action=new" className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-sm transition-colors flex items-center gap-2">
+                <i className="fa-solid fa-plus"></i> Post Job
+              </Link>
+            </div>
+
+            {jobs.length > 0 ? (
+              <div className="grid grid-cols-1 gap-6">
+                {jobs.map((job) => (
+                  <div key={job._id} className="group relative bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md transition-all hover:border-blue-200 cursor-pointer">
+                    <div className="flex justify-between items-start mb-4">
+                      <div>
+                        <h4 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{job.title}</h4>
+                        <p className="text-sm text-gray-500 mt-1">{job.category} &bull; {new Date(job.createdAt).toLocaleDateString()}</p>
+                      </div>
+                      <span className="bg-green-50 text-green-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Active</span>
+                    </div>
+                    <p className="text-gray-600 line-clamp-2 mb-4">{job.description}</p>
+                    <div className="flex items-center justify-between border-t border-gray-50 pt-4">
+                      <span className="font-semibold text-gray-900">{job.pay || "Negotiable"}</span>
+                      <span className="text-blue-600 font-medium text-sm group-hover:underline">View Details &rarr;</span>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))
-          ) : (
-            <p className="text-gray-400 italic">No active job openings.</p>
-          )}
+            ) : (
+              // EMPTY STATE
+              <div className="flex flex-col items-center justify-center py-16 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+                <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 mb-4">
+                  <i className="fa-solid fa-briefcase text-3xl"></i>
+                </div>
+                <h4 className="text-lg font-bold text-gray-900 mb-2">No Active Jobs</h4>
+                <p className="text-gray-500 text-center max-w-sm mb-8">You haven't posted any job openings yet. Create a job post to start finding talent.</p>
+
+                <Link to="/company/jobs?action=new" className="px-6 py-2.5 bg-gray-900 text-white font-semibold rounded-lg shadow-md hover:bg-black transition-transform hover:-translate-y-0.5 flex items-center gap-2">
+                  <i className="fa-solid fa-plus"></i>
+                  Post Your First Job
+                </Link>
+              </div>
+            )}
+          </div>
+
         </div>
       </div>
-
     </div>
   );
 }

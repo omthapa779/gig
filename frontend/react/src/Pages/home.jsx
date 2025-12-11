@@ -6,7 +6,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 
 const App = () => {
   useEffect(() => {
-    document.title = "Gig - The Future of Freelancing";
+    document.title = "gig - The Future of Freelancing";
   }, []);
 
   const [searchValue, setSearchValue] = useState("");
@@ -115,8 +115,9 @@ const App = () => {
           <div className="container">
             <div className="nav-content">
               <div className="logo">
-                <Link to="/" className="logo-text">
-                  GIG<span className="logo-dot">.</span>
+                <Link to="/" className="logo-link flex items-center gap-1">
+                  <img src="/icon.png" alt="Gig Logo" className="h-14 w-auto object-contain" />
+                  <span className="text-4xl font-bold tracking-tight text-slate-900 leading-none mt-1">Gig</span>
                 </Link>
               </div>
               {/* Desktop links */}
@@ -209,10 +210,11 @@ const App = () => {
           <div className="sidebar-header">
             <Link
               to="/"
-              className="sidebar-logo"
+              className="sidebar-logo flex items-center gap-1"
               onClick={() => setSidebarOpen(false)}
             >
-              GIG<span className="logo-dot">.</span>
+              <img src="/icon.png" alt="Gig Logo" className="h-12 w-auto object-contain" />
+              <span className="text-3xl font-bold tracking-tight text-slate-900 leading-none mt-1">Gig</span>
             </Link>
             <button
               className="sidebar-close"
