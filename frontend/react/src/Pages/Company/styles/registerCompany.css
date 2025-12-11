@@ -1,17 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 /* make sure the app can fill viewport */
-html, body, #root {
+html,
+body,
+#root {
   width: 100%;
   height: 100%;
 }
 
 body {
   font-family: 'Outfit', sans-serif;
-  background: #F9FAFB;
-  color: #0B2F24; /* was #0a192f (blueish navy) */
+  background: #FAFAFA;
+  /* Light BG */
+  color: #1A1A1A;
+  /* Charcoal */
 }
 
 /* ============ FULL SCREEN PAGE LAYOUT ============ */
@@ -22,15 +30,17 @@ body {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
   align-items: stretch;
-  background: linear-gradient(135deg, #F4FBF7 0%, #E7F5EE 100%); /* greener neutral */
+  background: linear-gradient(135deg, #FAFAFA 0%, #F2F3F5 100%);
+  /* Light/Gray */
   margin: 0;
   padding: 0;
 }
 
-/* ============ LEFT HERO (GREEN THEME) ============ */
+/* ============ LEFT HERO (NAVY THEME) ============ */
 .register-hero {
   padding: 7rem 3rem 3rem;
-  background: linear-gradient(135deg, #11B680 0%, #25D39B 100%); /* primary green */
+  background: #2A2F3A;
+  /* Deep Navy Gray */
   color: white;
   display: flex;
   flex-direction: column;
@@ -46,8 +56,8 @@ body {
   border-radius: 1rem;
   display: grid;
   place-items: center;
-  background: rgba(255,255,255,0.18);
-  border: 2px solid rgba(255,255,255,0.3);
+  background: rgba(255, 255, 255, 0.18);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   font-size: 1.8rem;
 }
 
@@ -80,7 +90,8 @@ body {
 }
 
 .hero-points i {
-  color: #D9FBEF;
+  color: #FFD021;
+  /* Spark Yellow */
   font-size: 1.05rem;
 }
 
@@ -90,7 +101,8 @@ body {
 }
 
 .hero-footer a {
-  color: #D9FBEF;
+  color: #FFD021;
+  /* Spark Yellow */
   font-weight: 700;
   text-decoration: none;
 }
@@ -162,12 +174,16 @@ body {
   transition: all 0.25s ease;
 }
 
-.form input::placeholder { color: #9CA3AF; }
+.form input::placeholder {
+  color: #9CA3AF;
+}
 
 .form input:focus {
   background: white;
-  border-color: #11B680; /* was #0BA976 */
-  box-shadow: 0 0 0 3px rgba(17, 182, 128, 0.12); /* adjusted */
+  border-color: #11B680;
+  /* was #0BA976 */
+  box-shadow: 0 0 0 3px rgba(17, 182, 128, 0.12);
+  /* adjusted */
 }
 
 /* two-column row for phone & location */
@@ -183,7 +199,7 @@ body {
   padding: 0.95rem;
   border: none;
   border-radius: 0.8rem;
-  background: linear-gradient(135deg, #11B680 0%, #25D39B 100%); 
+  background: linear-gradient(135deg, #11B680 0%, #25D39B 100%);
   color: white;
   font-size: 1rem;
   font-weight: 700;
@@ -214,14 +230,16 @@ body {
 .bottom-links {
   margin-top: 0.2rem;
   font-size: 0.92rem;
-  color: #405A4F; /* was #475569 */
+  color: #405A4F;
+  /* was #475569 */
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
 }
 
 .bottom-links a {
-  color: #11B680; /* was #0BA976 */
+  color: #11B680;
+  /* was #0BA976 */
   font-weight: 700;
   text-decoration: none;
 }
@@ -234,12 +252,15 @@ body {
 .message {
   margin-top: 0.5rem;
   padding: 0.85rem;
-  background: #D9F7EA; /* was #D1FAE5 */
-  color: #0B5C42;      /* was #065F46 */
+  background: #D9F7EA;
+  /* was #D1FAE5 */
+  color: #0B5C42;
+  /* was #065F46 */
   border-radius: 0.75rem;
   font-size: 0.9rem;
   font-weight: 600;
-  border: 1px solid #AEEFD2; /* was #A7F3D0 */
+  border: 1px solid #AEEFD2;
+  /* was #A7F3D0 */
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -260,8 +281,8 @@ body {
   }
 }
 
-@media (max-width: 600px){
-  .form-row{
+@media (max-width: 600px) {
+  .form-row {
     grid-template-columns: 1fr;
   }
 }
