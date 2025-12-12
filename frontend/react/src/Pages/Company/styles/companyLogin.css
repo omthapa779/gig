@@ -17,7 +17,7 @@ body {
 /* ============ FULL SCREEN PAGE LAYOUT ============ */
 .company-login-page {
   width: 100vw;
-  height: 100vh;          
+  height: 100vh;
   min-height: 100dvh;
   display: grid;
   grid-template-columns: 1.05fr 1fr;
@@ -27,10 +27,10 @@ body {
   padding: 0;
 }
 
-/* ============ LEFT HERO (GREEN THEME) ============ */
+/* ============ LEFT HERO (NAVY THEME LIKE FREELANCER) ============ */
 .company-login-hero {
   padding: 7rem 3rem 3rem;
-  background: linear-gradient(135deg, #0BA976 0%, #19C98E 100%);
+  background: #2A2F3A;              /* navy */
   color: white;
   display: flex;
   flex-direction: column;
@@ -80,7 +80,7 @@ body {
 }
 
 .hero-points i {
-  color: #ECFDF5;
+  color: #FFD021;
   font-size: 1.05rem;
 }
 
@@ -90,7 +90,7 @@ body {
 }
 
 .hero-footer a {
-  color: #ECFDF5;
+  color: #E0F2FE;
   font-weight: 700;
   text-decoration: none;
 }
@@ -153,7 +153,7 @@ body {
 }
 
 .input-group label i {
-  color: #0BA976;
+  color: #FFD021;
   font-size: 0.95rem;
 }
 
@@ -173,8 +173,8 @@ body {
 
 .form input:focus {
   background: white;
-  border-color: #0BA976;
-  box-shadow: 0 0 0 3px rgba(11, 169, 118, 0.12);
+  border-color: #FFD021;
+  box-shadow: 0 0 0 3px rgba(255, 208, 33, 0.15);
 }
 
 /* Password eye toggle */
@@ -205,8 +205,8 @@ body {
 }
 
 .toggle-password:hover {
-  background: rgba(11, 169, 118, 0.08);
-  color: #0BA976;
+  background: rgba(255, 208, 33, 0.1);
+  color: #FFD021;
 }
 
 /* Remember / forgot row */
@@ -230,14 +230,14 @@ body {
 .remember-me input {
   width: 1rem;
   height: 1rem;
-  accent-color: #0BA976;
+  accent-color: #2A2F3A;           /* navy */
   cursor: pointer;
 }
 
 .forgot-password {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #0BA976;
+  color: #1A1A1A;                  /* dark */
   text-decoration: none;
 }
 
@@ -251,7 +251,7 @@ body {
   padding: 0.95rem;
   border: none;
   border-radius: 0.8rem;
-  background: linear-gradient(135deg, #0BA976 0%, #19C98E 100%);
+  background: #2A2F3A;             /* navy */
   color: white;
   font-size: 1rem;
   font-weight: 700;
@@ -261,13 +261,13 @@ body {
   align-items: center;
   gap: 0.5rem;
   transition: all 0.3s ease;
-  box-shadow: 0 6px 14px rgba(11, 169, 118, 0.3);
+  box-shadow: 0 6px 14px rgba(42, 47, 58, 0.3);
   margin-top: 0.3rem;
 }
 
 .login-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(11, 169, 118, 0.4);
+  box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
 }
 
 .login-btn i {
@@ -331,7 +331,7 @@ body {
 }
 
 .social-btn:hover {
-  border-color: #0BA976;
+  border-color: #FFD021;
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
   transform: translateY(-1px);
 }
@@ -347,7 +347,7 @@ body {
 }
 
 .bottom-links a {
-  color: #0BA976;
+  color: #1A1A1A;
   font-weight: 700;
   text-decoration: none;
 }
@@ -373,27 +373,16 @@ body {
 
 /* ============ RESPONSIVE ============ */
 @media (max-width: 1024px) {
-  .company-login-page {
-    grid-template-columns: 1fr;
-  }
+  .company-login-page { grid-template-columns: 1fr; }
 
-  .company-login-hero {
-    padding: 6rem 2rem 2.5rem;
-  }
+  .company-login-hero { padding: 6rem 2rem 2.5rem; }
 
-  .company-login-form-section {
-    padding: 2.5rem 2rem 3rem;
-  }
+  .company-login-form-section { padding: 2.5rem 2rem 3rem; }
 }
 
 @media (max-width: 480px) {
-  .company-login-hero h1 {
-    font-size: 1.8rem;
-  }
-
-  .form h2 {
-    font-size: 1.5rem;
-  }
+  .company-login-hero h1 { font-size: 1.8rem; }
+  .form h2 { font-size: 1.5rem; }
 
   .company-login-hero,
   .company-login-form-section {
@@ -410,13 +399,9 @@ body {
 
 /*hide left side, show only form */
 @media (max-width: 768px) {
-  .register-page {
-    grid-template-columns: 1fr;
-  }
+  .register-page { grid-template-columns: 1fr; }
 
-  .company-login-hero {
-    display: none;
-  }
+  .company-login-hero { display: none; }
 
   .company-login-form-section {
     width: 100%;

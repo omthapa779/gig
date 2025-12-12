@@ -12,7 +12,6 @@ body {
   color: #0a192f;
 }
 
-/* ===== Page Layout ===== */
 .profile-container {
   min-height: 100vh;
   padding: 1rem;
@@ -20,14 +19,13 @@ body {
   margin: 0 auto;
 }
 
-/* ===== Header Card (Freelancer colors) ===== */
 .profile-edit-header {
-  background: linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%);
+  background: #2A2F3A;
   padding: 2.5rem 2rem;
   border-radius: 1.5rem;
   margin-bottom: 2rem;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15),
-              0 10px 30px rgba(59, 130, 246, 0.12);
+              0 10px 30px rgba(42, 47, 58, 0.12);
 }
 
 .header-row {
@@ -46,7 +44,7 @@ body {
 }
 
 .name-highlight {
-  color: #E0F2FE; /* soft cyan highlight */
+  color: #E0F2FE;
   font-weight: 800;
 }
 
@@ -98,13 +96,12 @@ body {
   color: rgba(255, 255, 255, 0.85);
 }
 
-/* ===== Form Card ===== */
 .profile-form-card {
   background: white;
   border-radius: 1.5rem;
   padding: 2rem;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12),
-              0 10px 30px rgba(59, 130, 246, 0.08);
+              0 10px 30px rgba(42, 47, 58, 0.08);
   margin-bottom: 2rem;
 }
 
@@ -118,7 +115,7 @@ body {
 }
 
 .form-header i {
-  color: #3B82F6;
+  color: #FFD021;
   font-size: 1.5rem;
 }
 
@@ -128,7 +125,6 @@ body {
   color: #0a192f;
 }
 
-/* ===== Form Styles ===== */
 .profile-form {
   display: flex;
   flex-direction: column;
@@ -147,7 +143,6 @@ body {
   color: #374151;
 }
 
-/* Inputs */
 .form-input {
   width: 100%;
   padding: 0.875rem 1rem;
@@ -167,11 +162,10 @@ body {
 
 .form-input:focus {
   background-color: white;
-  border-color: #3B82F6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+  border-color: #FFD021;
+  box-shadow: 0 0 0 3px rgba(255, 208, 33, 0.15);
 }
 
-/* Textarea */
 .form-textarea {
   width: 100%;
   padding: 0.875rem 1rem;
@@ -193,18 +187,16 @@ body {
 
 .form-textarea:focus {
   background-color: white;
-  border-color: #3B82F6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+  border-color: #FFD021;
+  box-shadow: 0 0 0 3px rgba(255, 208, 33, 0.15);
 }
 
-/* Rows */
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 
-/* ===== Profile Picture Upload ===== */
 .picture-group {
   margin-bottom: 0.5rem;
 }
@@ -224,8 +216,8 @@ body {
   height: 120px;
   border-radius: 1rem;
   overflow: hidden;
-  border: 3px solid #3B82F6;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+  border: 3px solid #2A2F3A;
+  box-shadow: 0 4px 12px rgba(42, 47, 58, 0.2);
   flex-shrink: 0;
 }
 
@@ -238,11 +230,11 @@ body {
 .picture-placeholder {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #EFF6FF 0%, #E0F2FE 100%);
+  background: rgba(255, 208, 33, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #3B82F6;
+  color: #2A2F3A;
   font-size: 3rem;
 }
 
@@ -265,7 +257,7 @@ body {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%);
+  background: #2A2F3A;
   color: white;
   border-radius: 0.75rem;
   font-size: 0.875rem;
@@ -273,7 +265,7 @@ body {
   font-family: 'Outfit', sans-serif;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(42, 47, 58, 0.3);
   width: fit-content;
 }
 
@@ -287,7 +279,6 @@ body {
   color: #9CA3AF;
 }
 
-/* ===== Actions ===== */
 .form-actions {
   display: flex;
   align-items: center;
@@ -298,7 +289,7 @@ body {
 
 .save-btn {
   padding: 1rem 2rem;
-  background: linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%);
+  background: #2A2F3A;
   color: white;
   border: none;
   border-radius: 0.75rem;
@@ -310,7 +301,7 @@ body {
   align-items: center;
   gap: 0.5rem;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(42, 47, 58, 0.3);
 }
 
 .save-btn:hover {
@@ -322,21 +313,21 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #2563EB;
+  color: #2A2F3A;
   font-size: 0.938rem;
   font-weight: 600;
 }
 
 .success-message i {
   font-size: 1rem;
+  color: #FFD021;
 }
 
-/* ===== Tips Card ===== */
 .tips-card {
-  background: linear-gradient(135deg, #DBEAFE 0%, #E0F2FE 100%);
+  background: rgba(255, 208, 33, 0.12);
   border-radius: 1.5rem;
   padding: 2rem;
-  border: 2px solid #BFDBFE;
+  border: 2px solid rgba(255, 208, 33, 0.35);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
 }
 
@@ -348,7 +339,7 @@ body {
 }
 
 .tips-header i {
-  color: #2563EB;
+  color: #FFD021;
   font-size: 1.5rem;
 }
 
@@ -375,13 +366,12 @@ body {
 }
 
 .tips-list i {
-  color: #3B82F6;
+  color: #2A2F3A;
   font-size: 1rem;
   margin-top: 0.125rem;
   flex-shrink: 0;
 }
 
-/* ===== Responsive ===== */
 @media (max-width: 768px) {
   .profile-container {
     padding: 6rem 1rem 2rem;
@@ -441,4 +431,9 @@ body {
   .picture-placeholder {
     font-size: 2.5rem;
   }
+}
+
+.picture-upload-wrapper .upload-label,
+.upload-label {
+  color: #fff !important;
 }

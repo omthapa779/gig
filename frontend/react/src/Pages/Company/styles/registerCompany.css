@@ -6,7 +6,6 @@
   box-sizing: border-box;
 }
 
-/* make sure the app can fill viewport */
 html,
 body,
 #root {
@@ -16,13 +15,10 @@ body,
 
 body {
   font-family: 'Outfit', sans-serif;
-  background: #FAFAFA;
-  /* Light BG */
-  color: #1A1A1A;
-  /* Charcoal */
+  background: #F9FAFB;
+  color: #0a192f;
 }
 
-/* ============ FULL SCREEN PAGE LAYOUT ============ */
 .register-page {
   width: 100vw;
   height: 100vh;
@@ -30,17 +26,14 @@ body {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
   align-items: stretch;
-  background: linear-gradient(135deg, #FAFAFA 0%, #F2F3F5 100%);
-  /* Light/Gray */
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf4 100%);
   margin: 0;
   padding: 0;
 }
 
-/* ============ LEFT HERO (NAVY THEME) ============ */
 .register-hero {
   padding: 7rem 3rem 3rem;
   background: #2A2F3A;
-  /* Deep Navy Gray */
   color: white;
   display: flex;
   flex-direction: column;
@@ -91,7 +84,6 @@ body {
 
 .hero-points i {
   color: #FFD021;
-  /* Spark Yellow */
   font-size: 1.05rem;
 }
 
@@ -101,8 +93,7 @@ body {
 }
 
 .hero-footer a {
-  color: #FFD021;
-  /* Spark Yellow */
+  color: #E0F2FE;
   font-weight: 700;
   text-decoration: none;
 }
@@ -111,7 +102,6 @@ body {
   text-decoration: underline;
 }
 
-/* ============ RIGHT FORM SECTION ============ */
 .register-form-section {
   padding: 6.5rem 3rem 3rem;
   display: flex;
@@ -132,7 +122,7 @@ body {
 .form h2 {
   font-size: 1.8rem;
   font-weight: 800;
-  color: #0B2F24;
+  color: #0a192f;
   margin-bottom: 0.2rem;
 }
 
@@ -158,7 +148,7 @@ body {
 }
 
 .input-group label i {
-  color: #11B680;
+  color: #FFD021;
   font-size: 0.95rem;
 }
 
@@ -180,26 +170,22 @@ body {
 
 .form input:focus {
   background: white;
-  border-color: #11B680;
-  /* was #0BA976 */
-  box-shadow: 0 0 0 3px rgba(17, 182, 128, 0.12);
-  /* adjusted */
+  border-color: #FFD021;
+  box-shadow: 0 0 0 3px rgba(255, 208, 33, 0.15);
 }
 
-/* two-column row for phone & location */
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.9rem;
 }
 
-/* Register button */
 .register-btn {
   width: 100%;
   padding: 0.95rem;
   border: none;
   border-radius: 0.8rem;
-  background: linear-gradient(135deg, #11B680 0%, #25D39B 100%);
+  background: #2A2F3A;
   color: white;
   font-size: 1rem;
   font-weight: 700;
@@ -209,13 +195,13 @@ body {
   align-items: center;
   gap: 0.5rem;
   transition: all 0.3s ease;
-  box-shadow: 0 6px 14px rgba(17, 182, 128, 0.30);
+  box-shadow: 0 6px 14px rgba(42, 47, 58, 0.3);
   margin-top: 0.2rem;
 }
 
 .register-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(17, 182, 128, 0.40);
+  box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
 }
 
 .register-btn i {
@@ -226,20 +212,17 @@ body {
   transform: translateX(4px);
 }
 
-/* Links */
 .bottom-links {
   margin-top: 0.2rem;
   font-size: 0.92rem;
-  color: #405A4F;
-  /* was #475569 */
+  color: #475569;
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
 }
 
 .bottom-links a {
-  color: #11B680;
-  /* was #0BA976 */
+  color: #1A1A1A;
   font-weight: 700;
   text-decoration: none;
 }
@@ -248,25 +231,20 @@ body {
   text-decoration: underline;
 }
 
-/* Success message */
 .message {
   margin-top: 0.5rem;
   padding: 0.85rem;
-  background: #D9F7EA;
-  /* was #D1FAE5 */
-  color: #0B5C42;
-  /* was #065F46 */
+  background: #D1FAE5;
+  color: #065F46;
   border-radius: 0.75rem;
   font-size: 0.9rem;
   font-weight: 600;
-  border: 1px solid #AEEFD2;
-  /* was #A7F3D0 */
+  border: 1px solid #A7F3D0;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-/* ============ RESPONSIVE ============ */
 @media (max-width: 1024px) {
   .register-page {
     grid-template-columns: 1fr;
@@ -303,7 +281,6 @@ body {
   }
 }
 
-/*hide left side, show only form */
 @media (max-width: 768px) {
   .register-page {
     grid-template-columns: 1fr;
@@ -326,4 +303,21 @@ body {
     max-width: 520px;
     width: 100%;
   }
+}
+
+.register-page .register-hero {
+  background: #2A2F3A;
+}
+
+.register-page .hero-points i {
+  color: #FFD021;
+}
+
+.register-page .register-btn {
+  background: #2A2F3A;
+  box-shadow: 0 6px 14px rgba(42, 47, 58, 0.3);
+}
+
+.register-page .register-btn:hover {
+  box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
 }
