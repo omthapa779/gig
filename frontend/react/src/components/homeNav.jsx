@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
+import logo from "../../public/icon.png";
 
 const HomeNavbar = ({ handleSmoothScroll }) => {
   const [searchValue, setSearchValue] = useState("");
@@ -50,7 +51,7 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
       {/* NAVBAR */}
       <nav
         id="navbar"
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-["Monument",system-ui,-apple-system,BlinkMacSystemFont,"Segoe_UI",sans-serif] ${
           scrolled
             ? "bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100 py-3"
             : "bg-white py-4 border-b border-transparent"
@@ -62,9 +63,16 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
             <div className="flex items-center">
               <Link
                 to="/"
-                className="text-xl sm:text-2xl font-black tracking-tight text-slate-900"
+                className='flex items-center gap-2 text-xl sm:text-2xl font-black tracking-tight text-slate-900'
               >
-                GIG<span className="text-blue-600">.</span>
+                <img
+                  src={logo}
+                  alt="GIG logo"
+                  className="h-7 w-7 sm:h-8 sm:w-8 object-contain"
+                />
+                <span>
+                  GIG<span className="text-blue-600">.</span>
+                </span>
               </Link>
             </div>
 
@@ -165,7 +173,9 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
       {/* MOBILE OVERLAY */}
       <div
         className={`fixed inset-0 z-40 bg-slate-900/40 transition-opacity duration-200 ${
-          sidebarOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          sidebarOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         }`}
         onClick={() => setSidebarOpen(false)}
       />
@@ -174,16 +184,23 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
       <aside
         className={`fixed top-0 right-0 z-50 h-full w-4/5 max-w-xs bg-white shadow-[0_20px_60px_rgba(15,23,42,0.45)] transform transition-transform duration-300 ${
           sidebarOpen ? "translate-x-0" : "translate-x-full"
-        } flex flex-col px-4 py-4`}
+        } flex flex-col px-4 py-4 font-["Monument",system-ui,-apple-system,BlinkMacSystemFont,"Segoe_UI",sans-serif]`}
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <Link
             to="/"
-            className="text-xl font-black tracking-tight text-slate-900"
+            className="flex items-center gap-2 text-xl font-black tracking-tight text-slate-900"
             onClick={() => setSidebarOpen(false)}
           >
-            GIG<span className="text-blue-600">.</span>
+            <img
+              src={logo}
+              alt="GIG logo"
+              className="h-7 w-7 object-contain"
+            />
+            <span>
+              GIG<span className="text-blue-600">.</span>
+            </span>
           </Link>
           <button
             type="button"

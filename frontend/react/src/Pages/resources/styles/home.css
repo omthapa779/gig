@@ -49,8 +49,7 @@ body,
   background: var(--brand-white);
   color: var(--brand-dark);
   scroll-behavior: smooth;
-  font-family: "Monument", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
+  font-family: "Monument", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",sans-serif;
   font-weight: 400;
   font-size: 15px;
   line-height: 1.5;
