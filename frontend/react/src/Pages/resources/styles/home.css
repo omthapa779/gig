@@ -1,15 +1,10 @@
 /* ================= RESET + THEME ================= */
 :root {
   --brand-dark: #1A1A1A;
-  /* Primary Text: Dark Charcoal */
   --brand-ui: #2A2F3A;
-  /* Primary UI: Deep Navy Gray */
   --brand-accent: #FFD021;
-  /* Primary Accent: Spark Yellow */
   --brand-bg: #FAFAFA;
-  /* Background Light */
   --brand-light: #F2F3F5;
-  /* Soft Gray */
   --brand-muted: #71717A;
   --brand-white: #ffffff;
 
@@ -24,13 +19,15 @@
   --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
   --shadow-lg: 0 10px 30px rgba(16, 24, 40, 0.12);
   --shadow-xl: 0 16px 50px rgba(16, 24, 40, 0.18);
+
+  --fab-offset: 22px;
+  --fab-safe-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--fab-offset));
+  --fab-safe-right: calc(env(safe-area-inset-right, 0px) + var(--fab-offset));
 }
 
 * {
   box-sizing: border-box;
 }
-
-
 
 html,
 body,
@@ -49,7 +46,8 @@ body,
   background: var(--brand-white);
   color: var(--brand-dark);
   scroll-behavior: smooth;
-  font-family: "Monument", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",sans-serif;
+  font-family: "Monument", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
   font-weight: 400;
   font-size: 15px;
   line-height: 1.5;
@@ -64,7 +62,6 @@ button {
   font-family: inherit;
 }
 
-/* selection (like tailwind selection:bg-brand-accent selection:text-brand-dark) */
 ::selection {
   background: var(--brand-accent);
   color: var(--brand-dark);
@@ -75,7 +72,6 @@ button {
   width: 100%;
   max-width: 100%;
   padding: 0 5%;
-  /* Fluid padding */
 }
 
 .section-header {
@@ -86,7 +82,6 @@ button {
 .section-title {
   font-size: clamp(1.8rem, 3vw, 2.4rem);
   font-weight: 800;
-  /* use 800 here for strong section headings */
   margin: 0 0 8px;
   letter-spacing: 0.02em;
 }
@@ -117,9 +112,6 @@ button {
   justify-content: space-between;
   gap: 14px;
 }
-
-/* .logo-text styles removed as we use Tailwind classes now */
-/* .logo-dot styles can be kept if needed but we aren't using them in the new logo structure */
 
 .nav-links {
   display: flex;
@@ -193,7 +185,6 @@ button {
   pointer-events: auto;
 }
 
-/* rotate chevron */
 .login-dropdown.open .dropdown-button i {
   transform: rotate(180deg);
 }
@@ -248,11 +239,9 @@ button {
 
 .search-input:focus {
   border-color: var(--brand-accent);
-  /* Spark Yellow focus ring */
   box-shadow: 0 0 0 4px rgba(255, 208, 33, 0.15);
 }
 
-/* Mobile button */
 .mobile-menu-button {
   display: none;
 }
@@ -384,6 +373,35 @@ button {
   background: #f8fafc;
 }
 
+/* ================= FLOATING MENU PLACEMENT OVERRIDES ================= */
+.floating-menu {
+  right: var(--fab-safe-right);
+  bottom: var(--fab-safe-bottom);
+}
+
+.floating-main {
+  margin: 6px;
+  width: 58px;
+  height: 58px;
+  border-radius: 999px;
+  padding: 6px;
+}
+
+.floating-actions {
+  margin: 6px;
+  padding-bottom: 6px;
+}
+
+.floating-action {
+  padding: 11px 14px;
+}
+
+@media (max-width: 520px) {
+  :root {
+    --fab-offset: 18px;
+  }
+}
+
 /* ================= HERO ================= */
 .hero {
   position: relative;
@@ -458,7 +476,6 @@ button {
   flex-wrap: wrap;
 }
 
-/* Buttons */
 .btn-primary,
 .btn-secondary {
   padding: 11px 20px;
@@ -497,11 +514,11 @@ button {
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  /* "Star Like Glow" - Spark Yellow shadow with stronger bloom */
-  box-shadow: 0 0 20px rgba(255, 208, 33, 0.7), 0 0 40px rgba(255, 208, 33, 0.3), 0 10px 30px rgba(16, 24, 40, 0.12);
+  box-shadow: 0 0 20px rgba(255, 208, 33, 0.7),
+    0 0 40px rgba(255, 208, 33, 0.3),
+    0 10px 30px rgba(16, 24, 40, 0.12);
   filter: brightness(1.05);
   color: #1A1A1A;
-  /* Switch text to Dark Charcoal for contrast on yellow */
 }
 
 .btn-primary:hover::before {
@@ -522,7 +539,6 @@ button {
   width: 100%;
 }
 
-/* Trust strip + marquee */
 .trust-strip {
   margin-top: 60px;
   padding-top: 24px;
@@ -696,7 +712,6 @@ button {
 }
 
 @keyframes float {
-
   0%,
   100% {
     transform: translateY(0px);
@@ -769,7 +784,6 @@ button {
   font-size: 0.9rem;
 }
 
-/* Mock UI panel */
 .features-visual {
   position: relative;
 }
@@ -876,7 +890,6 @@ button {
   border-radius: 8px;
 }
 
-/* Floating badge */
 .floating-badge {
   position: absolute;
   bottom: -18px;
@@ -893,7 +906,6 @@ button {
 }
 
 @keyframes bob {
-
   0%,
   100% {
     transform: translateY(0);
@@ -1059,7 +1071,6 @@ button {
   filter: blur(0);
 }
 
-/* tiny pop for hero headline */
 .hero-title.is-visible {
   animation: heroPop 700ms cubic-bezier(.16, 1, .3, 1) both;
 }
