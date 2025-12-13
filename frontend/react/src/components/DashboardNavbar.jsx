@@ -95,19 +95,6 @@ const DashboardNavbar = ({ role }) => {
                             <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full ring-2 ring-white"></span>
                         </button>
 
-                        {/* Theme Toggle */}
-                        <button
-                            onClick={toggleTheme}
-                            className="p-1.5 rounded-full hover:bg-gray-100 transition-colors focus:outline-none"
-                            aria-label="Toggle Dark Mode"
-                        >
-                            <img
-                                src={theme === 'dark' ? '/light_mode.png' : '/dark_mode.png'}
-                                alt="Toggle Theme"
-                                className="w-8 h-8 object-contain"
-                            />
-                        </button>
-
                         {/* Profile Dropdown */}
                         <div className="relative" ref={dropdownRef}>
                             <button
