@@ -51,11 +51,10 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
       {/* NAVBAR */}
       <nav
         id="navbar"
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-["Monument",system-ui,-apple-system,BlinkMacSystemFont,"Segoe_UI",sans-serif] ${
-          scrolled
-            ? "bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100 py-3"
-            : "bg-white py-4 border-b border-transparent"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-sans ${scrolled
+          ? "bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100 py-4"
+          : "bg-white py-5 border-b border-transparent"
+          }`}
       >
         <div className="w-full px-5 sm:px-8 lg:px-16">
           <div className="flex items-center justify-between gap-3">
@@ -63,12 +62,12 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
             <div className="flex items-center">
               <Link
                 to="/"
-                className='flex items-center gap-2 text-xl sm:text-2xl font-black tracking-tight text-slate-900'
+                className='flex items-center gap-3 text-3xl sm:text-4xl font-black tracking-tight text-slate-900 transition-transform hover:scale-105'
               >
                 <img
                   src={logo}
                   alt="GIG logo"
-                  className="h-7 w-7 sm:h-8 sm:w-8 object-contain"
+                  className="h-10 w-10 sm:h-14 sm:w-14 object-contain"
                 />
                 <span>
                   GIG<span className="text-blue-600">.</span>
@@ -84,34 +83,32 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
                   key={link.hash}
                   href={link.hash}
                   onClick={(e) => handleSmoothScroll(e, link.hash)}
-                  className={`text-sm font-semibold transition-colors duration-200 ${
-                    isActive(link.hash)
-                      ? "text-blue-600"
-                      : "text-slate-700 hover:text-slate-900"
-                  }`}
+                  className={`text-base font-bold transition-colors duration-200 ${isActive(link.hash)
+                    ? "text-blue-600"
+                    : "text-slate-700 hover:text-slate-900"
+                    }`}
                 >
                   {link.name}
                 </a>
               ))}
 
               {/* Login dropdown – same box style as reference navbar */}
-              <div className="relative" ref={loginRef}>
+              <div className="relative flex items-center" ref={loginRef}>
                 <button
                   type="button"
                   onClick={() => setLoginOpen((v) => !v)}
                   aria-expanded={loginOpen}
-                  className="inline-flex items-center gap-1.5 text-sm font-bold text-slate-800 hover:text-blue-600 transition-colors"
+                  className="inline-flex items-center gap-1.5 text-base font-bold text-slate-800 hover:text-blue-600 transition-colors"
                 >
                   <span>Log In</span>
                   <i
-                    className={`fa-solid fa-chevron-down text-[11px] text-gray-400 transition-transform duration-200 ${
-                      loginOpen ? "rotate-180" : ""
-                    }`}
+                    className={`fa-solid fa-chevron-down text-[11px] text-gray-400 transition-transform duration-200 ${loginOpen ? "rotate-180" : ""
+                      }`}
                   ></i>
                 </button>
 
                 {loginOpen && (
-                  <div className="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] border border-gray-100 py-2 ring-1 ring-black ring-opacity-5 animate-fade-in-down origin-top-right transform transition-all">
+                  <div className="absolute top-full right-0 mt-2 w-64 bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-gray-100 py-2 ring-1 ring-black ring-opacity-5 animate-fade-in-down origin-top-right transform transition-all z-50">
                     <div className="px-4 py-3 border-b border-gray-50 mb-1">
                       <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-[0.16em]">
                         Choose account
@@ -172,19 +169,17 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
 
       {/* MOBILE OVERLAY */}
       <div
-        className={`fixed inset-0 z-40 bg-slate-900/40 transition-opacity duration-200 ${
-          sidebarOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-        }`}
+        className={`fixed inset-0 z-40 bg-slate-900/40 transition-opacity duration-200 ${sidebarOpen
+          ? "opacity-100 pointer-events-auto"
+          : "opacity-0 pointer-events-none"
+          }`}
         onClick={() => setSidebarOpen(false)}
       />
 
       {/* MOBILE SIDEBAR */}
       <aside
-        className={`fixed top-0 right-0 z-50 h-full w-4/5 max-w-xs bg-white shadow-[0_20px_60px_rgba(15,23,42,0.45)] transform transition-transform duration-300 ${
-          sidebarOpen ? "translate-x-0" : "translate-x-full"
-        } flex flex-col px-4 py-4 font-["Monument",system-ui,-apple-system,BlinkMacSystemFont,"Segoe_UI",sans-serif]`}
+        className={`fixed top-0 right-0 z-50 h-full w-4/5 max-w-xs bg-white shadow-[0_20px_60px_rgba(15,23,42,0.45)] transform transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "translate-x-full"
+          } flex flex-col px-4 py-4 font-sans`}
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -219,11 +214,10 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
               key={link.hash}
               href={link.hash}
               onClick={(e) => handleSmoothScroll(e, link.hash)}
-              className={`rounded-lg px-3 py-2.5 text-sm font-semibold ${
-                isActive(link.hash)
-                  ? "bg-blue-50 text-blue-700"
-                  : "text-slate-900 hover:bg-slate-50"
-              }`}
+              className={`rounded-lg px-3 py-2.5 text-sm font-semibold ${isActive(link.hash)
+                ? "bg-blue-50 text-blue-700"
+                : "text-slate-900 hover:bg-slate-50"
+                }`}
             >
               {link.name}
             </a>

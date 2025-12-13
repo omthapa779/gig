@@ -403,7 +403,7 @@ const App = () => {
                       <a href="#">Careers</a>
                     </li>
                     <li>
-                      <a href="#">Contact Support</a>
+                      <a href="#">Contact</a>
                     </li>
                   </ul>
                 </div>
