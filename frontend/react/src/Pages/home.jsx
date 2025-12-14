@@ -197,9 +197,9 @@ const App = () => {
           <div className="container">
             <div className="section-header fade-in" data-animate>
               <h2 className="section-title">Popular Services</h2>
-              <a href="" className="section-description">
+              <Link to="/categories" className="section-description" id="categories-link">
                 View all services offered on Gig.
-              </a>
+              </Link>
             </div>
             <div className="services-grid">
               {[

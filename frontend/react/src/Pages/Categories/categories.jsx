@@ -163,6 +163,11 @@ const Categories = () => {
   }, []);
 
   useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    requestAnimationFrame(() => window.scrollTo(0, 0));
+  }, []);
+
+  useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
 
