@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SmoothScroll from "@/components/SmoothScroll";
+import Footer from "@/components/footer";
 
 export default function ProfileEdit() {
   const navigate = useNavigate();
@@ -264,6 +265,7 @@ export default function ProfileEdit() {
           </div>
         </div>
       </div>
+      <Footer />
     </SmoothScroll>
   );
 }

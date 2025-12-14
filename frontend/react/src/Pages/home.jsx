@@ -4,6 +4,7 @@ import "./resources/styles/home.css";
 import Navbar from "@/components/homeNav";
 import FloatingMenu from "../components/floatingMenu";
 import SmoothScroll from "@/components/SmoothScroll";
+import Footer from "@/components/footer";
 
 const App = () => {
   useEffect(() => {
@@ -11,7 +12,6 @@ const App = () => {
   }, []);
 
   const [searchValue, setSearchValue] = useState("");
-
   const [loginOpen, setLoginOpen] = useState(false);
   const loginRef = useRef(null);
 
@@ -197,8 +197,9 @@ const App = () => {
           <div className="container">
             <div className="section-header fade-in" data-animate>
               <h2 className="section-title">Popular Services</h2>
-              <Link to="/categories" className="section-description" id="categories-link">
+              <Link to="/categories" id="categories-link">
                 View all services offered on Gig.
+                <i className="fa-solid fa-arrow-right" aria-hidden="true" />
               </Link>
             </div>
             <div className="services-grid">
@@ -349,82 +350,7 @@ const App = () => {
             </div>
           </div>
         </section>
-        <footer className="footer">
-          <div className="container">
-            <div className="footer-content fade-in" data-animate>
-              <div className="footer-brand">
-                <Link to="/" className="footer-logo">
-                  GIG<span className="footer-logo-dot">.</span>
-                </Link>
-                <p className="footer-tagline">
-                  Empowering Nepal's workforce with fair opportunities and
-                  secure payments. Join the revolution today.
-                </p>
-              </div>
-              <div className="footer-links">
-                <div className="footer-column">
-                  <h4 className="footer-heading">For Clients</h4>
-                  <ul>
-                    <li>
-                      <a href="#">Post a Job</a>
-                    </li>
-                    <li>
-                      <a href="#">Find Talent</a>
-                    </li>
-                    <li>
-                      <a href="#">Enterprise</a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="footer-column">
-                  <h4 className="footer-heading">For Freelancers</h4>
-                  <ul>
-                    <li>
-                      <a href="#">How to Find Work</a>
-                    </li>
-                    <li>
-                      <a href="#">Direct Contracts</a>
-                    </li>
-                    <li>
-                      <a href="#">Opportunity Feed</a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="footer-column">
-                  <h4 className="footer-heading">Company</h4>
-                  <ul>
-                    <li>
-                      <a href="#">About Us</a>
-                    </li>
-                    <li>
-                      <a href="#">Careers</a>
-                    </li>
-                    <li>
-                      <a href="#">Contact</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="footer-bottom">
-              <p>&copy; 2025 Gig Inc. All rights reserved.</p>
-              <div className="footer-social">
-                <a href="#">
-                  <i className="fa-brands fa-twitter"></i>
-                </a>
-                <a href="#">
-                  <i className="fa-brands fa-linkedin"></i>
-                </a>
-                <a href="#">
-                  <i className="fa-brands fa-facebook"></i>
-                </a>
-                <a href="#">
-                  <i className="fa-brands fa-instagram"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </footer>
+        <Footer />
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"

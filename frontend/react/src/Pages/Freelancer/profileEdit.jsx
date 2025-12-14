@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SmoothScroll from "@/components/SmoothScroll";
 import Cropper from 'react-easy-crop';
+import Footer from "@/components/footer";
 
 // Helper function to create the cropped image
 const createImage = (url) =>
@@ -479,6 +480,7 @@ export default function FreelancerProfileEdit() {
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         />
       </div>
+      <Footer />
     </SmoothScroll>
   );
 }

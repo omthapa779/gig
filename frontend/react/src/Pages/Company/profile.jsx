@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Footer from "@/components/footer";
 
 export default function CompanyProfile() {
   const [loading, setLoading] = useState(true);
@@ -258,6 +259,7 @@ export default function CompanyProfile() {
 
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

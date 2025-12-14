@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import "./style/style.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/homeNav";
+import FloatingMenu from "../../components/floatingMenu";
+import Footer from "@/components/footer";
 
 const About = () => {
   const rootRef = useRef(null);
@@ -61,6 +63,7 @@ const About = () => {
     <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
       <div className="page" ref={rootRef}>
         <Navbar />
+        <FloatingMenu />
         <section className="page-hero">
           <div className="container page-hero-content">
             <div className="badge reveal-up" data-animate>
@@ -144,6 +147,7 @@ const About = () => {
           </div>
         </section>
       </div>
+      <Footer />
     </SmoothScroll>
   );
 };
