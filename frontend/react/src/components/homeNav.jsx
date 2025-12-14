@@ -109,14 +109,6 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
 
                 {loginOpen && (
                   <div className="absolute top-full right-0 mt-2 w-64 bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-gray-100 py-2 ring-1 ring-black ring-opacity-5 animate-fade-in-down origin-top-right transform transition-all z-50">
-                    <div className="px-4 py-3 border-b border-gray-50 mb-1">
-                      <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-[0.16em]">
-                        Choose account
-                      </p>
-                      <p className="text-sm font-medium text-gray-900">
-                        Log in as
-                      </p>
-                    </div>
 
                     <Link
                       to="/freelancer/login"

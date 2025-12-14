@@ -23,6 +23,9 @@ import Support from "./Pages/Support_FAQ_about/support.jsx";
 import ForgotPassword from "./Pages/forgotPassword.jsx";
 import ResetPassword from "./Pages/resetPassword.jsx";
 
+// Categories Page
+import Categories from "./Pages/Categories/categories.jsx";
+
 export default function App() {
   return (
     <div className="bg-brand-white text-brand-dark antialiased selection:bg-brand-accent selection:text-brand-dark min-h-screen flex flex-col">
@@ -58,6 +61,9 @@ export default function App() {
           <Route path="/support" element={<Support />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+
+          {/* Categories Page */}
+          <Route path="/categories" element={<Categories />} />
 
           {/* 404 */}
           <Route path="*" element={<div className="p-10 text-center text-xl">404 - Page not found</div>} />

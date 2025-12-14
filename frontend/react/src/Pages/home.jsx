@@ -4,7 +4,6 @@ import "./resources/styles/home.css";
 import Navbar from "@/components/homeNav";
 import FloatingMenu from "../components/floatingMenu";
 import SmoothScroll from "@/components/SmoothScroll";
-// import "lenis/dist/lenis.css"; // Moved to SmoothScroll component
 
 const App = () => {
   useEffect(() => {
@@ -13,9 +12,6 @@ const App = () => {
 
   const [searchValue, setSearchValue] = useState("");
 
-  /* =======================
-     Login dropdown (CLICK toggle)
-  ======================= */
   const [loginOpen, setLoginOpen] = useState(false);
   const loginRef = useRef(null);
 
@@ -36,14 +32,8 @@ const App = () => {
     };
   }, []);
 
-  /* =======================
-     Sidebar
-  ======================= */
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  /* =======================
-     Lenis-like smooth scrolling (no libs)
-  ======================= */
   const smoothScrollTo = (targetY, duration = 900) => {
     const startY = window.scrollY;
     const diff = targetY - startY;
@@ -82,9 +72,6 @@ const App = () => {
     setSidebarOpen(false);
   };
 
-  /* =======================
-     GSAP-like reveal system (no libs)
-  ======================= */
   const rootRef = useRef(null);
 
   useEffect(() => {
@@ -92,16 +79,23 @@ const App = () => {
     if (!root) return;
 
     const els = root.querySelectorAll("[data-animate]");
+    if (!els.length) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
+            const el = entry.target;
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                el.classList.add("is-visible");
+              });
+            });
+            observer.unobserve(el);
           }
         });
       },
-      { threshold: 0.18 }
+      { threshold: 0.18, rootMargin: "0px 0px -10% 0px" }
     );
 
     els.forEach((el) => observer.observe(el));
@@ -113,7 +107,6 @@ const App = () => {
       <div className="app" ref={rootRef}>
         <Navbar />
         <FloatingMenu />
-        {/* ================= HERO ================= */}
         <section className="hero">
           <div className="hero-bg-svg" id="hero-svg">
             <svg
@@ -192,7 +185,6 @@ const App = () => {
             </div>
           </div>
         </section>
-        {/* How it works */}
         <section id="how-it-works" className="services">
           <div className="container">
             <div className="section-header fade-in" data-animate>
@@ -201,14 +193,13 @@ const App = () => {
             </div>
           </div>
         </section>
-        {/* Services */}
         <section id="services" className="services alt">
           <div className="container">
             <div className="section-header fade-in" data-animate>
               <h2 className="section-title">Popular Services</h2>
-              <p className="section-description">
-                Everything you need to grow your business.
-              </p>
+              <a href="" className="section-description">
+                View all services offered on Gig.
+              </a>
             </div>
             <div className="services-grid">
               {[
@@ -253,7 +244,6 @@ const App = () => {
             </div>
           </div>
         </section>
-        {/* Features */}
         <section id="features" className="features">
           <div className="features-bg">
             <div className="floating-blob blob-1"></div>
@@ -315,7 +305,11 @@ const App = () => {
                 data-animate
                 style={{ "--delay": "0ms" }}
               >
-                <div className="mock-ui">
+                <div
+                  className="mock-ui reveal-up"
+                  data-animate
+                  style={{ "--delay": "120ms" }}
+                >
                   <div className="mock-header">
                     <div className="mock-user">
                       <div className="mock-avatar"></div>
@@ -338,7 +332,11 @@ const App = () => {
                     </div>
                   </div>
                 </div>
-                <div className="floating-badge">
+                <div
+                  className="floating-badge reveal-up"
+                  data-animate
+                  style={{ "--delay": "240ms" }}
+                >
                   <div className="floating-badge-icon">
                     <i className="fa-solid fa-money-bill-wave"></i>
                   </div>
@@ -351,7 +349,6 @@ const App = () => {
             </div>
           </div>
         </section>
-        {/* Footer */}
         <footer className="footer">
           <div className="container">
             <div className="footer-content fade-in" data-animate>
@@ -428,7 +425,6 @@ const App = () => {
             </div>
           </div>
         </footer>
-        {/* Font Awesome CDN */}
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
