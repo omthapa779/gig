@@ -100,11 +100,14 @@ body {
 .hero-footer a {
   color: #E0F2FE;
   font-weight: 700;
-  text-decoration: none;
+  text-decoration: underline;
+  transition: 0.2s ease;
 }
 
 .hero-footer a:hover {
   text-decoration: underline;
+  color: #FFD021;
+  transition: 0.2s ease;
 }
 
 /* ============ RIGHT FORM SECTION ============ */
