@@ -53,26 +53,12 @@ const App = () => {
     requestAnimationFrame(step);
   };
 
-  const handleSmoothScroll = (e, targetId) => {
-    e.preventDefault();
-    const targetEl = document.querySelector(targetId);
-    if (!targetEl) return;
-
-    const navbar = document.getElementById("navbar");
-    const navHeight = navbar ? navbar.offsetHeight : 0;
-
-    const targetPosition =
-      targetEl.getBoundingClientRect().top +
-      window.pageYOffset -
-      navHeight -
-      8;
-
-    smoothScrollTo(targetPosition, 900);
-
-    setSidebarOpen(false);
-  };
-
   const rootRef = useRef(null);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    requestAnimationFrame(() => window.scrollTo(0, 0));
+  }, []);
 
   useEffect(() => {
     const root = rootRef.current;

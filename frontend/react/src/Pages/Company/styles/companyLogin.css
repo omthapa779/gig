@@ -417,3 +417,13 @@ body {
     width: 100%;
   }
 }
+
+/* Fix landscape mode on small devices */
+@media (max-width: 900px) and (orientation: landscape) {
+  .company-login-hero { display: none !important; }
+
+  .company-login-page {
+    height: auto !important;
+    min-height: 100vh !important;
+  }
+}

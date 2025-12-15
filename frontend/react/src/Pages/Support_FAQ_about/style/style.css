@@ -65,7 +65,6 @@
    SUPPORT PAGE
 ========================================================= */
 
-/* Support topics section uses .services-grid and .service-card from home */
 .support-topics {
   padding: 40px 0 90px;
 }
@@ -75,25 +74,32 @@
   padding: 90px 0;
 }
 
+.support-contact.alt {
+  background: #f8fafc;
+}
+
 .support-contact-grid {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: 18px;
   align-items: stretch;
+  min-width: 0; /* prevents grid overflow on small screens */
 }
 
 .support-card {
-  background: white;
+  background: #ffffff;
   border: 1px solid #eef2f7;
   border-radius: var(--radius-2xl);
   padding: 28px;
   box-shadow: var(--shadow-sm);
+  min-width: 0; /* prevents content from forcing overflow */
 }
 
 .support-card-title {
   font-size: 1.4rem;
   font-weight: 900;
   margin: 0 0 8px;
+  line-height: 1.2;
 }
 
 .support-card-text {
@@ -111,25 +117,32 @@
 .form-row {
   display: grid;
   gap: 6px;
-  grid-template-columns: 140px 1fr;
-  align-items: center;   
+  grid-template-columns: 140px minmax(0, 1fr);
+  align-items: center;
 }
 
 .form-row label {
-  font-weight: 700;
+  font-weight: 800;
   font-size: 0.95rem;
 }
 
 .form-row input,
 .form-row select,
 .form-row textarea {
+  width: 100%;
+  max-width: 100%;
   border: 1px solid #e5e7eb;
   padding: 10px 12px;
   border-radius: 10px;
   font-size: 0.95rem;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  background: white;
+  background: #ffffff;
+  min-width: 0;
+}
+
+.form-row textarea {
+  resize: vertical;
 }
 
 .form-row input:focus,
@@ -154,28 +167,42 @@
   border-radius: 12px;
   background: #f8fafc;
   border: 1px solid #f1f5f9;
+  min-width: 0;
 }
 
 .support-way i {
   font-size: 1.2rem;
   color: var(--blue);
+  flex: 0 0 auto;
 }
 
 .support-way-title {
   margin: 0;
   font-weight: 900;
+  line-height: 1.2;
 }
 
 .support-way-text {
   margin: 2px 0 0;
   color: #6b7280;
   font-size: 0.95rem;
+  word-break: break-word;
 }
 
 .support-links {
-  margin-top: 37px;
+  margin-top: 28px;
   display: grid;
   gap: 8px;
+}
+
+.services-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.service-card {
+  min-width: 0;
 }
 
 /* =========================================================
@@ -432,5 +459,78 @@
 
   .faq-search {
     max-width: 100%;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE LAYOUT FIXES
+========================================================= */
+
+@media (max-width: 1024px) {
+  .support-contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .page-hero {
+    padding: 70px 0 50px;
+  }
+
+  .support-topics {
+    padding: 28px 0 70px;
+  }
+
+  .support-contact {
+    padding: 70px 0;
+  }
+
+  .support-card {
+    padding: 20px;
+  }
+
+  .support-card-title {
+    font-size: 1.25rem;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* Form: switch label + field into vertical stack on small screens */
+@media (max-width: 640px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .form-row label {
+    font-size: 0.95rem;
+  }
+
+  .support-way {
+    padding: 10px;
+  }
+
+  .support-way i {
+    font-size: 1.1rem;
+  }
+}
+
+/* Extra-small safety */
+@media (max-width: 380px) {
+  .support-card {
+    padding: 16px;
+  }
+
+  body {
+    padding-bottom: 92px;
   }
 }

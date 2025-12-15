@@ -351,3 +351,13 @@ body {
     width: 100%;
   }
 }
+
+/* Fix landscape mode on small devices */
+@media (max-width: 900px) and (orientation: landscape) {
+  .register-hero { display: none !important; }
+
+  .register-page{
+    height: auto !important;
+    min-height: 100vh !important;
+  }
+}

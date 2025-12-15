@@ -321,3 +321,14 @@ body {
 .register-page .register-btn:hover {
   box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
 }
+
+/* LANDSCAPE responsiveness fix */
+@media (max-width: 900px) and (orientation: landscape) {
+  .register-hero { display: none !important; }
+
+  .register-page {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important;
+  }
+}
