@@ -116,3 +116,13 @@
   box-shadow: 0 0 0 4px rgba(255, 208, 33, 0.22),
     0 14px 30px rgba(0, 0, 0, 0.18);
 }
+
+.floating-menu {
+  /* your existing styles... */
+  transition: transform 260ms ease;
+  will-change: transform;
+}
+
+.floating-menu.at-bottom {
+  transform: translateY(-40px);
+}

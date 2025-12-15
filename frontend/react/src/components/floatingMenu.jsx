@@ -4,13 +4,12 @@ import "./styles/floatingMenu.css";
 
 export default function FloatingMenu() {
   const [open, setOpen] = useState(false);
+  const [atBottom, setAtBottom] = useState(false);
   const ref = useRef(null);
   const location = useLocation();
 
-  // Close menu on route change
   useEffect(() => setOpen(false), [location.pathname]);
 
-  // Close on outside click + ESC
   useEffect(() => {
     const onDown = (e) => {
       if (!ref.current) return;
@@ -26,8 +25,31 @@ export default function FloatingMenu() {
     };
   }, []);
 
+  // detect when user reaches bottom of page
+  useEffect(() => {
+    const THRESHOLD = 6; // px
+    const onScroll = () => {
+      const scrollY = window.scrollY || window.pageYOffset;
+      const viewportBottom = scrollY + window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+
+      setAtBottom(viewportBottom >= docHeight - THRESHOLD);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
   return (
-    <div ref={ref} className="floating-menu">
+    <div
+      ref={ref}
+      className={`floating-menu ${atBottom ? "at-bottom" : ""}`}
+    >
       <div className={`floating-actions ${open ? "open" : ""}`}>
         <Link to="/support" className="floating-action">
           <i className="fa-solid fa-headset" />
