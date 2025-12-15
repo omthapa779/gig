@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./styles/floatingMenu.css";
 
-export default function FloatingMenu() {
+export default function FloatingMenu({enableBottomMargin=true}) {
   const [open, setOpen] = useState(false);
   const [atBottom, setAtBottom] = useState(false);
   const ref = useRef(null);
@@ -27,22 +27,24 @@ export default function FloatingMenu() {
 
   // detect when user reaches bottom of page
   useEffect(() => {
-    const THRESHOLD = 6; // px
-    const onScroll = () => {
-      const scrollY = window.scrollY || window.pageYOffset;
-      const viewportBottom = scrollY + window.innerHeight;
-      const docHeight = document.documentElement.scrollHeight;
+    if (enableBottomMargin){
+      const THRESHOLD = 6; // px
+      const onScroll = () => {
+        const scrollY = window.scrollY || window.pageYOffset;
+        const viewportBottom = scrollY + window.innerHeight;
+        const docHeight = document.documentElement.scrollHeight;
 
-      setAtBottom(viewportBottom >= docHeight - THRESHOLD);
-    };
+        setAtBottom(viewportBottom >= docHeight - THRESHOLD);
+      };
 
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+      return () => {
+        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", onScroll);
+      };
+    }
   }, []);
 
   return (

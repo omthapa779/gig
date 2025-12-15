@@ -71,7 +71,7 @@ export default function FreelancerLogin() {
 
   return (
     <div className="login-page">
-      <FloatingMenu />
+      <FloatingMenu enableBottomMargin={false}/>
       {/* LEFT HERO */}
       <section className="login-hero">
         <div className="hero-badge">
