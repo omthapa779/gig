@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import SmoothScroll from "@/components/SmoothScroll";
 import Cropper from 'react-easy-crop';
 import Footer from "@/components/footer";
+import FloatingMenu from "../../components/floatingMenu";
 
 // Helper function to create the cropped image
 const createImage = (url) =>
@@ -220,6 +221,7 @@ export default function FreelancerProfileEdit() {
 
   return (
     <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
+      <FloatingMenu />
       <div className="w-full mx-auto relative">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pt-8">

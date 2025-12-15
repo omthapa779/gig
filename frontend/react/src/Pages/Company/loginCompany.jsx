@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./styles/companyLogin.css";
+import FloatingMenu from "../../components/floatingMenu";
 
 export default function CompanyLogin() {
   const [email, setEmail] = useState("");
@@ -49,6 +50,7 @@ export default function CompanyLogin() {
 
   return (
     <div className="company-login-page">
+      <FloatingMenu />
       {/* LEFT HERO */}
       <section className="company-login-hero">
         <div className="hero-badge">

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SmoothScroll from "@/components/SmoothScroll";
 import Footer from "@/components/footer";
+import FloatingMenu from "../../components/floatingMenu";
 
 export default function ProfileEdit() {
   const navigate = useNavigate();
@@ -107,6 +108,7 @@ export default function ProfileEdit() {
 
   return (
     <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
+      <FloatingMenu />
       <div className="w-full mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pt-8">

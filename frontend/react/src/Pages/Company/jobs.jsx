@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import './styles/jobs.css';
 import SmoothScroll from "@/components/SmoothScroll";
 import Footer from "@/components/footer";
+import FloatingMenu from "../../components/floatingMenu";
 
 export default function Jobs() {
   const [editJobId, setEditJobId] = useState('');
@@ -45,6 +46,7 @@ export default function Jobs() {
 
   return (
     <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
+      <FloatingMenu />
       <div className="jobs-page">
         <div className="jobs-container">
           <div className="jobs-header">

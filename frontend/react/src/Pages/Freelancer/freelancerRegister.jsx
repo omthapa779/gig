@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import "./styles/freelancerRegister.css";
+import FloatingMenu from "../../components/floatingMenu";
 
 export default function FreelancerRegister() {
   const [fullName, setFullName] = useState("");
@@ -64,6 +65,7 @@ export default function FreelancerRegister() {
 
   return (
     <div className="register-page">
+      <FloatingMenu />
       {/* LEFT HERO */}
       <section className="register-hero">
         <div className="hero-badge">

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Footer from "@/components/footer";
+import FloatingMenu from "../../components/floatingMenu";
 
 export default function CompanyProfile() {
   const [loading, setLoading] = useState(true);
@@ -70,7 +71,6 @@ export default function CompanyProfile() {
 
   return (
     <div className="w-full mx-auto">
-
       {/* HEADER SECTION - Clean Design (No Box) */}
       <div className="mb-12 pt-8 flex flex-col md:flex-row items-center md:items-start justify-between gap-8">
         <div className="flex flex-col md:flex-row items-center gap-8 text-center md:text-left">

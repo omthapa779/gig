@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./styles/registerCompany.css";
+import FloatingMenu from "../../components/floatingMenu";
 
 export default function RegisterCompany() {
   const [companyName, setCompanyName] = useState("");
@@ -48,6 +49,7 @@ export default function RegisterCompany() {
 
   return (
     <div className="register-page">
+      <FloatingMenu />
       {/* LEFT HERO */}
       <section className="register-hero">
         <div className="hero-badge">
