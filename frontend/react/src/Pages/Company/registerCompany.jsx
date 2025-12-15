@@ -49,7 +49,7 @@ export default function RegisterCompany() {
 
   return (
     <div className="register-page">
-      <FloatingMenu />
+      <FloatingMenu enableBottomMargin={false}/>
       {/* LEFT HERO */}
       <section className="register-hero">
         <div className="hero-badge">

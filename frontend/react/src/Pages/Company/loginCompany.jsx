@@ -50,7 +50,7 @@ export default function CompanyLogin() {
 
   return (
     <div className="company-login-page">
-      <FloatingMenu />
+      <FloatingMenu enableBottomMargin={false}/>
       {/* LEFT HERO */}
       <section className="company-login-hero">
         <div className="hero-badge">
