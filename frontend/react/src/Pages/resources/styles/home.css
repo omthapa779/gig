@@ -612,7 +612,7 @@ button {
 .marquee-content span {
   font-size: 1.1rem;
   font-weight: 700;
-  color: rgba(17, 24, 39, 0.55);
+  color: rgba(17, 24, 39, 0.9);
   cursor: pointer;
   transition: color .2s ease, opacity .2s ease;
   letter-spacing: 0.1em;
@@ -646,7 +646,7 @@ button {
 .marquee-content span {
   font-size: 1.05rem;
   font-weight: 500;
-  color: #9ca3af;
+  color: rgba(17, 24, 39, 0.9);
   cursor: pointer;
   transition: color .2s ease, opacity .2s ease;
   letter-spacing: 0.08em;
@@ -655,7 +655,7 @@ button {
 }
 
 .marquee-content span:hover {
-  color: var(--brand-dark);
+  color: #FFC107;
   opacity: 1;
 }
 
