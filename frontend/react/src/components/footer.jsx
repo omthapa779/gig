@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="container">
-        <div className="footer-content fade-in" data-animate>
+        <div className="footer-content" data-animate>
           <div className="footer-brand">
             <Link to="/" className="footer-logo">
               GIG<span className="footer-logo-dot">.</span>

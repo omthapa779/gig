@@ -114,8 +114,3 @@
     grid-template-columns:1fr;
   }
 }
-
-.footer .fade-in{
-  opacity: 1 !important;
-  transform: none !important;
-}

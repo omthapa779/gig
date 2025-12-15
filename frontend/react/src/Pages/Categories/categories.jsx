@@ -4,6 +4,7 @@ import Navbar from "@/components/homeNav";
 import FloatingMenu from "../../components/floatingMenu";
 import "./categories.css";
 import SmoothScroll from "@/components/SmoothScroll";
+import Footer from "../../components/footer";
 
 const Categories = () => {
   useEffect(() => {
@@ -353,7 +354,8 @@ const Categories = () => {
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
           />
         </div>
-    </SmoothScroll>
+        <Footer />
+      </SmoothScroll>
   );
 };
 

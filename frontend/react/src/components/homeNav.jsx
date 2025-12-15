@@ -20,8 +20,26 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
 
   const isActive = (hash) => location.hash === hash;
 
+  const onLinkClick = (e, hash) => {
+    if (typeof handleSmoothScroll === "function") {
+      handleSmoothScroll(e, hash);
+      setSidebarOpen(false);
+      return;
+    }
+
+    e.preventDefault();
+    const el = document.querySelector(hash);
+    if (!el) return;
+
+    const nav = document.getElementById("navbar");
+    const navH = nav ? nav.offsetHeight : 0;
+    const y = el.getBoundingClientRect().top + window.pageYOffset - navH - 8;
+    window.scrollTo({ top: y, behavior: "smooth" });
+    setSidebarOpen(false);
+  };
+
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -32,7 +50,10 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
       if (!loginRef.current.contains(e.target)) setLoginOpen(false);
     };
     const handleEsc = (e) => {
-      if (e.key === "Escape") setLoginOpen(false);
+      if (e.key === "Escape") {
+        setLoginOpen(false);
+        setSidebarOpen(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -43,34 +64,39 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!sidebarOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [sidebarOpen]);
+
   return (
     <>
-      {/* NAVBAR */}
       <nav
         id="navbar"
-        className={`hn-navbar ${scrolled ? "hn-navbar--scrolled" : ""}`}
+        className={`hn-navbar ${scrolled ? "hn-navbar--float" : ""}`}
       >
         <div className="hn-container">
           <div className="hn-row">
-            {/* Logo */}
             <div className="hn-logoWrap">
-              <Link to="/" className="hn-logoLink">
-                <img src={logo} alt="GIG logo" className="hn-logoImg" />
+              <Link to="/" className="hn-logoLink" aria-label="Go to home">
+                <img src={logo} alt="gig logo" className="hn-logoImg" />
                 <span className="hn-logoText">
-                  GIG<span className="hn-dot">.</span>
+                  gig<span className="hn-dot">.</span>
                 </span>
               </Link>
             </div>
 
-            {/* Desktop links + dropdown + search */}
             <div className="hn-desktop">
-              {/* Links */}
               <div className="hn-links">
                 {navLinks.map((link) => (
                   <a
                     key={link.hash}
                     href={link.hash}
-                    onClick={(e) => handleSmoothScroll(e, link.hash)}
+                    onClick={(e) => onLinkClick(e, link.hash)}
                     className={`hn-link ${
                       isActive(link.hash) ? "hn-link--active" : ""
                     }`}
@@ -80,46 +106,38 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
                 ))}
               </div>
 
-              {/* Login dropdown */}
-              <div className="hn-login" ref={loginRef}>
+              <div className={`hn-login ${loginOpen ? "hn-login--open" : ""}`} ref={loginRef}>
                 <button
                   type="button"
                   onClick={() => setLoginOpen((v) => !v)}
                   aria-expanded={loginOpen}
-                  className="hn-loginBtn"
+                  className={`hn-loginBtn ${loginOpen ? "hn-loginBtn--active" : ""}`}
                 >
                   <span>Log In</span>
-                  <i
-                    className={`fa-solid fa-chevron-down hn-chevron ${
-                      loginOpen ? "hn-chevron--open" : ""
-                    }`}
-                  />
+                  <i className="fa-solid fa-chevron-down hn-chevron" />
                 </button>
 
-                {loginOpen && (
-                  <div className="hn-dropdown">
-                    <Link
-                      to="/freelancer/login"
-                      className="hn-ddItem"
-                      onClick={() => setLoginOpen(false)}
-                    >
-                      <i className="fa-solid fa-user-tie hn-ddIcon" />
-                      Freelancer Login
-                    </Link>
+                <div className="hn-dropdown" role="menu">
+                  <Link
+                    to="/freelancer/login"
+                    className="hn-ddItem hn-underlineItem"
+                    onClick={() => setLoginOpen(false)}
+                  >
+                    <i className="fa-solid fa-user-tie hn-ddIcon" />
+                    Freelancer Login
+                  </Link>
 
-                    <Link
-                      to="/company/login"
-                      className="hn-ddItem"
-                      onClick={() => setLoginOpen(false)}
-                    >
-                      <i className="fa-solid fa-building hn-ddIcon" />
-                      Company Login
-                    </Link>
-                  </div>
-                )}
+                  <Link
+                    to="/company/login"
+                    className="hn-ddItem hn-underlineItem"
+                    onClick={() => setLoginOpen(false)}
+                  >
+                    <i className="fa-solid fa-building hn-ddIcon" />
+                    Company Login
+                  </Link>
+                </div>
               </div>
 
-              {/* Search bar */}
               <div className="hn-searchWrap">
                 <i className="fa-solid fa-search hn-searchIcon" />
                 <input
@@ -132,7 +150,6 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
               </div>
             </div>
 
-            {/* Mobile buttons */}
             <div className="hn-mobileBtns">
               <button
                 type="button"
@@ -147,24 +164,21 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
         </div>
       </nav>
 
-      {/* MOBILE OVERLAY */}
       <div
         className={`hn-overlay ${sidebarOpen ? "hn-overlay--open" : ""}`}
         onClick={() => setSidebarOpen(false)}
       />
 
-      {/* MOBILE SIDEBAR */}
       <aside className={`hn-sidebar ${sidebarOpen ? "hn-sidebar--open" : ""}`}>
-        {/* Header */}
         <div className="hn-sideHeader">
           <Link
             to="/"
             className="hn-sideLogo"
             onClick={() => setSidebarOpen(false)}
           >
-            <img src={logo} alt="GIG logo" className="hn-sideLogoImg" />
+            <img src={logo} alt="gig logo" className="hn-sideLogoImg" />
             <span className="hn-sideLogoText">
-              GIG<span className="hn-dot">.</span>
+              gig<span className="hn-dot">.</span>
             </span>
           </Link>
 
@@ -178,13 +192,12 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
           </button>
         </div>
 
-        {/* Links */}
         <nav className="hn-sideLinks">
           {navLinks.map((link) => (
             <a
               key={link.hash}
               href={link.hash}
-              onClick={(e) => handleSmoothScroll(e, link.hash)}
+              onClick={(e) => onLinkClick(e, link.hash)}
               className={`hn-sideLink ${
                 isActive(link.hash) ? "hn-sideLink--active" : ""
               }`}
@@ -194,7 +207,6 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
           ))}
         </nav>
 
-        {/* Actions */}
         <div className="hn-sideActions">
           <div className="hn-sideBlock">
             <p className="hn-sideTitle">Log In</p>
@@ -203,7 +215,7 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
               <Link
                 to="/freelancer/login"
                 onClick={() => setSidebarOpen(false)}
-                className="hn-sideItem"
+                className="hn-sideItem hn-underlineItem"
               >
                 <i className="fa-solid fa-user-tie hn-sideItemIcon" />
                 <span>Freelancer Login</span>
@@ -212,7 +224,7 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
               <Link
                 to="/company/login"
                 onClick={() => setSidebarOpen(false)}
-                className="hn-sideItem"
+                className="hn-sideItem hn-underlineItem"
               >
                 <i className="fa-solid fa-building hn-sideItemIcon" />
                 <span>Company Login</span>
