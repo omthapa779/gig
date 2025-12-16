@@ -8,7 +8,7 @@ import Footer from "@/components/footer";
 
 const App = () => {
   useEffect(() => {
-    document.title = "gig - The Future of Freelancing";
+    document.title = "Gig - The Future of Freelancing";
   }, []);
 
   const [searchValue, setSearchValue] = useState("");

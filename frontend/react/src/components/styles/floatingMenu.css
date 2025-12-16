@@ -10,8 +10,6 @@
 }
 
 .floating-main {
-  width: 56px;
-  height: 56px;
   border-radius: 999px;
   border: none;
   cursor: pointer;
