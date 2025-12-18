@@ -28,9 +28,9 @@ const Footer = () => {
             <div className="footer-column">
               <h4 className="footer-heading">For Freelancers</h4>
               <ul>
-                <li><Link to="/how-to-find-work">How to Find Work</Link></li>
+                <li><Link to="/explore-jobs">How to Find Work</Link></li>
                 <li><Link to="/direct-contracts">Direct Contracts</Link></li>
-                <li><Link to="/opportunity-feed">Opportunity Feed</Link></li>
+                <li><Link to="/explore-jobs">Explore Jobs</Link></li>
               </ul>
             </div>
 

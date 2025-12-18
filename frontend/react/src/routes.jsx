@@ -26,6 +26,10 @@ import ResetPassword from "./Pages/resetPassword.jsx";
 // Categories Page
 import Categories from "./Pages/Categories/categories.jsx";
 
+// Public Pages
+import JobDetail from "./Pages/Public/JobDetail.jsx";
+import JobFeed from "./Pages/Public/JobFeed.jsx";
+
 export default function App() {
   return (
     <div className="bg-brand-white text-brand-dark antialiased selection:bg-brand-accent selection:text-brand-dark min-h-screen flex flex-col">
@@ -34,6 +38,8 @@ export default function App() {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
+          <Route path="/job/:id" element={<JobDetail />} />
+          <Route path="/explore-jobs" element={<JobFeed />} />
 
           <Route path="/company/register" element={<CompanyRegister />} />
           <Route path="/company/login" element={<CompanyLogin />} />

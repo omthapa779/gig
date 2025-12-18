@@ -13,22 +13,25 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
   const location = useLocation();
 
   const navLinks = [
-    { name: "How it Works", hash: "#how-it-works" },
-    { name: "Services", hash: "#services" },
-    { name: "Why Us", hash: "#features" },
+    { name: "How it Works", hash: "#how-it-works", type: "hash" },
+    { name: "Services", hash: "#services", type: "hash" },
+    { name: "Why Us", hash: "#features", type: "hash" },
+    { name: "Explore Jobs", path: "/explore-jobs", type: "link" },
   ];
 
   const isActive = (hash) => location.hash === hash;
 
-  const onLinkClick = (e, hash) => {
+  const onLinkClick = (e, link) => {
+    if (link.type === 'link') return; // Default behavior for router links
+
     if (typeof handleSmoothScroll === "function") {
-      handleSmoothScroll(e, hash);
+      handleSmoothScroll(e, link.hash);
       setSidebarOpen(false);
       return;
     }
 
     e.preventDefault();
-    const el = document.querySelector(hash);
+    const el = document.querySelector(link.hash);
     if (!el) return;
 
     const nav = document.getElementById("navbar");
@@ -93,16 +96,25 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
             <div className="hn-desktop">
               <div className="hn-links">
                 {navLinks.map((link) => (
-                  <a
-                    key={link.hash}
-                    href={link.hash}
-                    onClick={(e) => onLinkClick(e, link.hash)}
-                    className={`hn-link ${
-                      isActive(link.hash) ? "hn-link--active" : ""
-                    }`}
-                  >
-                    {link.name}
-                  </a>
+                  link.type === 'link' ? (
+                    <Link
+                      key={link.name}
+                      to={link.path}
+                      className="hn-link"
+                    >
+                      {link.name}
+                    </Link>
+                  ) : (
+                    <a
+                      key={link.name}
+                      href={link.hash}
+                      onClick={(e) => onLinkClick(e, link)}
+                      className={`hn-link ${isActive(link.hash) ? "hn-link--active" : ""
+                        }`}
+                    >
+                      {link.name}
+                    </a>
+                  )
                 ))}
               </div>
 
@@ -194,16 +206,26 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
 
         <nav className="hn-sideLinks">
           {navLinks.map((link) => (
-            <a
-              key={link.hash}
-              href={link.hash}
-              onClick={(e) => onLinkClick(e, link.hash)}
-              className={`hn-sideLink ${
-                isActive(link.hash) ? "hn-sideLink--active" : ""
-              }`}
-            >
-              {link.name}
-            </a>
+            link.type === 'link' ? (
+              <Link
+                key={link.name}
+                to={link.path}
+                className="hn-sideLink"
+                onClick={() => setSidebarOpen(false)}
+              >
+                {link.name}
+              </Link>
+            ) : (
+              <a
+                key={link.name}
+                href={link.hash}
+                onClick={(e) => onLinkClick(e, link)}
+                className={`hn-sideLink ${isActive(link.hash) ? "hn-sideLink--active" : ""
+                  }`}
+              >
+                {link.name}
+              </a>
+            )
           ))}
         </nav>
 

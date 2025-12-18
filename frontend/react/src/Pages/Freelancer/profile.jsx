@@ -62,7 +62,7 @@ export default function FreelancerProfile() {
 
   return (
     <div className="w-full mx-auto">
-      
+
       {/* HEADER SECTION - Clean Design (No Box) */}
       <div className="mb-12 pt-8 flex flex-col md:flex-row items-center md:items-start justify-between gap-8">
         <div className="flex flex-col md:flex-row items-center gap-8 text-center md:text-left">
@@ -327,7 +327,9 @@ export default function FreelancerProfile() {
 
         </div>
       </div>
-      <Footer />
+      <div className="mt-20">
+        <Footer />
+      </div>
     </div>
   );
 }

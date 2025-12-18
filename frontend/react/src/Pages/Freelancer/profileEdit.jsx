@@ -76,7 +76,8 @@ export default function FreelancerProfileEdit() {
   const [skills, setSkills] = useState("");
   const [bio, setBio] = useState("");
   const [portfolio, setPortfolio] = useState("");
-  const [resume, setResume] = useState("");
+  const [resume, setResume] = useState(""); // Stores existing resume URL/Path
+  const [resumeFile, setResumeFile] = useState(null); // Stores new file to upload
 
   // Image State
   const [profilePic, setProfilePic] = useState(null); // File object for upload
@@ -157,6 +158,12 @@ export default function FreelancerProfileEdit() {
     }
   };
 
+  const handleResumeChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setResumeFile(e.target.files[0]);
+    }
+  };
+
   const handleSaveCrop = async () => {
     try {
       const croppedImageBlobUrl = await getCroppedImg(tempImage, croppedAreaPixels);
@@ -192,6 +199,9 @@ export default function FreelancerProfileEdit() {
       if (profilePic) {
         formData.append('profile_picture', profilePic);
       }
+      if (resumeFile) {
+        formData.append('resume', resumeFile);
+      }
 
       const res = await fetch('/api/freelancer/profile', {
         method: 'POST',
@@ -202,6 +212,8 @@ export default function FreelancerProfileEdit() {
 
       if (res.ok) {
         setMessage("Profile updated successfully!");
+        setResumeFile(null); // Clear file input
+        if (data.freelancer.resume) setResume(data.freelancer.resume); // Update existing resume path
         // Optional: navigate back or reload data
         // setTimeout(() => navigate('/freelancer/profile'), 1000);
       } else {
@@ -382,16 +394,25 @@ export default function FreelancerProfileEdit() {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-semibold text-gray-700">Resume URL</label>
+                      <label className="text-sm font-semibold text-gray-700">Resume / CV</label>
                       <div className="relative">
-                        <span className="absolute left-4 top-2.5 text-gray-400"><i className="fa-solid fa-file-pdf"></i></span>
-                        <input
-                          type="url"
-                          value={resume}
-                          onChange={(e) => setResume(e.target.value)}
-                          placeholder="https://example.com/cv"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all placeholder:text-gray-300 font-medium"
-                        />
+                        <div className="border border-gray-200 rounded-lg p-2.5 flex flex-col gap-2">
+                          <input
+                            type="file"
+                            accept=".pdf,.doc,.docx"
+                            onChange={handleResumeChange}
+                            className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-black file:text-white hover:file:bg-gray-800"
+                          />
+                          {resume && (
+                            <div className="text-sm text-gray-500 pl-1 flex items-center gap-2">
+                              <i className="fa-solid fa-check-circle text-green-500"></i>
+                              Current:
+                              <a href={resume} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline truncate max-w-[200px]">
+                                {resume.split('/').pop()}
+                              </a>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -482,7 +503,9 @@ export default function FreelancerProfileEdit() {
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         />
       </div>
-      <Footer />
+      <div className="mt-20">
+        <Footer />
+      </div>
     </SmoothScroll>
   );
 }

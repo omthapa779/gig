@@ -13,6 +13,7 @@ const fs = require('fs');
 const connectDB = require('./config/db');
 const companyRoutes = require('./routes/companyRoutes');
 const freelancerRoutes = require('./routes/FreelancerRoutes');
+const jobRoutes = require('./routes/jobRoutes');
 
 
 const app = express();
@@ -73,6 +74,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // ============================
 app.use('/api/company', companyRoutes);
 app.use('/api/freelancer', freelancerRoutes);
+app.use('/api/jobs', jobRoutes);
 
 // ============================
 // 7️⃣ Frontend Routes

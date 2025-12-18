@@ -267,7 +267,9 @@ export default function ProfileEdit() {
           </div>
         </div>
       </div>
-      <Footer />
+      <div className="mt-20">
+        <Footer />
+      </div>
     </SmoothScroll>
   );
 }

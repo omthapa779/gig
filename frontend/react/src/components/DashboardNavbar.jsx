@@ -46,7 +46,7 @@ const DashboardNavbar = ({ role }) => {
             { name: 'Find Talent', path: '#' },
         ]
         : [
-            { name: 'Find Work', path: '#' },
+            { name: 'Find Work', path: '/explore-jobs' },
             { name: 'My Proposals', path: '#' },
             { name: 'Saved Jobs', path: '#' },
         ];

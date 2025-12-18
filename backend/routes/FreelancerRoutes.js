@@ -25,10 +25,16 @@ const FreelancerSchema = Joi.object({
 });
 
 /* ---------------------------
-   Storage for profile picture
+   Storage for profile picture & resume
    --------------------------- */
 const storage = multer.diskStorage({
-  destination: path.join(__dirname, '../uploads/avatars'),
+  destination: (req, file, cb) => {
+    if (file.fieldname === 'resume') {
+      cb(null, path.join(__dirname, '../uploads/resumes'));
+    } else {
+      cb(null, path.join(__dirname, '../uploads/avatars'));
+    }
+  },
   filename: (req, file, cb) => {
     cb(null, Date.now() + '-' + file.originalname.replace(/\s+/g, '-'));
   },
@@ -254,7 +260,7 @@ router.post('/google', async (req, res) => {
 /* -------------------------------------------------------------------------- */
 /* FREELANCER PROFILE UPDATE (avatar upload + details)                        */
 /* -------------------------------------------------------------------------- */
-router.post('/profile', protectFreelancer, upload.single('profile_picture'), async (req, res) => {
+router.post('/profile', protectFreelancer, upload.fields([{ name: 'profile_picture', maxCount: 1 }, { name: 'resume', maxCount: 1 }]), async (req, res) => {
   try {
     const body = req.body || {};
     const updates = {};
@@ -265,7 +271,11 @@ router.post('/profile', protectFreelancer, upload.single('profile_picture'), asy
     if (body.DOB && body.DOB.trim()) updates.DOB = new Date(body.DOB);
     if (body.bio && body.bio.trim()) updates.bio = sanitizeInput({ v: body.bio }).v;
     if (body.portfolio && body.portfolio.trim()) updates.portfolio = body.portfolio.trim();
-    if (body.resume && body.resume.trim()) updates.resume = body.resume.trim();
+    // Resume is now handled via file upload, but we keep text update if provided (for some reason?)
+    // actually, let's strictly handle file upload or existing value.
+    // If they send a text 'resume' field that usually means URL, but we want file.
+    // However, if they don't upload a file, we shouldn't wipe it unless they explicitly request delete?
+    // For now we just check for file.
 
     // skills may be sent as comma-separated string or array
     if (body.skills) {
@@ -276,8 +286,13 @@ router.post('/profile', protectFreelancer, upload.single('profile_picture'), asy
       }
     }
 
-    if (req.file) {
-      updates.profile_picture = `/uploads/avatars/${req.file.filename}`;
+    if (req.files) {
+      if (req.files['profile_picture']) {
+        updates.profile_picture = `/uploads/avatars/${req.files['profile_picture'][0].filename}`;
+      }
+      if (req.files['resume']) {
+        updates.resume = `/uploads/resumes/${req.files['resume'][0].filename}`;
+      }
     }
 
     const freelancer = await Freelancer.findByIdAndUpdate(req.freelancer._id, { $set: updates }, { new: true }).select('-password');

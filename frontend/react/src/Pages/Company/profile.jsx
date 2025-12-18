@@ -53,6 +53,29 @@ export default function CompanyProfile() {
     setCompletion(Math.round((score / total) * 100));
   };
 
+  /* New delete handler */
+  const handleDeleteJob = async (jobId) => {
+    if (!window.confirm("Are you sure you want to delete this job? This action cannot be undone.")) {
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/company/jobs/${jobId}`, {
+        method: 'DELETE',
+      });
+
+      if (res.ok) {
+        setJobs(jobs.filter(job => job._id !== jobId));
+      } else {
+        const data = await res.json();
+        alert(data.message || "Failed to delete job");
+      }
+    } catch (error) {
+      console.error("Error deleting job:", error);
+      alert("An error occurred while deleting the job.");
+    }
+  };
+
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-[60vh]">
@@ -224,18 +247,34 @@ export default function CompanyProfile() {
             {jobs.length > 0 ? (
               <div className="grid grid-cols-1 gap-6">
                 {jobs.map((job) => (
-                  <div key={job._id} className="group relative bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md transition-all hover:border-blue-200 cursor-pointer">
+                  <div key={job._id} className="group relative bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md transition-all hover:border-blue-200">
                     <div className="flex justify-between items-start mb-4">
                       <div>
-                        <h4 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{job.title}</h4>
-                        <p className="text-sm text-gray-500 mt-1">{job.category} &bull; {new Date(job.createdAt).toLocaleDateString()}</p>
+                        {/* Title with Delete Button next to it or Absolute top right */}
+                        <div className="flex flex-col">
+                          <h4 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{job.title}</h4>
+                          <p className="text-sm text-gray-500 mt-1">{job.category} &bull; {new Date(job.createdAt).toLocaleDateString()}</p>
+                        </div>
                       </div>
-                      <span className="bg-green-50 text-green-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Active</span>
+
+                      <div className="flex items-center gap-3">
+                        <span className="bg-green-50 text-green-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Active</span>
+                        <button
+                          onClick={() => handleDeleteJob(job._id)}
+                          className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-red-100 text-gray-400 hover:text-red-500 transition-colors"
+                          title="Delete Job"
+                        >
+                          <i className="fa-solid fa-trash-can text-sm"></i>
+                        </button>
+                      </div>
                     </div>
                     <p className="text-gray-600 line-clamp-2 mb-4">{job.description}</p>
                     <div className="flex items-center justify-between border-t border-gray-50 pt-4">
-                      <span className="font-semibold text-gray-900">{job.pay || "Negotiable"}</span>
-                      <span className="text-blue-600 font-medium text-sm group-hover:underline">View Details &rarr;</span>
+                      {/* Added NPR Prefix */}
+                      <span className="font-semibold text-gray-900">
+                        {job.pay ? `NPR ${job.pay}` : "Negotiable"}
+                      </span>
+                      <Link to={`/job/${job._id}`} className="text-blue-600 font-medium text-sm group-hover:underline cursor-pointer">View Details &rarr;</Link>
                     </div>
                   </div>
                 ))}
@@ -259,7 +298,9 @@ export default function CompanyProfile() {
 
         </div>
       </div>
-      <Footer />
+      <div className="mt-20">
+        <Footer />
+      </div>
     </div>
   );
 }

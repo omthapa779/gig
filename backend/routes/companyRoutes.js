@@ -468,6 +468,31 @@ router.put('/jobs/:id', protectCompany, uploadJob.array('attachments', 5), async
 });
 
 /* -------------------------------------------------------------------------- */
+/* 🧩 COMPANY Delete Job                                                      */
+/* -------------------------------------------------------------------------- */
+router.delete('/jobs/:id', protectCompany, async (req, res) => {
+  try {
+    const job = await Job.findOneAndDelete({ _id: req.params.id, company: req.company._id });
+    if (!job) return res.status(404).json({ message: 'Job not found or unauthorized' });
+
+    // Cleanup attachments
+    if (job.attachments && job.attachments.length > 0) {
+      job.attachments.forEach(fileUrl => {
+        try {
+          const diskPath = path.join(__dirname, '..', fileUrl);
+          if (fs.existsSync(diskPath)) fs.unlinkSync(diskPath);
+        } catch (e) { console.error('Cleanup error:', e); }
+      });
+    }
+
+    res.json({ message: 'Job deleted successfully' });
+  } catch (err) {
+    console.error('Delete job error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+/* -------------------------------------------------------------------------- */
 /* 🧩 COMPANY Remove single attachment                                         */
 /* DELETE /api/company/jobs/:id/attachments?filename=basename.ext             */
 /* -------------------------------------------------------------------------- */
