@@ -47,22 +47,29 @@
 .hn-logoLink {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 4px;
+  /* Reduced to match Admin gap-1 */
   text-decoration: none;
   color: var(--brand-dark, #1a1a1a);
 }
 
 .hn-logoImg {
-  width: 34px;
-  height: 34px;
+  width: 56px;
+  /* h-14 */
+  height: 56px;
+  /* h-14 */
   object-fit: contain;
 }
 
 .hn-logoText {
-  font-size: 1.25rem;
+  font-size: 2.25rem;
+  /* text-4xl */
   font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  /* tighten like tracking-tight */
+  text-transform: none;
+  /* Admin says "Gig" not "GIG" */
+  line-height: 1;
 }
 
 .hn-dot {

@@ -153,7 +153,7 @@ const App = () => {
               <p className="trust-label">Trusted by Nepalese Businesses</p>
               <div className="marquee-container">
                 <div className="marquee-content">
-                  {Array(4)
+                  {Array(8) // Increased duplication for smoother infinite loop
                     .fill([
                       "Daraz",
                       "eSewa",
@@ -161,6 +161,8 @@ const App = () => {
                       "Pathao",
                       "WorldLink",
                       "Foodmandu",
+                      "Bhoj",
+                      "Indrive"
                     ])
                     .flat()
                     .map((brand, i) => (
@@ -175,49 +177,96 @@ const App = () => {
           <div className="container">
             <div className="section-header fade-in" data-animate>
               <h2 className="section-title">How it Works</h2>
-              <p className="section-description">Add your steps here later.</p>
+              <p className="section-description">Simple steps to get started with Gig.</p>
+            </div>
+
+            <div className="services-grid">
+              {[
+                { title: "Create Profile", icon: "fa-user-plus", text: "Sign up as a freelancer or company in seconds.", delay: "0" },
+                { title: "Post or Find", icon: "fa-magnifying-glass", text: "Post a job or browse our extensive physical & digital live feed.", delay: "120" },
+                { title: "Connect & Earn", icon: "fa-handshake", text: "Collaborate, get paid securely, and build your reputation.", delay: "240" }
+              ].map((step, i) => (
+                <div key={i} className="service-card reveal-up" data-animate style={{ "--delay": `${step.delay}ms` }}>
+                  <div className="service-icon blue">
+                    <i className={`fa-solid ${step.icon}`}></i>
+                  </div>
+                  <h3 className="service-title">{step.title}</h3>
+                  <p className="service-text">{step.text}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
         <section id="services" className="services alt">
           <div className="container">
             <div className="section-header fade-in" data-animate>
-              <h2 className="section-title">Popular Services</h2>
-              <Link to="/categories" id="categories-link">
-                View all services offered on Gig.
-                <i className="fa-solid fa-arrow-right" aria-hidden="true" />
-              </Link>
+              <h2 className="section-title">Popular Categories</h2>
+              <p className="section-description">Browse the most in-demand skills and services.</p>
             </div>
             <div className="services-grid">
               {[
                 {
+                  title: "Physical Jobs",
+                  slug: "local-gigs",
+                  icon: "fa-person-digging",
+                  color: "green",
+                  text: "Plumbing, Moving, Labor.",
+                  highlight: true
+                },
+                {
                   title: "Development",
+                  slug: "development",
                   icon: "fa-code",
                   color: "blue",
                   text: "Web, Mobile, AI & more.",
                 },
                 {
                   title: "Design",
+                  slug: "design",
                   icon: "fa-pen-nib",
                   color: "purple",
                   text: "Logo, UI/UX, Art.",
                 },
                 {
-                  title: "Local Gigs",
-                  icon: "fa-map-location-dot",
-                  color: "green",
-                  text: "Plumbing, Moving, Help.",
-                },
-                {
                   title: "Video",
+                  slug: "video-animation",
                   icon: "fa-video",
                   color: "orange",
                   text: "Editing, Animation.",
                 },
+                {
+                  title: "Sales & Marketing",
+                  slug: "marketing",
+                  icon: "fa-bullhorn",
+                  color: "blue",
+                  text: "SEO, Social Media.",
+                },
+                {
+                  title: "Writing",
+                  slug: "writing",
+                  icon: "fa-pen-fancy",
+                  color: "purple",
+                  text: "Content, Translation.",
+                },
+                {
+                  title: "Finance",
+                  slug: "business",
+                  icon: "fa-chart-line",
+                  color: "green",
+                  text: "Accounting, Tax.",
+                },
+                {
+                  title: "Education",
+                  slug: "education",
+                  icon: "fa-graduation-cap",
+                  color: "orange",
+                  text: "Tutoring, Coaching.",
+                },
               ].map((card, i) => (
-                <div
+                <Link
+                  to={`/services/${card.slug}`}
                   key={card.title}
-                  className="service-card reveal-up"
+                  className={`service-card reveal-up ${card.highlight ? 'ring-2 ring-yellow-400 bg-yellow-50/50' : ''}`}
                   data-animate
                   style={{ "--delay": `${i * 120}ms` }}
                 >
@@ -226,113 +275,51 @@ const App = () => {
                   </div>
                   <h3 className="service-title">{card.title}</h3>
                   <p className="service-text">{card.text}</p>
-                </div>
+                </Link>
               ))}
+            </div>
+
+            <div className="flex justify-center mt-12 reveal-up" data-animate style={{ "--delay": "200ms" }}>
+              <Link to="/explore-jobs" className="btn-secondary">
+                View All Categories
+                <i className="fa-solid fa-arrow-right ml-2" aria-hidden="true" />
+              </Link>
             </div>
           </div>
         </section>
         <section id="features" className="features">
-          <div className="features-bg">
-            <div className="floating-blob blob-1"></div>
-            <div className="floating-blob blob-2"></div>
-          </div>
-          <div className="container features-content">
-            <div className="features-grid">
-              <div
-                className="features-text reveal-left"
-                data-animate
-                style={{ "--delay": "0ms" }}
-              >
-                <h2 className="features-title">Why businesses choose Gig?</h2>
-                <p className="features-description">
-                  We're redefining how work gets done. No more headaches, just
-                  results.
-                </p>
-                <div className="features-list">
-                  <div className="feature-item">
-                    <div className="feature-icon-circle">
-                      <i className="fa-solid fa-map-pin"></i>
-                    </div>
-                    <div className="feature-content">
-                      <h4 className="feature-heading">Hyper-Local Gigs</h4>
-                      <p className="feature-text">
-                        Find temporary physical work in your neighborhood.
-                        Filter by location and start earning instantly.
-                      </p>
-                    </div>
+          <div className="container">
+            <div className="features-header reveal-up" data-animate>
+              <h2 className="features-title">Why businesses choose Gig?</h2>
+              <p className="features-subtitle">We're redefining how work gets done. Simple, transparent, and built for Nepal.</p>
+            </div>
+
+            <div className="features-grid-clean">
+              {[
+                {
+                  title: "Hyper-Local Gigs",
+                  text: "Find temporary physical work in your neighborhood. Filter by location and start earning instantly.",
+                  icon: "fa-map-pin"
+                },
+                {
+                  title: "Zero Barriers",
+                  text: "No hidden fees or 'connects' to buy. Our algorithm promotes talent, not deep pockets.",
+                  icon: "fa-unlock"
+                },
+                {
+                  title: "Verified Nepal ID",
+                  text: "Trust built on real identities. Secure and safe for everyone in Nepal.",
+                  icon: "fa-id-card"
+                }
+              ].map((feature, i) => (
+                <div key={i} className="feature-card-clean reveal-up" data-animate style={{ "--delay": `${i * 150}ms` }}>
+                  <div className="feature-icon-box">
+                    <i className={`fa-solid ${feature.icon}`}></i>
                   </div>
-                  <div className="feature-item">
-                    <div className="feature-icon-circle">
-                      <i className="fa-solid fa-unlock"></i>
-                    </div>
-                    <div className="feature-content">
-                      <h4 className="feature-heading">Zero Barriers</h4>
-                      <p className="feature-text">
-                        No hidden fees or 'connects' to buy. Our algorithm
-                        promotes talent, not deep pockets.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="feature-item">
-                    <div className="feature-icon-circle">
-                      <i className="fa-solid fa-id-card"></i>
-                    </div>
-                    <div className="feature-content">
-                      <h4 className="feature-heading">Verified Nepal ID</h4>
-                      <p className="feature-text">
-                        Trust built on real identities. Secure and safe for
-                        everyone in Nepal.
-                      </p>
-                    </div>
-                  </div>
+                  <h3 className="feature-title-clean">{feature.title}</h3>
+                  <p className="feature-description-clean">{feature.text}</p>
                 </div>
-              </div>
-              <div
-                className="features-visual reveal-right"
-                data-animate
-                style={{ "--delay": "0ms" }}
-              >
-                <div
-                  className="mock-ui reveal-up"
-                  data-animate
-                  style={{ "--delay": "120ms" }}
-                >
-                  <div className="mock-header">
-                    <div className="mock-user">
-                      <div className="mock-avatar"></div>
-                      <div className="mock-user-info">
-                        <div className="mock-line short"></div>
-                        <div className="mock-line tiny"></div>
-                      </div>
-                    </div>
-                    <div className="mock-badge">Verified</div>
-                  </div>
-                  <div className="mock-content">
-                    <div className="mock-line full"></div>
-                    <div className="mock-line medium"></div>
-                    <div className="mock-line large"></div>
-                  </div>
-                  <div className="mock-footer">
-                    <div className="mock-input"></div>
-                    <div className="mock-button">
-                      <i className="fa-solid fa-check"></i>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="floating-badge reveal-up"
-                  data-animate
-                  style={{ "--delay": "240ms" }}
-                >
-                  <div className="floating-badge-icon">
-                    <i className="fa-solid fa-money-bill-wave"></i>
-                  </div>
-                  <div className="floating-badge-text">
-                    <p className="floating-badge-label">Average Savings</p>
-                    <p className="floating-badge-value">NPR 15,000+</p>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
@@ -341,8 +328,8 @@ const App = () => {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         />
-      </div>
-    </SmoothScroll>
+      </div >
+    </SmoothScroll >
   );
 };
 

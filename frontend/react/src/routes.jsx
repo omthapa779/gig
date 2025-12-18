@@ -29,6 +29,7 @@ import Categories from "./Pages/Categories/categories.jsx";
 // Public Pages
 import JobDetail from "./Pages/Public/JobDetail.jsx";
 import JobFeed from "./Pages/Public/JobFeed.jsx";
+import CategoryJobs from "./Pages/Public/CategoryJobs.jsx";
 
 export default function App() {
   return (
@@ -40,6 +41,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/job/:id" element={<JobDetail />} />
           <Route path="/explore-jobs" element={<JobFeed />} />
+          <Route path="/services/:slug" element={<CategoryJobs />} />
 
           <Route path="/company/register" element={<CompanyRegister />} />
           <Route path="/company/login" element={<CompanyLogin />} />
