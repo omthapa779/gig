@@ -12,69 +12,64 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
   const loginRef = useRef(null);
   const location = useLocation();
 
-  const navLinks = [
-    { name: "How it Works", hash: "#how-it-works", type: "hash" },
-    { name: "Services", hash: "#services", type: "hash" },
-    { name: "Why Us", hash: "#features", type: "hash" },
-    { name: "Explore Jobs", path: "/explore-jobs", type: "link" },
-  ];
+  /* New Dropdown State */
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const [categoriesOpen, setCategoriesOpen] = useState(false);
 
-  const isActive = (hash) => location.hash === hash;
+  // Timeout refs for grace period
+  const aboutTimer = useRef(null);
+  const catTimer = useRef(null);
+  const loginTimer = useRef(null);
 
-  const onLinkClick = (e, link) => {
-    if (link.type === 'link') return; // Default behavior for router links
-
-    if (typeof handleSmoothScroll === "function") {
-      handleSmoothScroll(e, link.hash);
-      setSidebarOpen(false);
-      return;
-    }
-
-    e.preventDefault();
-    const el = document.querySelector(link.hash);
-    if (!el) return;
-
-    const nav = document.getElementById("navbar");
-    const navH = nav ? nav.offsetHeight : 0;
-    const y = el.getBoundingClientRect().top + window.pageYOffset - navH - 8;
-    window.scrollTo({ top: y, behavior: "smooth" });
-    setSidebarOpen(false);
+  // Helper to handle hover open
+  const handleOpen = (setter, timerRef) => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    setter(true);
   };
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  // Helper to handle hover close with delay
+  const handleClose = (setter, timerRef) => {
+    timerRef.current = setTimeout(() => {
+      setter(false);
+    }, 250); // 250ms grace period
+  };
 
+  // Categories Data
+  const categories = [
+    { title: "Physical Jobs", path: "#", icon: "fa-person-digging", color: "text-green-600" },
+    { title: "Development", path: "#", icon: "fa-code", color: "text-blue-600" },
+    { title: "Design", path: "#", icon: "fa-pen-nib", color: "text-purple-600" },
+    { title: "Video & Animation", path: "#", icon: "fa-video", color: "text-orange-600" },
+    { title: "Sales & Marketing", path: "#", icon: "fa-bullhorn", color: "text-blue-500" },
+    { title: "Writing", path: "#", icon: "fa-pen-fancy", color: "text-purple-500" },
+    { title: "Finance", path: "#", icon: "fa-chart-line", color: "text-green-500" },
+    { title: "Education", path: "#", icon: "fa-graduation-cap", color: "text-orange-500" },
+  ];
+
+  /* Close dropdowns on outside click */
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (!loginRef.current) return;
-      if (!loginRef.current.contains(e.target)) setLoginOpen(false);
-    };
-    const handleEsc = (e) => {
-      if (e.key === "Escape") {
+    const closeDropdowns = (e) => {
+      if (!e.target.closest('.hn-dropdown-trigger') && !e.target.closest('.hn-mega-menu')) {
+        setAboutOpen(false);
+        setCategoriesOpen(false);
         setLoginOpen(false);
-        setSidebarOpen(false);
       }
     };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEsc);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEsc);
-    };
+    document.addEventListener('click', closeDropdowns);
+    return () => document.removeEventListener('click', closeDropdowns);
   }, []);
 
-  useEffect(() => {
-    if (!sidebarOpen) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [sidebarOpen]);
+  const onScrollLink = (e, hash) => {
+    e.preventDefault();
+    setAboutOpen(false);
+    const el = document.querySelector(hash);
+    if (el) {
+      const navH = 80;
+      const y = el.getBoundingClientRect().top + window.pageYOffset - navH;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+  };
+
 
   return (
     <>
@@ -88,40 +83,71 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
               <Link to="/" className="hn-logoLink" aria-label="Go to home">
                 <img src={logo} alt="gig logo" className="hn-logoImg" />
                 <span className="hn-logoText">
-                  gig<span className="hn-dot">.</span>
+                  Gig<span className="hn-dot">.</span>
                 </span>
               </Link>
             </div>
 
             <div className="hn-desktop">
               <div className="hn-links">
-                {navLinks.map((link) => (
-                  link.type === 'link' ? (
-                    <Link
-                      key={link.name}
-                      to={link.path}
-                      className="hn-link"
-                    >
-                      {link.name}
-                    </Link>
-                  ) : (
-                    <a
-                      key={link.name}
-                      href={link.hash}
-                      onClick={(e) => onLinkClick(e, link)}
-                      className={`hn-link ${isActive(link.hash) ? "hn-link--active" : ""
-                        }`}
-                    >
-                      {link.name}
-                    </a>
-                  )
-                ))}
+
+                {/* CATEGORIES MEGA MENU TRIGGER */}
+                <div
+                  className="hn-nav-item hn-dropdown-trigger"
+                  onMouseEnter={() => handleOpen(setCategoriesOpen, catTimer)}
+                  onMouseLeave={() => handleClose(setCategoriesOpen, catTimer)}
+                >
+                  <button className={`hn-link-btn ${categoriesOpen ? 'active' : ''}`}>
+                    Categories <i className="fa-solid fa-chevron-down ml-1 text-xs opacity-70"></i>
+                  </button>
+                  {/* MEGA MENU */}
+                  <div className={`hn-mega-menu ${categoriesOpen ? 'open' : ''}`}>
+                    <div className="hn-mega-content">
+                      {categories.map((cat, i) => (
+                        <Link to={cat.path} key={i} className="hn-mega-item" onClick={() => setCategoriesOpen(false)}>
+                          <i className={`fa-solid ${cat.icon} ${cat.color} mr-3`}></i>
+                          <span>{cat.title}</span>
+                        </Link>
+                      ))}
+                      <div className="hn-mega-footer">
+                        <Link to="/explore-jobs" onClick={() => setCategoriesOpen(false)}>
+                          View All Categories <i className="fa-solid fa-arrow-right ml-2"></i>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <Link to="/explore-jobs" className="hn-link">Explore Jobs</Link>
+
+                {/* ABOUT DROPDOWN TRIGGER */}
+                <div
+                  className="hn-nav-item hn-dropdown-trigger"
+                  onMouseEnter={() => handleOpen(setAboutOpen, aboutTimer)}
+                  onMouseLeave={() => handleClose(setAboutOpen, aboutTimer)}
+                >
+                  <button className={`hn-link-btn ${aboutOpen ? 'active' : ''}`}>
+                    About <i className="fa-solid fa-chevron-down ml-1 text-xs opacity-70"></i>
+                  </button>
+                  <div className={`hn-simple-dropdown ${aboutOpen ? 'open' : ''}`}>
+                    <Link to="/about" className="hn-drop-link">About Us</Link>
+                    <a href="#how-it-works" onClick={(e) => onScrollLink(e, "#how-it-works")} className="hn-drop-link">How it Works</a>
+                    <a href="#features" onClick={(e) => onScrollLink(e, "#features")} className="hn-drop-link">Why Us</a>
+                  </div>
+                </div>
+
+
               </div>
 
-              <div className={`hn-login ${loginOpen ? "hn-login--open" : ""}`} ref={loginRef}>
+              <div
+                className={`hn-login ${loginOpen ? "hn-login--open" : ""}`}
+                ref={loginRef}
+                onMouseEnter={() => handleOpen(setLoginOpen, loginTimer)}
+                onMouseLeave={() => handleClose(setLoginOpen, loginTimer)}
+              >
                 <button
                   type="button"
-                  onClick={() => setLoginOpen((v) => !v)}
                   aria-expanded={loginOpen}
                   className={`hn-loginBtn ${loginOpen ? "hn-loginBtn--active" : ""}`}
                 >
@@ -205,28 +231,24 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
         </div>
 
         <nav className="hn-sideLinks">
-          {navLinks.map((link) => (
-            link.type === 'link' ? (
-              <Link
-                key={link.name}
-                to={link.path}
-                className="hn-sideLink"
-                onClick={() => setSidebarOpen(false)}
-              >
-                {link.name}
-              </Link>
-            ) : (
-              <a
-                key={link.name}
-                href={link.hash}
-                onClick={(e) => onLinkClick(e, link)}
-                className={`hn-sideLink ${isActive(link.hash) ? "hn-sideLink--active" : ""
-                  }`}
-              >
-                {link.name}
-              </a>
-            )
-          ))}
+          <Link to="/explore-jobs" className="hn-sideLink" onClick={() => setSidebarOpen(false)}>
+            Explore Jobs
+          </Link>
+          <Link to="/about" className="hn-sideLink" onClick={() => setSidebarOpen(false)}>
+            About Us
+          </Link>
+          <a href="#how-it-works" className="hn-sideLink" onClick={(e) => {
+            setSidebarOpen(false);
+            onScrollLink(e, "#how-it-works");
+          }}>
+            How it Works
+          </a>
+          <a href="#features" className="hn-sideLink" onClick={(e) => {
+            setSidebarOpen(false);
+            onScrollLink(e, "#features");
+          }}>
+            Why Us
+          </a>
         </nav>
 
         <div className="hn-sideActions">
