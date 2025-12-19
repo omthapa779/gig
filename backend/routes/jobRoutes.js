@@ -7,7 +7,8 @@ const Company = require('../models/Company');
 // Public access to list all active jobs (Recent Feed)
 router.get('/', async (req, res) => {
     try {
-        const jobs = await Job.find({ active: true })
+        // Only show active jobs in the feed
+        const jobs = await Job.find({ status: 'active' })
             .sort({ createdAt: -1 })
             .limit(20)
             .populate('company', 'companyName logo location');

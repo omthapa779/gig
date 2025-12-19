@@ -9,6 +9,7 @@ import CompanyLogin from "./Pages/Company/loginCompany.jsx";
 import CompanyProfile from "./Pages/Company/profile.jsx";
 import CompanyJobs from "./Pages/Company/jobs.jsx";
 import CompanyProfileEdit from "./Pages/Company/profileEdit.jsx";
+import CompanyJobApplications from "./Pages/Company/JobApplications.jsx";
 
 // Freelancer Pages
 import FreelancerRegister from "./Pages/Freelancer/freelancerRegister.jsx";
@@ -53,6 +54,7 @@ export default function App() {
           <Route element={<DashboardLayout role="company" />}>
             <Route path="/company/profile" element={<CompanyProfile />} />
             <Route path="/company/jobs" element={<CompanyJobs />} />
+            <Route path="/company/job/:id/applications" element={<CompanyJobApplications />} />
             <Route path="/company/profileEdit" element={<CompanyProfileEdit />} />
           </Route>
 

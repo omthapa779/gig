@@ -9,6 +9,10 @@ export default function JobDetail() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const [userRole, setUserRole] = useState("guest"); // guest, freelancer, company
+    const [applicationStatus, setApplicationStatus] = useState(null); // { applied: boolean, status: string }
+    const [applying, setApplying] = useState(false);
+
     useEffect(() => {
         const fetchJob = async () => {
             try {
@@ -25,8 +29,73 @@ export default function JobDetail() {
             }
         };
 
+        const checkAuth = async () => {
+            // Try freelancer first
+            try {
+                const res = await fetch('/api/freelancer/me');
+                if (res.ok) {
+                    setUserRole("freelancer");
+                    // Check application status
+                    const statusRes = await fetch(`/api/applications/my-status/${id}`);
+                    if (statusRes.ok) {
+                        const statusData = await statusRes.json();
+                        setApplicationStatus(statusData);
+                    }
+                    return;
+                }
+            } catch (e) { }
+
+            // Try company
+            try {
+                const res = await fetch('/api/company/me');
+                if (res.ok) {
+                    setUserRole("company");
+                    return;
+                }
+            } catch (e) { }
+
+            setUserRole("guest");
+        };
+
         fetchJob();
+        checkAuth();
     }, [id]);
+
+    const handleApply = async () => {
+        if (userRole === "guest") {
+            // Redirect to login
+            window.location.href = "/freelancer/login";
+            return;
+        }
+        if (userRole !== "freelancer") {
+            alert("Only freelancers can apply for jobs.");
+            return;
+        }
+
+        if (!confirm("Are you sure you want to apply for this job?")) return;
+
+        setApplying(true);
+        try {
+            const res = await fetch('/api/applications', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ jobId: id })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                setApplicationStatus({ applied: true, status: 'applied' });
+                alert("Applied successfully!");
+            } else {
+                alert(data.message || "Failed to apply");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("An error occurred");
+        } finally {
+            setApplying(false);
+        }
+    };
+
 
     if (loading) return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -94,10 +163,32 @@ export default function JobDetail() {
                                     {job.pay ? `NPR ${job.pay}` : "Negotiable"}
                                 </p>
                             </div>
-                            <button className="w-full py-4 bg-black text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:bg-gray-900 transform hover:-translate-y-1 transition-all flex items-center justify-center gap-2">
-                                <span>Apply Now</span>
-                                <i className="fa-solid fa-paper-plane text-sm"></i>
-                            </button>
+
+                            {userRole === 'company' ? (
+                                <button disabled className="w-full py-4 bg-gray-200 text-gray-400 text-lg font-bold rounded-xl shadow-none cursor-not-allowed flex items-center justify-center gap-2">
+                                    <span>Hiring Mode</span>
+                                </button>
+                            ) : applicationStatus?.applied ? (
+                                <button disabled className="w-full py-4 bg-green-100 text-green-700 text-lg font-bold rounded-xl shadow-none cursor-not-allowed flex items-center justify-center gap-2">
+                                    <span>Applied</span>
+                                    <i className="fa-solid fa-check text-sm"></i>
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={handleApply}
+                                    disabled={applying}
+                                    className="w-full py-4 bg-black text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:bg-gray-900 transform hover:-translate-y-1 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {applying ? (
+                                        <span>Applying...</span>
+                                    ) : (
+                                        <>
+                                            <span>Apply Now</span>
+                                            <i className="fa-solid fa-paper-plane text-sm"></i>
+                                        </>
+                                    )}
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>

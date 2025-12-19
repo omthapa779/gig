@@ -11,6 +11,11 @@ const jobSchema = new mongoose.Schema(
     isPhysical: { type: Boolean, default: false },
     location: { type: String, trim: true }, // required only if isPhysical true (client-side)
     active: { type: Boolean, default: true },
+    status: {
+      type: String,
+      enum: ['active', 'interviewing', 'hired', 'closed'],
+      default: 'active'
+    },
     attachments: [{ type: String }],
   },
   { timestamps: true }

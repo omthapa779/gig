@@ -185,9 +185,14 @@ export default function Jobs() {
 
                   <div className="pt-4 border-t border-gray-50 flex items-center justify-between">
                     <span className="font-semibold text-gray-900 text-sm">NPR {job.pay || 'Negotiable'}</span>
-                    <Link to={`/job/${job._id}`} className="text-blue-600 text-sm font-medium hover:underline">
-                      View Public Page &rarr;
-                    </Link>
+                    <div className="flex items-center gap-4">
+                      <Link to={`/company/job/${job._id}/applications`} className="flex items-center gap-2 text-sm font-bold text-gray-700 hover:text-black hover:bg-gray-100 px-3 py-1.5 rounded-lg transition-all">
+                        <i className="fa-solid fa-users"></i> Applicants
+                      </Link>
+                      <Link to={`/job/${job._id}`} className="text-blue-600 text-sm font-medium hover:underline">
+                        View Public Page &rarr;
+                      </Link>
+                    </div>
                   </div>
                 </div>
               ))}
