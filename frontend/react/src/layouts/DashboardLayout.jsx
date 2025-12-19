@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import DashboardNavbar from '../components/DashboardNavbar';
+import Footer from '../components/footer';
 
 const DashboardLayout = ({ role }) => {
     return (
@@ -9,6 +10,7 @@ const DashboardLayout = ({ role }) => {
             <main className="pt-28 px-6 sm:px-10 lg:px-16 w-full pb-12 flex-grow">
                 <Outlet />
             </main>
+            <Footer />
         </div>
     );
 };

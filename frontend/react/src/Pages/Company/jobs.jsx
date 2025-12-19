@@ -177,8 +177,13 @@ export default function Jobs() {
                         <span>{new Date(job.createdAt).toLocaleDateString()}</span>
                       </div>
                     </div>
-                    <span className={`px-2 py-1 text-xs font-bold uppercase tracking-wide rounded ${job.active ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
-                      {job.active ? 'Active' : 'Closed'}
+                    <span className={`px-2 py-1 text-xs font-bold uppercase tracking-wide rounded 
+                      ${job.status === 'active' ? 'bg-green-50 text-green-700' : ''}
+                      ${job.status === 'interviewing' ? 'bg-purple-50 text-purple-700' : ''}
+                      ${job.status === 'hired' ? 'bg-blue-50 text-blue-700' : ''}
+                      ${job.status === 'closed' ? 'bg-red-50 text-red-700' : ''}
+                    `}>
+                      {job.status?.replace(/-/g, ' ') || (job.active ? 'Active' : 'Closed')}
                     </span>
                   </div>
                   <p className="text-gray-600 line-clamp-2 mb-4 text-sm">{job.description}</p>
@@ -209,9 +214,6 @@ export default function Jobs() {
               </Link>
             </div>
           )}
-        </div>
-        <div className="mt-20">
-          <Footer />
         </div>
       </SmoothScroll>
     );

@@ -298,9 +298,6 @@ export default function CompanyProfile() {
 
         </div>
       </div>
-      <div className="mt-20">
-        <Footer />
-      </div>
     </div>
   );
 }
