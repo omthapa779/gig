@@ -353,4 +353,31 @@ router.post('/logout', (req, res) => {
   }
 });
 
+/* -------------------------------------------------------------------------- */
+/* 🧩 PUBLIC FREELANCER LISTING                                                */
+/* -------------------------------------------------------------------------- */
+router.get('/all', async (req, res) => {
+  try {
+    const freelancers = await Freelancer.find({})
+      .select('fullName email skills bio location profile_picture portfolio rating reviewCount completedProjects')
+      .sort({ createdAt: -1 });
+    res.json(freelancers);
+  } catch (err) {
+    console.error('Fetch all freelancers error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+router.get('/public/:id', async (req, res) => {
+  try {
+    const freelancer = await Freelancer.findById(req.params.id)
+      .select('fullName skills bio location profile_picture portfolio rating reviewCount completedProjects resume');
+    if (!freelancer) return res.status(404).json({ message: 'Freelancer not found' });
+    res.json(freelancer);
+  } catch (err) {
+    console.error('Fetch public freelancer error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 module.exports = router;

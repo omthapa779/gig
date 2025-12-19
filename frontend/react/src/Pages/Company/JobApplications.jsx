@@ -81,7 +81,7 @@ export default function JobApplications() {
     if (error) return <div className="p-10 text-center text-red-500">Error: {error}</div>;
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="w-full py-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div>
                     <Link to="/company/jobs" className="text-gray-500 hover:text-black mb-2 inline-block">

@@ -46,9 +46,9 @@ const DashboardNavbar = ({ role }) => {
     const navLinks = isCompany
         ? [
             { name: 'Dashboard', path: '/company/profile' },
-            { name: 'My Jobs', path: '/company/jobs' },
-            { name: 'Post a Job', path: '/company/jobs?action=new' }, // Example query param
-            { name: 'Find Talent', path: '#' },
+            { name: 'My Jobs', path: '/company/jobs', exact: true }, // Add exact flag or handle logic below
+            { name: 'Post a Job', path: '/company/jobs?action=new' },
+            { name: 'Find Talent', path: '/company/find-talent' },
         ]
         : [
             { name: 'Find Work', path: '/explore-jobs' },
@@ -78,18 +78,31 @@ const DashboardNavbar = ({ role }) => {
 
                     {/* Desktop Nav */}
                     <div className="hidden md:flex items-center space-x-8">
-                        {navLinks.map((link) => (
-                            <Link
-                                key={link.name}
-                                to={link.path}
-                                className={`text-sm font-medium transition-colors duration-200 ${location.pathname === link.path
-                                    ? 'text-blue-600'
-                                    : 'text-gray-600 hover:text-blue-600'
-                                    }`}
-                            >
-                                {link.name}
-                            </Link>
-                        ))}
+                        {navLinks.map((link) => {
+                            const isActive = link.path.includes('?')
+                                ? (location.pathname + location.search) === link.path
+                                : location.pathname === link.path && (!location.search || !navLinks.some(l => l.path === location.pathname + location.search));
+
+                            // Simplification: just check if 'action=new' is present for 'Post Job'.
+                            // If 'My Jobs' (/company/jobs), it should NOT match if search is '?action=new'.
+
+                            const active = link.path.includes('?')
+                                ? (location.pathname + location.search) === link.path
+                                : location.pathname === link.path && location.search !== '?action=new';
+
+                            return (
+                                <Link
+                                    key={link.name}
+                                    to={link.path}
+                                    className={`text-sm font-medium transition-colors duration-200 ${active
+                                        ? 'text-blue-600'
+                                        : 'text-gray-600 hover:text-blue-600'
+                                        }`}
+                                >
+                                    {link.name}
+                                </Link>
+                            )
+                        })}
                     </div>
 
                     {/* Right Side Actions */}

@@ -10,6 +10,8 @@ import CompanyProfile from "./Pages/Company/profile.jsx";
 import CompanyJobs from "./Pages/Company/jobs.jsx";
 import CompanyProfileEdit from "./Pages/Company/profileEdit.jsx";
 import CompanyJobApplications from "./Pages/Company/JobApplications.jsx";
+import FindTalent from "./Pages/Company/FindTalent.jsx";
+import FreelancerPublicProfile from "./Pages/Public/FreelancerPublicProfile.jsx";
 
 // Freelancer Pages
 import FreelancerRegister from "./Pages/Freelancer/freelancerRegister.jsx";
@@ -56,6 +58,8 @@ export default function App() {
             <Route path="/company/jobs" element={<CompanyJobs />} />
             <Route path="/company/job/:id/applications" element={<CompanyJobApplications />} />
             <Route path="/company/profileEdit" element={<CompanyProfileEdit />} />
+            <Route path="/company/find-talent" element={<FindTalent />} />
+            <Route path="/freelancer/:id" element={<FreelancerPublicProfile />} />
           </Route>
 
           {/* Protected Freelancer Routes */}
