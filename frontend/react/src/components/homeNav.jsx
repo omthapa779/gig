@@ -46,6 +46,35 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
     { title: "Education", path: "#", icon: "fa-graduation-cap", color: "text-orange-500" },
   ];
 
+  /* Auth State */
+  const [userRole, setUserRole] = useState("guest"); // guest, freelancer, company
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      // Try freelancer first
+      try {
+        const res = await fetch('/api/freelancer/me');
+        if (res.ok) {
+          setUserRole("freelancer");
+          return;
+        }
+      } catch (e) { }
+
+      // Try company
+      try {
+        const res = await fetch('/api/company/me');
+        if (res.ok) {
+          setUserRole("company");
+          return;
+        }
+      } catch (e) { }
+
+      setUserRole("guest");
+    };
+    checkAuth();
+  }, [location.pathname]); // Re-check on route change if needed, or just once on mount? Better on mount + route change if valid token might expire/logout.
+
+
   /* Close dropdowns on outside click */
   useEffect(() => {
     const closeDropdowns = (e) => {
@@ -140,41 +169,60 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
 
               </div>
 
-              <div
-                className={`hn-login ${loginOpen ? "hn-login--open" : ""}`}
-                ref={loginRef}
-                onMouseEnter={() => handleOpen(setLoginOpen, loginTimer)}
-                onMouseLeave={() => handleClose(setLoginOpen, loginTimer)}
-              >
-                <button
-                  type="button"
-                  aria-expanded={loginOpen}
-                  className={`hn-loginBtn ${loginOpen ? "hn-loginBtn--active" : ""}`}
+              {userRole === 'guest' ? (
+                <div
+                  className={`hn-login ${loginOpen ? "hn-login--open" : ""}`}
+                  ref={loginRef}
+                  onMouseEnter={() => handleOpen(setLoginOpen, loginTimer)}
+                  onMouseLeave={() => handleClose(setLoginOpen, loginTimer)}
                 >
-                  <span>Log In</span>
-                  <i className="fa-solid fa-chevron-down hn-chevron" />
-                </button>
-
-                <div className="hn-dropdown" role="menu">
-                  <Link
-                    to="/freelancer/login"
-                    className="hn-ddItem hn-underlineItem"
-                    onClick={() => setLoginOpen(false)}
+                  <button
+                    type="button"
+                    aria-expanded={loginOpen}
+                    className={`hn-loginBtn ${loginOpen ? "hn-loginBtn--active" : ""}`}
                   >
-                    <i className="fa-solid fa-user-tie hn-ddIcon" />
-                    Freelancer Login
-                  </Link>
+                    <span>Log In</span>
+                    <i className="fa-solid fa-chevron-down hn-chevron" />
+                  </button>
 
-                  <Link
-                    to="/company/login"
-                    className="hn-ddItem hn-underlineItem"
-                    onClick={() => setLoginOpen(false)}
-                  >
-                    <i className="fa-solid fa-building hn-ddIcon" />
-                    Company Login
-                  </Link>
+                  <div className="hn-dropdown" role="menu">
+                    <Link
+                      to="/freelancer/login"
+                      className="hn-ddItem hn-underlineItem"
+                      onClick={() => setLoginOpen(false)}
+                    >
+                      <i className="fa-solid fa-user-tie hn-ddIcon" />
+                      Freelancer Login
+                    </Link>
+
+                    <Link
+                      to="/company/login"
+                      className="hn-ddItem hn-underlineItem"
+                      onClick={() => setLoginOpen(false)}
+                    >
+                      <i className="fa-solid fa-building hn-ddIcon" />
+                      Company Login
+                    </Link>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <Link
+                  to={userRole === 'company' ? "/company/profile" : "/freelancer/profile"}
+                  className="flex items-center gap-2 px-5 py-2.5 bg-black text-white rounded-full font-bold hover:bg-gray-800 transition-all text-sm"
+                >
+                  {userRole === 'company' ? (
+                    <>
+                      <i className="fa-solid fa-building-user"></i>
+                      <span>Dashboard</span>
+                    </>
+                  ) : (
+                    <>
+                      <i className="fa-solid fa-user-circle"></i>
+                      <span>My Profile</span>
+                    </>
+                  )}
+                </Link>
+              )}
 
               <div className="hn-searchWrap">
                 <i className="fa-solid fa-search hn-searchIcon" />

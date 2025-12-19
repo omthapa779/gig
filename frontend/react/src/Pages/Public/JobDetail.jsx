@@ -165,8 +165,9 @@ export default function JobDetail() {
                             </div>
 
                             {userRole === 'company' ? (
-                                <button disabled className="w-full py-4 bg-gray-200 text-gray-400 text-lg font-bold rounded-xl shadow-none cursor-not-allowed flex items-center justify-center gap-2">
-                                    <span>Hiring Mode</span>
+                                <button disabled className="w-full py-4 bg-gray-200 text-gray-500 text-lg font-bold rounded-xl shadow-none cursor-not-allowed flex items-center justify-center gap-2">
+                                    <i className="fa-solid fa-building-user"></i>
+                                    <span>View as Company</span>
                                 </button>
                             ) : applicationStatus?.applied ? (
                                 <button disabled className="w-full py-4 bg-green-100 text-green-700 text-lg font-bold rounded-xl shadow-none cursor-not-allowed flex items-center justify-center gap-2">
