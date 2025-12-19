@@ -448,9 +448,6 @@ export default function Jobs() {
           </div>
         </form>
       </div>
-      <div className="mt-20">
-        <Footer />
-      </div>
     </SmoothScroll>
   );
 }

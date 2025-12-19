@@ -131,7 +131,7 @@ router.put('/:id/status', protectCompany, async (req, res) => {
 
         if (status === 'interviewing') {
             // "the project that was active should now go to interviewing mode"
-            if (job.status === 'active') {
+            if (!job.status || job.status === 'active') {
                 job.status = 'interviewing';
                 await job.save();
             }

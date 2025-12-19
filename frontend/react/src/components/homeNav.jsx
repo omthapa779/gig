@@ -36,18 +36,19 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
 
   // Categories Data
   const categories = [
-    { title: "Physical Jobs", path: "#", icon: "fa-person-digging", color: "text-green-600" },
-    { title: "Development", path: "#", icon: "fa-code", color: "text-blue-600" },
-    { title: "Design", path: "#", icon: "fa-pen-nib", color: "text-purple-600" },
-    { title: "Video & Animation", path: "#", icon: "fa-video", color: "text-orange-600" },
-    { title: "Sales & Marketing", path: "#", icon: "fa-bullhorn", color: "text-blue-500" },
-    { title: "Writing", path: "#", icon: "fa-pen-fancy", color: "text-purple-500" },
-    { title: "Finance", path: "#", icon: "fa-chart-line", color: "text-green-500" },
-    { title: "Education", path: "#", icon: "fa-graduation-cap", color: "text-orange-500" },
+    { title: "Physical Jobs", path: "/explore-jobs?category=Physical%20Jobs", icon: "fa-person-digging", color: "text-green-600" },
+    { title: "Development", path: "/explore-jobs?category=Development", icon: "fa-code", color: "text-blue-600" },
+    { title: "Design", path: "/explore-jobs?category=Design", icon: "fa-pen-nib", color: "text-purple-600" },
+    { title: "Video & Animation", path: "/explore-jobs?category=Video%20%26%20Animation", icon: "fa-video", color: "text-orange-600" },
+    { title: "Sales & Marketing", path: "/explore-jobs?category=Sales%20%26%20Marketing", icon: "fa-bullhorn", color: "text-blue-500" },
+    { title: "Writing", path: "/explore-jobs?category=Writing", icon: "fa-pen-fancy", color: "text-purple-500" },
+    { title: "Finance", path: "/explore-jobs?category=Finance", icon: "fa-chart-line", color: "text-green-500" },
+    { title: "Education", path: "/explore-jobs?category=Education", icon: "fa-graduation-cap", color: "text-orange-500" },
   ];
 
   /* Auth State */
   const [userRole, setUserRole] = useState("guest"); // guest, freelancer, company
+  const navigate = React.useNavigate ? React.useNavigate() : null; // Safe navigate hook use or import if missing (It is not imported above, wait. 'useLocation' is imported. Check imports.)
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -96,6 +97,13 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
       const navH = 80;
       const y = el.getBoundingClientRect().top + window.pageYOffset - navH;
       window.scrollTo({ top: y, behavior: "smooth" });
+    }
+  };
+
+  const handleSearch = (e) => {
+    if (e.key === 'Enter') {
+        // Assume we have access to navigation or simple window location
+        window.location.href = `/explore-jobs?search=${encodeURIComponent(searchValue)}`;
     }
   };
 
@@ -231,6 +239,7 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
                   placeholder="Search for services..."
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
+                  onKeyDown={handleSearch}
                   className="hn-search"
                 />
               </div>

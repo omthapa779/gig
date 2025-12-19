@@ -29,11 +29,16 @@ const DashboardNavbar = ({ role }) => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const handleLogout = () => {
-        // Clear cookies/localstorage
-        // In a real app we might call an API endpoint here
-        document.cookie = 'token=; Max-Age=0; path=/;';
-        navigate('/');
+    const handleLogout = async () => {
+        try {
+            const endpoint = role === 'company' ? '/api/company/logout' : '/api/freelancer/logout';
+            await fetch(endpoint, { method: 'POST' });
+            // Redirect to home and reload to clear application state
+            window.location.href = '/';
+        } catch (err) {
+            console.error(err);
+            navigate('/');
+        }
     };
 
     const isCompany = role === 'company';
