@@ -8,7 +8,8 @@ const Company = require('../models/Company');
 router.get('/', async (req, res) => {
     try {
         // Only show active jobs in the feed
-        const jobs = await Job.find({ status: 'active' })
+        // Only show active or interviewing jobs in the feed
+        const jobs = await Job.find({ status: { $in: ['active', 'interviewing'] } })
             .sort({ createdAt: -1 })
             .limit(20)
             .populate('company', 'companyName logo location');

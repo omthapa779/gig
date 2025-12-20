@@ -25,6 +25,7 @@ import FAQ from "./Pages/Support_FAQ_about/FAQ.jsx";
 import Support from "./Pages/Support_FAQ_about/support.jsx";
 import ForgotPassword from "./Pages/forgotPassword.jsx";
 import ResetPassword from "./Pages/resetPassword.jsx";
+import Chat from "./Pages/Chat/Chat.jsx";
 
 // Categories Page
 import Categories from "./Pages/Categories/categories.jsx";
@@ -59,6 +60,7 @@ export default function App() {
             <Route path="/company/job/:id/applications" element={<CompanyJobApplications />} />
             <Route path="/company/profileEdit" element={<CompanyProfileEdit />} />
             <Route path="/company/find-talent" element={<FindTalent />} />
+            <Route path="/company/chat" element={<Chat />} />
             <Route path="/freelancer/:id" element={<FreelancerPublicProfile />} />
           </Route>
 
@@ -67,6 +69,7 @@ export default function App() {
             <Route path="/freelancer/profile" element={<FreelancerProfile />} />
             <Route path="/freelancer/proposals" element={<FreelancerProposals />} />
             <Route path="/freelancer/profileEdit" element={<FreelancerProfileEdit />} />
+            <Route path="/freelancer/chat" element={<Chat />} />
           </Route>
 
 

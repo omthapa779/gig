@@ -18,7 +18,7 @@ router.post('/', protectFreelancer, async (req, res) => {
             return res.status(404).json({ message: 'Job not found' });
         }
 
-        if (job.status !== 'active') { // Check if job is still accepting applications
+        if (job.status !== 'active' && job.status !== 'interviewing') { // Check if job is still accepting applications
             return res.status(400).json({ message: 'Job is no longer active' });
         }
 
@@ -198,8 +198,8 @@ router.put('/:id/status', protectCompany, async (req, res) => {
             // "automatic email needs to be sent to the rejected individuals" -> implies we explicitly rejected them.
             // If we mark THIS application as rejected, send email.
         } else if (status === 'hired') {
-            // 1. Close the job
-            job.status = 'closed';
+            // 1. Mark job as Hired (Locked state)
+            job.status = 'hired';
             await job.save();
 
             // 2. Reject all other applicants

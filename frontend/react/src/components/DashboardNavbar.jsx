@@ -130,6 +130,7 @@ const DashboardNavbar = ({ role }) => {
     const navLinks = isCompany
         ? [
             { name: 'Dashboard', path: '/company/profile' },
+            { name: 'Messages', path: '/company/chat' },
             { name: 'My Jobs', path: '/company/jobs', exact: true }, // Add exact flag or handle logic below
             { name: 'Post a Job', path: '/company/jobs?action=new' },
             { name: 'Find Talent', path: '/company/find-talent' },
@@ -137,6 +138,7 @@ const DashboardNavbar = ({ role }) => {
         : [
             { name: 'Find Work', path: '/explore-jobs' },
             { name: 'My Proposals', path: '/freelancer/proposals' },
+            { name: 'Messages', path: '/freelancer/chat' },
             { name: 'Saved Jobs', path: '#' },
         ];
 
