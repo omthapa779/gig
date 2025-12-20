@@ -3,6 +3,7 @@ const router = express.Router();
 const Application = require('../models/Application');
 const Job = require('../models/Job');
 const Freelancer = require('../models/Freelancer');
+const Notification = require('../models/Notification');
 const { protectFreelancer, protectCompany } = require('../middleware/authMiddleware');
 
 // POST /api/applications
@@ -31,9 +32,49 @@ router.post('/', protectFreelancer, async (req, res) => {
             freelancer: freelancerId,
         });
 
+        // Notify Company
+        await Notification.create({
+            recipient: job.company,
+            recipientModel: 'Company',
+            type: 'job',
+            title: 'New Applicant',
+            message: `${req.freelancer.fullName} applied for "${job.title}"`,
+            link: `/company/job/${jobId}/applications`
+        });
+
+        // Notify Freelancer (Confirmation)
+        await Notification.create({
+            recipient: freelancerId,
+            recipientModel: 'Freelancer',
+            type: 'success',
+            title: 'Application Submitted',
+            message: `You have successfully applied for "${job.title}"`,
+            link: `/freelancer/proposals`
+        });
+
         res.status(201).json(application);
     } catch (err) {
         console.error('Apply error:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// GET /api/applications/my-applications
+// Freelancer views their applications
+router.get('/my-applications', protectFreelancer, async (req, res) => {
+    try {
+        const freelancerId = req.freelancer._id;
+        const applications = await Application.find({ freelancer: freelancerId })
+            .populate({
+                path: 'job',
+                select: 'title company location pay type status createdAt',
+                populate: { path: 'company', select: 'companyName logo' }
+            })
+            .sort({ createdAt: -1 });
+
+        res.json(applications);
+    } catch (err) {
+        console.error('Fetch my applications error:', err);
         res.status(500).json({ message: 'Server error' });
     }
 });
@@ -126,6 +167,16 @@ router.put('/:id/status', protectCompany, async (req, res) => {
         application.status = status;
         await application.save();
 
+        // Notify Freelancer
+        await Notification.create({
+            recipient: application.freelancer,
+            recipientModel: 'Freelancer',
+            type: status === 'hired' ? 'success' : status === 'rejected' ? 'info' : 'job',
+            title: 'Application Update',
+            message: `Your application for "${application.job.title}" has been moved to ${status}`,
+            link: `/freelancer/proposals`
+        });
+
         // 3. Side effects
         const job = await Job.findById(application.job._id);
 
@@ -136,7 +187,7 @@ router.put('/:id/status', protectCompany, async (req, res) => {
                 await job.save();
             }
             // "if they choose mulitple person for interview .. automatic email needs to be sent to the rejected individuals"
-            // Wait, logic says "if they choose mulitple person for interview ... automatic email needs to be sent to the rejected individuals"
+            // Wait, logic says "if they choose mulitple person for interview NOW or directly hire one".
             // This phrasing is tricky. "choose multiple person for interview NOW or directly hire one".
             // It sounds like a bulk action or single action. 
             // If I move ONE person to interview, does it reject everyone else? Probably NOT if multiple interviews are allowed.
@@ -147,20 +198,36 @@ router.put('/:id/status', protectCompany, async (req, res) => {
             // "automatic email needs to be sent to the rejected individuals" -> implies we explicitly rejected them.
             // If we mark THIS application as rejected, send email.
         } else if (status === 'hired') {
-            // If hired, maybe close job?
-            job.status = 'closed'; // or 'hired'
+            // 1. Close the job
+            job.status = 'closed';
             await job.save();
 
-            // Should we reject all others?
-            // "directly hire one ... automatic email needs to be sent to the rejected individuals"
-            // Let's not auto-reject others yet unless explicitly requested, 
-            // BUT requirement 3 says "automatic email needs to be sent to the rejected individuals". 
-            // Commonly when a job is filled, others are rejected.
-            // I'll leave other applications as is for now to avoid accidental data loss 
-            // unless the user explicitly said "Auto-reject others when hired".
-            // Re-reading: "if they choose mulitple person for interview .. automatic email needs to be sent to the rejected individuals"
-            // This might mean a "Shortlist & Reject Rest" button.
-            // I'll implement the atomic status update here.
+            // 2. Reject all other applicants
+            const otherApplications = await Application.find({
+                job: job._id,
+                _id: { $ne: applicationId }
+            });
+
+            if (otherApplications.length > 0) {
+                // Bulk update status
+                await Application.updateMany(
+                    { job: job._id, _id: { $ne: applicationId } },
+                    { status: 'rejected' }
+                );
+
+                // 3. Notify rejected applicants
+                const notifications = otherApplications.map(app => ({
+                    recipient: app.freelancer,
+                    recipientModel: 'Freelancer',
+                    type: 'info',
+                    title: 'Position Filled',
+                    message: `The position for "${job.title}" has been filled. Thank you for your interest.`,
+                    link: `/freelancer/proposals`
+                }));
+
+                await Notification.insertMany(notifications);
+            }
+
         } else if (status === 'rejected') {
             // Send email (mock)
             console.log(`Sending rejection email to freelancer ${application.freelancer}`);

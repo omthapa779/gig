@@ -443,6 +443,18 @@ router.put('/jobs/:id', protectCompany, uploadJob.array('attachments', 5), async
     ['title', 'category', 'description', 'pay', 'location'].forEach((k) => {
       if (body[k] && String(body[k]).trim() !== '') up[k] = body[k].trim();
     });
+
+    // Status update
+    if (body.status) {
+      const validStatuses = ['active', 'interviewing', 'hired', 'closed'];
+      if (validStatuses.includes(body.status)) {
+        up.status = body.status;
+        // Sync 'active' boolean: Only 'active' and 'interviewing' are considered "active" listings usually
+        // But 'closed' and 'hired' are definitely not.
+        up.active = (body.status === 'active' || body.status === 'interviewing');
+      }
+    }
+
     if (body.deadline) up.deadline = new Date(body.deadline);
     if (body.isPhysical !== undefined) up.isPhysical = !!(body.isPhysical === 'true' || body.isPhysical === true);
     // enforce location if becoming physical

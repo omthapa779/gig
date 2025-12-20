@@ -77,6 +77,7 @@ app.use('/api/company', companyRoutes);
 app.use('/api/freelancer', freelancerRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/applications', applicationRoutes);
+app.use('/api/notifications', require('./routes/notificationRoutes'));
 
 // ============================
 // 7️⃣ Frontend Routes

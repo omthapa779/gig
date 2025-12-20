@@ -79,6 +79,27 @@ export default function Jobs() {
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handleStatusChange = async (jobId, newStatus) => {
+    // Optimistic update
+    setMyJobs(prev => prev.map(job =>
+      job._id === jobId ? { ...job, status: newStatus, active: (newStatus === 'active' || newStatus === 'interviewing') } : job
+    ));
+
+    try {
+      const res = await fetch(`/api/company/jobs/${jobId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus })
+      });
+      if (!res.ok) {
+        throw new Error('Failed to update status');
+      }
+    } catch (err) {
+      console.error(err);
+      fetchMyJobs(); // Revert on error
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (loading) return;
@@ -177,14 +198,30 @@ export default function Jobs() {
                         <span>{new Date(job.createdAt).toLocaleDateString()}</span>
                       </div>
                     </div>
-                    <span className={`px-2 py-1 text-xs font-bold uppercase tracking-wide rounded 
-                      ${job.status === 'active' ? 'bg-green-50 text-green-700' : ''}
-                      ${job.status === 'interviewing' ? 'bg-purple-50 text-purple-700' : ''}
-                      ${job.status === 'hired' ? 'bg-blue-50 text-blue-700' : ''}
-                      ${job.status === 'closed' ? 'bg-red-50 text-red-700' : ''}
-                    `}>
-                      {job.status?.replace(/-/g, ' ') || (job.active ? 'Active' : 'Closed')}
-                    </span>
+                    <div className="relative group/status">
+                      <select
+                        value={job.status || (job.active ? 'active' : 'closed')}
+                        onChange={(e) => handleStatusChange(job._id, e.target.value)}
+                        className={`appearance-none pl-3 pr-8 py-1 text-xs font-bold uppercase tracking-wide rounded-md border-0 cursor-pointer focus:ring-2 focus:ring-offset-1 outline-none transition-all
+                      ${job.status === 'active' ? 'bg-green-50 text-green-700 focus:ring-green-500' : ''}
+                      ${job.status === 'interviewing' ? 'bg-purple-50 text-purple-700 focus:ring-purple-500' : ''}
+                      ${job.status === 'hired' ? 'bg-blue-50 text-blue-700 focus:ring-blue-500' : ''}
+                      ${job.status === 'closed' ? 'bg-red-50 text-red-700 focus:ring-red-500' : ''}
+                      ${!job.status ? 'bg-green-50 text-green-700' : ''}
+                    `}
+                      >
+                        <option value="active">Active</option>
+                        <option value="interviewing">Interviewing</option>
+                        <option value="hired">Hired</option>
+                        <option value="closed">Closed</option>
+                      </select>
+                      <i className={`fa-solid fa-chevron-down absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] pointer-events-none opacity-70 group-hover/status:opacity-100 transition-opacity
+                      ${job.status === 'active' ? 'text-green-800' : ''}
+                      ${job.status === 'interviewing' ? 'text-purple-800' : ''}
+                      ${job.status === 'hired' ? 'text-blue-800' : ''}
+                      ${job.status === 'closed' ? 'text-red-800' : ''}
+                    `}></i>
+                    </div>
                   </div>
                   <p className="text-gray-600 line-clamp-2 mb-4 text-sm">{job.description}</p>
 

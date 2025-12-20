@@ -18,8 +18,8 @@ import FreelancerRegister from "./Pages/Freelancer/freelancerRegister.jsx";
 import FreelancerLogin from "./Pages/Freelancer/loginFreelancer.jsx";
 import FreelancerProfile from "./Pages/Freelancer/profile.jsx";
 import FreelancerProfileEdit from "./Pages/Freelancer/profileEdit.jsx";
+import FreelancerProposals from "./Pages/Freelancer/MyProposals.jsx";
 
-// About us , FAQ and Support Pages
 import About from "./Pages/Support_FAQ_about/about.jsx";
 import FAQ from "./Pages/Support_FAQ_about/FAQ.jsx";
 import Support from "./Pages/Support_FAQ_about/support.jsx";
@@ -65,6 +65,7 @@ export default function App() {
           {/* Protected Freelancer Routes */}
           <Route element={<DashboardLayout role="freelancer" />}>
             <Route path="/freelancer/profile" element={<FreelancerProfile />} />
+            <Route path="/freelancer/proposals" element={<FreelancerProposals />} />
             <Route path="/freelancer/profileEdit" element={<FreelancerProfileEdit />} />
           </Route>
 

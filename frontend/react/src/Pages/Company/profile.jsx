@@ -245,36 +245,72 @@ export default function CompanyProfile() {
             </div>
 
             {jobs.length > 0 ? (
-              <div className="grid grid-cols-1 gap-6">
+              <div className="grid grid-cols-1 gap-5">
                 {jobs.map((job) => (
-                  <div key={job._id} className="group relative bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md transition-all hover:border-blue-200">
+                  <div key={job._id} className="group relative bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 hover:border-blue-100">
+
+                    {/* Top Row: Title, Date, Status */}
                     <div className="flex justify-between items-start mb-4">
-                      <div>
-                        {/* Title with Delete Button next to it or Absolute top right */}
-                        <div className="flex flex-col">
-                          <h4 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{job.title}</h4>
-                          <p className="text-sm text-gray-500 mt-1">{job.category} &bull; {new Date(job.createdAt).toLocaleDateString()}</p>
+                      <div className="space-y-1.5 flex-1 pr-4">
+                        <Link to={`/job/${job._id}`} className="block">
+                          <h4 className="text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1">
+                            {job.title}
+                          </h4>
+                        </Link>
+                        <div className="flex items-center gap-2 text-xs font-medium text-gray-500">
+                          <span className="bg-gray-50 px-2 py-1 rounded-md border border-gray-100">{job.category}</span>
+                          <span className="text-gray-300">&bull;</span>
+                          <span>Posted {new Date(job.createdAt).toLocaleDateString()}</span>
                         </div>
                       </div>
 
                       <div className="flex items-center gap-3">
-                        <span className="bg-green-50 text-green-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Active</span>
+                        {/* Dynamic Status Badge */}
+                        <span className={`px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider rounded-full border
+                          ${(job.status === 'active' || (!job.status && job.active)) ? 'bg-green-50 text-green-600 border-green-100' : ''}
+                          ${job.status === 'interviewing' ? 'bg-purple-50 text-purple-600 border-purple-100' : ''}
+                          ${job.status === 'hired' ? 'bg-blue-50 text-blue-600 border-blue-100' : ''}
+                          ${job.status === 'closed' ? 'bg-gray-50 text-gray-500 border-gray-100 line-through decoration-gray-400' : ''}
+                        `}>
+                          {(job.status === 'active' || (!job.status && job.active)) ? 'Active' :
+                            job.status ? job.status.replace(/-/g, ' ') : 'Closed'}
+                        </span>
+
                         <button
                           onClick={() => handleDeleteJob(job._id)}
-                          className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-red-100 text-gray-400 hover:text-red-500 transition-colors"
+                          className="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-red-600 hover:bg-red-50 transition-all border border-transparent hover:border-red-100"
                           title="Delete Job"
                         >
                           <i className="fa-solid fa-trash-can text-sm"></i>
                         </button>
                       </div>
                     </div>
-                    <p className="text-gray-600 line-clamp-2 mb-4">{job.description}</p>
-                    <div className="flex items-center justify-between border-t border-gray-50 pt-4">
-                      {/* Added NPR Prefix */}
-                      <span className="font-semibold text-gray-900">
-                        {job.pay ? `NPR ${job.pay}` : "Negotiable"}
-                      </span>
-                      <Link to={`/job/${job._id}`} className="text-blue-600 font-medium text-sm group-hover:underline cursor-pointer">View Details &rarr;</Link>
+
+                    {/* Description Preview */}
+                    <p className="text-gray-500 text-sm leading-relaxed line-clamp-2 mb-5 group-hover:text-gray-600 transition-colors">
+                      {job.description}
+                    </p>
+
+                    {/* Bottom Row: Pay & Action */}
+                    <div className="flex items-center justify-between border-t border-gray-50 pt-4 mt-auto">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-400">
+                          <i className="fa-solid fa-money-bill-wave text-xs"></i>
+                        </div>
+                        <span className="font-bold text-gray-900 text-sm">
+                          {job.pay ? `NPR ${job.pay}` : "Negotiable"}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <Link to={`/company/job/${job._id}/applications`} className="flex items-center gap-2 text-xs font-bold text-gray-600 hover:text-black hover:bg-gray-100 px-3 py-1.5 rounded-lg transition-all border border-gray-200 hover:border-gray-300">
+                          <i className="fa-solid fa-users"></i> Applicants
+                        </Link>
+                        <Link to={`/job/${job._id}`} className="flex items-center gap-1 text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors group/link">
+                          View
+                          <i className="fa-solid fa-arrow-right text-xs transition-transform transform group-hover/link:translate-x-1"></i>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 ))}

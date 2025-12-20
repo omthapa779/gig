@@ -1,15 +1,94 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
+import NotificationDropdown from './NotificationDropdown';
+
+// Simple time ago formatter
+const formatTimeAgo = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const seconds = Math.floor((now - date) / 1000);
+
+    if (seconds < 60) return 'Just now';
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes}m ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    if (days < 7) return `${days}d ago`;
+    return date.toLocaleDateString();
+};
 
 const DashboardNavbar = ({ role }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [showNotifications, setShowNotifications] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [notifications, setNotifications] = useState([]);
+    const [loadingNotifications, setLoadingNotifications] = useState(false);
+
     const dropdownRef = useRef(null);
+    const notificationRef = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
     const { theme, toggleTheme } = useTheme();
+
+    // Fetch Notifications
+    const fetchNotifications = async () => {
+        try {
+            const res = await fetch('/api/notifications');
+            if (res.ok) {
+                const data = await res.json();
+                setNotifications(data.notifications.map(n => ({
+                    ...n,
+                    id: n._id,
+                    time: formatTimeAgo(n.createdAt)
+                })) || []);
+            }
+        } catch (error) {
+            console.error("Failed to fetch notifications", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchNotifications();
+        const interval = setInterval(fetchNotifications, 60000); // Poll every minute
+        return () => clearInterval(interval);
+    }, []);
+
+    const handleMarkAllRead = async () => {
+        try {
+            // Optimistic update
+            const oldNotifications = [...notifications];
+            setNotifications(notifications.map(n => ({ ...n, read: true })));
+
+            const res = await fetch('/api/notifications/read-all', { method: 'PUT' });
+            if (!res.ok) {
+                setNotifications(oldNotifications); // Revert on error
+            }
+        } catch (error) {
+            console.error("Failed to mark notifications as read", error);
+        }
+    };
+
+    const handleNotificationClick = async (notification) => {
+        try {
+            if (!notification.read) {
+                // Mark as read API
+                await fetch(`/api/notifications/${notification.id}/read`, { method: 'PUT' });
+                // Local update
+                setNotifications(prev => prev.map(n =>
+                    n.id === notification.id ? { ...n, read: true } : n
+                ));
+            }
+            setShowNotifications(false);
+            if (notification.link) {
+                navigate(notification.link);
+            }
+        } catch (error) {
+            console.error("Failed to handle notification click", error);
+        }
+    };
 
     // Handle scroll effect
     useEffect(() => {
@@ -18,11 +97,14 @@ const DashboardNavbar = ({ role }) => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Close dropdown on outside click
+    // Close dropdowns on outside click
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setDropdownOpen(false);
+            }
+            if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+                setShowNotifications(false);
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
@@ -41,6 +123,8 @@ const DashboardNavbar = ({ role }) => {
         }
     };
 
+    const unreadCount = notifications.filter(n => !n.read).length;
+
     const isCompany = role === 'company';
 
     const navLinks = isCompany
@@ -52,7 +136,7 @@ const DashboardNavbar = ({ role }) => {
         ]
         : [
             { name: 'Find Work', path: '/explore-jobs' },
-            { name: 'My Proposals', path: '#' },
+            { name: 'My Proposals', path: '/freelancer/proposals' },
             { name: 'Saved Jobs', path: '#' },
         ];
 
@@ -108,10 +192,26 @@ const DashboardNavbar = ({ role }) => {
                     {/* Right Side Actions */}
                     <div className="hidden md:flex items-center space-x-4">
                         {/* Notification Icon */}
-                        <button className="relative p-2 text-gray-500 hover:text-blue-600 transition-colors rounded-full hover:bg-gray-50">
-                            <i className="fa-regular fa-bell text-xl"></i>
-                            <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full ring-2 ring-white"></span>
-                        </button>
+                        <div className="relative" ref={notificationRef}>
+                            <button
+                                onClick={() => setShowNotifications(!showNotifications)}
+                                className={`relative p-2 transition-colors rounded-full hover:bg-gray-50 focus:outline-none ${showNotifications ? 'text-blue-600 bg-blue-50' : 'text-gray-500 hover:text-blue-600'}`}
+                            >
+                                <i className="fa-regular fa-bell text-xl"></i>
+                                {unreadCount > 0 && (
+                                    <span className="absolute top-1.5 right-1.5 h-2.5 w-2.5 bg-red-500 rounded-full ring-2 ring-white animate-pulse"></span>
+                                )}
+                            </button>
+
+                            {showNotifications && (
+                                <NotificationDropdown
+                                    notifications={notifications}
+                                    onMarkAllRead={handleMarkAllRead}
+                                    onClose={() => setShowNotifications(false)}
+                                    onNotificationClick={handleNotificationClick}
+                                />
+                            )}
+                        </div>
 
                         {/* Profile Dropdown */}
                         <div className="relative" ref={dropdownRef}>
