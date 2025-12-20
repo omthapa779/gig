@@ -90,16 +90,10 @@ router.get('/conversations', protectAny, async (req, res) => {
         if (!user) return res.status(401).json({ message: 'Not authorized' });
 
         // Aggregate unique users based on sender/recipient
-        // This is complex in Mongo. Simpler way for MVP: 
-        // Fetch all messages involving this user, sort by date, then client-side group? 
-        // Or aggregate. Let's do a simple find for now and see performance later
-        // or distinct.
-
-        // Better: Find all unique "other parties" this user has exchanged messages with.
         const messages = await Message.find({
             $or: [{ sender: user.id }, { recipient: user.id }]
         }).sort({ createdAt: -1 })
-            .populate('sender', 'companyName fullName logo profile_picture') // Populate possible models
+            .populate('sender', 'companyName fullName logo profile_picture')
             .populate('recipient', 'companyName fullName logo profile_picture');
 
         // Process in JS to get unique conversations
@@ -126,9 +120,33 @@ router.get('/conversations', protectAny, async (req, res) => {
                     },
                     lastMessage: decrypt(msg.content),
                     time: msg.createdAt,
-                    read: isSender ? true : msg.read
+                    read: isSender ? true : msg.read,
+                    status: 'unknown'
                 });
             }
+        }
+
+        // Enrich with Application Status
+        for (const conv of conversations) {
+            let status = 'other';
+
+            if (user.role === 'Company' && conv.user.role === 'Freelancer') {
+                const apps = await Application.find({ freelancer: conv.user._id }).populate('job');
+                const relevant = apps.filter(a => a.job && a.job.company.toString() === user.id.toString());
+
+                if (relevant.some(a => a.status === 'hired')) status = 'hired';
+                else if (relevant.some(a => a.status === 'interviewing')) status = 'interviewing';
+                else if (relevant.length > 0) status = relevant[0].status;
+
+            } else if (user.role === 'Freelancer' && conv.user.role === 'Company') {
+                const apps = await Application.find({ freelancer: user.id }).populate('job');
+                const relevant = apps.filter(a => a.job && a.job.company.toString() === conv.user._id.toString());
+
+                if (relevant.some(a => a.status === 'hired')) status = 'hired';
+                else if (relevant.some(a => a.status === 'interviewing')) status = 'interviewing';
+                else if (relevant.length > 0) status = relevant[0].status;
+            }
+            conv.status = status;
         }
 
         res.json(conversations);

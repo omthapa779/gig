@@ -12,6 +12,13 @@ const Chat = () => {
     const [searchParams] = useSearchParams();
     const initialRecipientId = searchParams.get('new');
     const [currentUser, setCurrentUser] = useState(null); // To know who "I" am (for styling)
+    const [filter, setFilter] = useState('all');
+
+    const filteredConversations = conversations.filter(c => {
+        if (filter === 'all') return true;
+        if (filter === 'working') return c.status === 'hired';
+        return c.status === filter;
+    });
 
     // Fetch conversations
     useEffect(() => {
@@ -144,26 +151,50 @@ const Chat = () => {
                         <h2 className="text-xl font-bold text-gray-900">Messages</h2>
                     </div>
 
+                    {/* Filter Tabs */}
+                    <div className="px-4 py-2 border-b border-gray-50 flex gap-2 overflow-x-auto no-scrollbar bg-white">
+                        {['all', 'interviewing', 'working'].map(f => (
+                            <button
+                                key={f}
+                                onClick={() => setFilter(f)}
+                                className={`px-3 py-1.5 rounded-full text-xs font-bold capitalize transition-colors ${filter === f
+                                    ? 'bg-black text-white shadow-sm'
+                                    : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                                    }`}
+                            >
+                                {f}
+                            </button>
+                        ))}
+                    </div>
+
                     <div className="flex-1 overflow-y-auto">
                         {loading ? (
                             <div className="p-4 text-center text-gray-400">Loading...</div>
-                        ) : conversations.length === 0 ? (
+                        ) : filteredConversations.length === 0 ? (
                             <div className="p-8 text-center text-gray-400 text-sm">
-                                No conversations yet.
+                                {filter === 'all' ? 'No conversations yet.' : `No ${filter} conversations.`}
                             </div>
                         ) : (
-                            conversations.map((conv) => (
+                            filteredConversations.map((conv) => (
                                 <div
                                     key={conv.user._id}
                                     onClick={() => setSelectedUser(conv.user)}
                                     className={`p-4 hover:bg-gray-50 cursor-pointer border-b border-gray-50 transition-colors ${selectedUser?._id === conv.user._id ? 'bg-blue-50/60 border-blue-100' : ''}`}
                                 >
                                     <div className="flex items-center gap-3">
-                                        <img
-                                            src={conv.user.avatar || 'https://via.placeholder.com/40'}
-                                            alt={conv.user.name}
-                                            className="w-10 h-10 rounded-full object-cover border border-gray-100"
-                                        />
+                                        <div className="relative">
+                                            <img
+                                                src={conv.user.avatar || 'https://via.placeholder.com/40'}
+                                                alt={conv.user.name}
+                                                className="w-10 h-10 rounded-full object-cover border border-gray-100"
+                                            />
+                                            {/* Status Indicator on Avatar */}
+                                            {conv.status === 'hired' && (
+                                                <div className="absolute -bottom-1 -right-1 bg-blue-600 text-white text-[8px] px-1 rounded-full border border-white" title="Hired/Working">
+                                                    <i className="fa-solid fa-briefcase"></i>
+                                                </div>
+                                            )}
+                                        </div>
                                         <div className="flex-1 min-w-0">
                                             <div className="flex justify-between items-center mb-0.5">
                                                 <h4 className={`text-sm font-bold truncate ${!conv.read ? 'text-black' : 'text-gray-900'}`}>{conv.user.name}</h4>
