@@ -58,13 +58,13 @@ const Chat = () => {
         }
     };
 
-    const fetchMessages = async (userId) => {
+    const fetchMessages = async (userId, shouldScroll = false) => {
         try {
             const res = await fetch(`/api/messages/${userId}`);
             if (res.ok) {
                 const data = await res.json();
                 setMessages(data);
-                scrollToBottom();
+                if (shouldScroll) scrollToBottom();
             }
         } catch (err) {
             console.error(err);
@@ -73,9 +73,9 @@ const Chat = () => {
 
     useEffect(() => {
         if (selectedUser) {
-            fetchMessages(selectedUser._id);
+            fetchMessages(selectedUser._id, true);
             // Poll for new messages every 3s
-            const interval = setInterval(() => fetchMessages(selectedUser._id), 3000);
+            const interval = setInterval(() => fetchMessages(selectedUser._id, false), 3000);
             return () => clearInterval(interval);
         }
     }, [selectedUser]);
