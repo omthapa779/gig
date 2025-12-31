@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import "./resources/styles/home.css";
 import Navbar from "@/components/homeNav";
 import FloatingMenu from "../components/floatingMenu";
 import SmoothScroll from "@/components/SmoothScroll";
 import Footer from "@/components/footer";
+import "./resources/styles/home.css"; 
+import { motion, useMotionValue, useSpring } from "framer-motion";
+
 
 const App = () => {
   useEffect(() => {
@@ -31,27 +33,6 @@ const App = () => {
       document.removeEventListener("keydown", closeOnEsc);
     };
   }, []);
-
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const smoothScrollTo = (targetY, duration = 900) => {
-    const startY = window.scrollY;
-    const diff = targetY - startY;
-    let start;
-
-    const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
-
-    const step = (timestamp) => {
-      if (!start) start = timestamp;
-      const time = timestamp - start;
-      const progress = Math.min(time / duration, 1);
-      const eased = easeOutExpo(progress);
-      window.scrollTo(0, startY + diff * eased);
-      if (progress < 1) requestAnimationFrame(step);
-    };
-
-    requestAnimationFrame(step);
-  };
 
   const rootRef = useRef(null);
 
@@ -90,246 +71,170 @@ const App = () => {
 
   return (
     <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
-      <div className="app" ref={rootRef}>
+      <div className="bg-white text-[#1A1A1A] font-['Outfit'] selection:bg-yellow-200" ref={rootRef}>
         <Navbar />
         <FloatingMenu />
-        <section className="hero">
-          <div className="hero-bg-svg" id="hero-svg">
-            <svg
-              width="800"
-              height="800"
-              viewBox="0 0 200 200"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill="#0F62FE"
-                d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,81.6,-46.6C91.4,-34.1,98.1,-19.2,95.8,-5.3C93.5,8.6,82.2,21.4,71.1,32.8C60,44.2,49.1,54.2,37.1,62.8C25.1,71.4,12,78.6,-0.6,79.6C-13.2,80.6,-25.9,75.4,-37.4,67.4C-48.9,59.4,-59.2,48.6,-67.6,36.3C-76,24,-82.5,10.2,-81.1,-3.1C-79.7,-16.4,-70.4,-29.2,-60.2,-39.8C-50,-50.4,-38.9,-58.8,-27.1,-67.8C-15.3,-76.8,-2.8,-86.4,10.2,-84.6C23.2,-82.8,30.5,-83.6,44.7,-76.4Z"
-                transform="translate(100 100)"
-              />
-            </svg>
-          </div>
-          <div className="container hero-content">
+
+        {/* Hero Section */}
+        <section className="pt-[100px] overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
             <div
-              className="badge reveal-up"
+              className="badge reveal-up inline-flex items-center gap-2 bg-white/80 border border-gray-200/60 backdrop-blur-sm px-4 py-2 rounded-full font-semibold text-[0.8rem] tracking-widest uppercase mb-6 shadow-sm"
               data-animate
               style={{ "--delay": "0ms" }}
             >
-              <span className="badge-dot"></span>
+              <span className="h-2 w-2 bg-[#FFD021] rounded-full shadow-[0_0_10px_rgba(255,208,33,0.6)]"></span>
               #1 Fair Marketplace in Nepal
             </div>
+            
             <h1
-              className="hero-title reveal-up"
+              className="reveal-up text-[clamp(2.8rem,5.5vw,4.8rem)] font-extrabold leading-[1.05] tracking-tight text-gray-900 mb-0"
               data-animate
               style={{ "--delay": "120ms" }}
             >
               Nepal's Fair Marketplace for <br />
-              <span className="gradient-text">Digital & Local Work.</span>
+              <span className="bg-gradient-to-br from-[#FFD021] to-[#F59E0B] bg-clip-text text-transparent inline-block">Digital & Local Work.</span>
             </h1>
+
             <p
-              className="hero-description reveal-up"
+              className="reveal-up text-[clamp(1.1rem,2vw,1.35rem)] text-gray-600 max-w-[720px] mx-auto my-6 md:my-9 font-medium leading-relaxed"
               data-animate
               style={{ "--delay": "240ms" }}
             >
               From coding to physical tasks, find work near you without buying
               'connects'. The fair start every beginner deserves.
             </p>
+
             <div
-              className="hero-buttons reveal-up"
+              className="reveal-up flex justify-center gap-4 flex-wrap"
               data-animate
               style={{ "--delay": "360ms" }}
             >
-              <Link to="/company/register" className="btn-primary">
+              <Link to="/company/register" className="px-7 py-3.5 rounded-[14px] font-bold text-base tracking-widest uppercase flex items-center justify-center transition-all duration-300 bg-[#1A1A1A] text-white shadow-xl hover:-translate-y-1 hover:bg-black hover:border-white/10">
                 Hire Talent
               </Link>
-              <Link to="/freelancer/register" className="btn-secondary">
+              <Link to="/freelancer/register" className="px-7 py-3.5 rounded-[14px] font-bold text-base tracking-widest uppercase flex items-center justify-center transition-all duration-300 bg-white border border-gray-200 text-gray-800 shadow-sm hover:border-gray-300 hover:bg-gray-50 hover:-translate-y-1 hover:shadow-lg">
                 Join as Freelancer
               </Link>
             </div>
-            <div
-              className="trust-strip fade-in"
-              data-animate
-              style={{ "--delay": "200ms" }}
-            >
-              <p className="trust-label">Trusted by Nepalese Businesses</p>
-              <div className="marquee-container">
-                <div className="marquee-content">
-                  {Array(8) // Increased duplication for smoother infinite loop
-                    .fill([
-                      "Daraz",
-                      "eSewa",
-                      "Khalti",
-                      "Pathao",
-                      "WorldLink",
-                      "Foodmandu",
-                      "Bhoj",
-                      "Indrive"
-                    ])
-                    .flat()
-                    .map((brand, i) => (
-                      <span key={`${brand}-${i}`}>{brand}</span>
-                    ))}
+
+            <div className="fade-in mt-10 pt-10 border-t border-black/5" data-animate style={{ "--delay": "200ms" }}>
+              <p className="inline-block text-[0.75rem] font-extrabold text-gray-400 uppercase tracking-[0.15em] mb-6 bg-black/5 px-3 py-1.5 rounded-full">
+                Trusted by Nepalese Businesses
+              </p>
+              <div className="marquee-container overflow-hidden">
+                <div className="marquee-content flex gap-20 w-max py-4">
+                  {Array(8).fill(["Daraz", "eSewa", "Khalti", "Pathao", "WorldLink", "Foodmandu", "Bhoj", "Indrive"]).flat().map((brand, i) => (
+                    <span key={`${brand}-${i}`} className="text-2xl font-extrabold text-gray-300 hover:text-gray-800 transition-colors duration-300">
+                      {brand}
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
         </section>
-        <section id="how-it-works" className="services">
-          <div className="container">
-            <div className="section-header fade-in" data-animate>
-              <h2 className="section-title">How it Works</h2>
-              <p className="section-description">Simple steps to get started with Gig.</p>
+
+        {/* How It Works Section */}
+        <section id="how-it-works" className="py-[60px] bg-white relative">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="text-center mb-16 fade-in" data-animate>
+              <h2 className="text-[50px] font-extrabold mb-3">How it Works</h2>
+              <p className="text-xl text-gray-500 font-medium">Simple steps to get started with Gig.</p>
             </div>
 
-            <div className="services-grid">
+            <div className="flex flex-wrap justify-center gap-8 relative max-w-[1200px] mx-auto step-connector">
               {[
                 { title: "Create Profile", icon: "fa-user-plus", text: "Sign up as a freelancer or company in seconds.", delay: "0" },
                 { title: "Post or Find", icon: "fa-magnifying-glass", text: "Post a job or browse our extensive physical & digital live feed.", delay: "120" },
                 { title: "Connect & Earn", icon: "fa-handshake", text: "Collaborate, get paid securely, and build your reputation.", delay: "240" }
               ].map((step, i) => (
-                <div key={i} className="service-card reveal-up" data-animate style={{ "--delay": `${step.delay}ms` }}>
-                  <div className="service-icon blue">
+                <div key={i} className="reveal-up flex-[0_1_350px] max-w-[350px] bg-white p-8 rounded-[20px] border border-slate-100 shadow-sm flex flex-col items-center text-center transition-all duration-[350ms] hover:-translate-y-2 hover:shadow-2xl hover:border-yellow-400/30 z-[1]" data-animate style={{ "--delay": `${step.delay}ms` }}>
+                  <div className="h-16 w-16 rounded-[20px] grid place-items-center mb-5 text-2xl transition-transform duration-300 bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600">
                     <i className={`fa-solid ${step.icon}`}></i>
                   </div>
-                  <h3 className="service-title">{step.title}</h3>
-                  <p className="service-text">{step.text}</p>
+                  <h3 className="text-xl font-extrabold text-gray-900 mb-2">{step.title}</h3>
+                  <p className="text-[0.95rem] text-gray-500 font-medium leading-relaxed">{step.text}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
-        <section id="services" className="services alt">
-          <div className="container">
-            <div className="section-header fade-in" data-animate>
-              <h2 className="section-title">Popular Categories</h2>
-              <p className="section-description">Browse the most in-demand skills and services.</p>
+
+        {/* Categories Section */}
+        <section id="services" className="py-[60px] bg-[#F8FAFC] relative">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="text-center mb-16 fade-in" data-animate>
+              <h2 className="text-[50px] font-extrabold mb-3">Popular Categories</h2>
+              <p className="text-xl text-gray-500 font-medium">Browse the most in-demand skills and services.</p>
             </div>
-            <div className="services-grid">
+            
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 justify-center">
               {[
-                {
-                  title: "Physical Jobs",
-                  slug: "local-gigs",
-                  icon: "fa-person-digging",
-                  color: "green",
-                  text: "Plumbing, Moving, Labor.",
-                  highlight: true
-                },
-                {
-                  title: "Development",
-                  slug: "development",
-                  icon: "fa-code",
-                  color: "blue",
-                  text: "Web, Mobile, AI & more.",
-                },
-                {
-                  title: "Design",
-                  slug: "design",
-                  icon: "fa-pen-nib",
-                  color: "purple",
-                  text: "Logo, UI/UX, Art.",
-                },
-                {
-                  title: "Video",
-                  slug: "video-animation",
-                  icon: "fa-video",
-                  color: "orange",
-                  text: "Editing, Animation.",
-                },
-                {
-                  title: "Sales & Marketing",
-                  slug: "marketing",
-                  icon: "fa-bullhorn",
-                  color: "blue",
-                  text: "SEO, Social Media.",
-                },
-                {
-                  title: "Writing",
-                  slug: "writing",
-                  icon: "fa-pen-fancy",
-                  color: "purple",
-                  text: "Content, Translation.",
-                },
-                {
-                  title: "Finance",
-                  slug: "business",
-                  icon: "fa-chart-line",
-                  color: "green",
-                  text: "Accounting, Tax.",
-                },
-                {
-                  title: "Education",
-                  slug: "education",
-                  icon: "fa-graduation-cap",
-                  color: "orange",
-                  text: "Tutoring, Coaching.",
-                },
+                { title: "Physical Jobs", slug: "local-gigs", icon: "fa-person-digging", color: "bg-emerald-50 text-emerald-600", text: "Plumbing, Moving, Labor.", highlight: true },
+                { title: "Development", slug: "development", icon: "fa-code", color: "bg-blue-50 text-blue-600", text: "Web, Mobile, AI & more." },
+                { title: "Design", slug: "design", icon: "fa-pen-nib", color: "bg-purple-50 text-purple-600", text: "Logo, UI/UX, Art." },
+                { title: "Video", slug: "video-animation", icon: "fa-video", color: "bg-orange-50 text-orange-600", text: "Editing, Animation." },
+                { title: "Sales & Marketing", slug: "marketing", icon: "fa-bullhorn", color: "bg-blue-50 text-blue-600", text: "SEO, Social Media." },
+                { title: "Writing", slug: "writing", icon: "fa-pen-fancy", color: "bg-purple-50 text-purple-600", text: "Content, Translation." },
+                { title: "Finance", slug: "business", icon: "fa-chart-line", color: "bg-emerald-50 text-emerald-600", text: "Accounting, Tax." },
+                { title: "Education", slug: "education", icon: "fa-graduation-cap", color: "bg-orange-50 text-orange-600", text: "Tutoring, Coaching." },
               ].map((card, i) => (
                 <Link
                   to={`/services/${card.slug}`}
                   key={card.title}
-                  className={`service-card reveal-up ${card.highlight ? 'ring-2 ring-yellow-400 bg-yellow-50/50' : ''}`}
+                  className={`reveal-up group bg-white p-8 rounded-[20px] border border-slate-100 shadow-sm flex flex-col items-center text-center transition-all duration-[350ms] hover:-translate-y-2 hover:shadow-2xl`}
                   data-animate
                   style={{ "--delay": `${i * 120}ms` }}
                 >
-                  <div className={`service-icon ${card.color}`}>
+                  <div className={`h-16 w-16 rounded-[20px] grid place-items-center mb-5 text-2xl transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 ${card.color}`}>
                     <i className={`fa-solid ${card.icon}`}></i>
                   </div>
-                  <h3 className="service-title">{card.title}</h3>
-                  <p className="service-text">{card.text}</p>
+                  <h3 className="text-xl font-extrabold text-gray-900 mb-2">{card.title}</h3>
+                  <p className="text-[0.95rem] text-gray-500 font-medium leading-relaxed">{card.text}</p>
                 </Link>
               ))}
             </div>
 
             <div className="flex justify-center mt-12 reveal-up" data-animate style={{ "--delay": "200ms" }}>
-              <Link to="/explore-jobs" className="btn-secondary">
+              <Link to="/explore-jobs" className="px-7 py-3.5 rounded-[14px] font-bold text-base tracking-widest uppercase inline-flex items-center justify-center transition-all duration-300 bg-white border border-gray-200 text-gray-800 shadow-sm hover:border-gray-300 hover:bg-gray-50 hover:-translate-y-1 hover:shadow-lg">
                 View All Categories
                 <i className="fa-solid fa-arrow-right ml-2" aria-hidden="true" />
               </Link>
             </div>
           </div>
         </section>
-        <section id="features" className="features">
-          <div className="container">
-            <div className="features-header reveal-up" data-animate>
-              <h2 className="features-title">Why businesses choose Gig?</h2>
-              <p className="features-subtitle">We're redefining how work gets done. Simple, transparent, and built for Nepal.</p>
+
+        {/* Features Section */}
+        <section id="features" className="py-20 md:py-24 bg-gray-50 relative overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="text-center max-w-[700px] mx-auto mb-16 reveal-up" data-animate>
+              <h2 className="text-[2.5rem] font-extrabold mb-4 text-gray-900 tracking-tight">Why businesses choose Gig?</h2>
+              <p className="text-[1.1rem] text-gray-500 leading-relaxed">We're redefining how work gets done. Simple, transparent, and built for Nepal.</p>
             </div>
 
-            <div className="features-grid-clean">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-8 max-w-[1200px] mx-auto">
               {[
-                {
-                  title: "Hyper-Local Gigs",
-                  text: "Find temporary physical work in your neighborhood. Filter by location and start earning instantly.",
-                  icon: "fa-map-pin"
-                },
-                {
-                  title: "Zero Barriers",
-                  text: "No hidden fees or 'connects' to buy. Our algorithm promotes talent, not deep pockets.",
-                  icon: "fa-unlock"
-                },
-                {
-                  title: "Verified Nepal ID",
-                  text: "Trust built on real identities. Secure and safe for everyone in Nepal.",
-                  icon: "fa-id-card"
-                }
+                { title: "Hyper-Local Gigs", icon: "fa-map-pin", text: "Find temporary physical work in your neighborhood. Filter by location and start earning instantly." },
+                { title: "Zero Barriers", icon: "fa-unlock", text: "No hidden fees or 'connects' to buy. Our algorithm promotes talent, not deep pockets." },
+                { title: "Verified Nepal ID", icon: "fa-id-card", text: "Trust built on real identities. Secure and safe for everyone in Nepal." }
               ].map((feature, i) => (
-                <div key={i} className="feature-card-clean reveal-up" data-animate style={{ "--delay": `${i * 150}ms` }}>
-                  <div className="feature-icon-box">
+                <div key={i} className="reveal-up group bg-white p-10 rounded-[24px] border border-black/5 shadow-md transition-all duration-300 flex flex-col items-start hover:-translate-y-2 hover:shadow-xl hover:border-yellow-400/40" data-animate style={{ "--delay": `${i * 150}ms` }}>
+                  <div className="h-14 w-14 bg-yellow-50 text-[#F59E0B] rounded-[16px] grid place-items-center text-2xl mb-6 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-[#F59E0B] group-hover:text-white">
                     <i className={`fa-solid ${feature.icon}`}></i>
                   </div>
-                  <h3 className="feature-title-clean">{feature.title}</h3>
-                  <p className="feature-description-clean">{feature.text}</p>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
+                  <p className="text-base text-gray-500 leading-relaxed">{feature.text}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
+
         <Footer />
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-      </div >
-    </SmoothScroll >
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+      </div>
+    </SmoothScroll>
   );
 };
 
