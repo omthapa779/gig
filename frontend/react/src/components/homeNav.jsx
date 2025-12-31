@@ -44,7 +44,7 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
   };
 
   const handleClose = (setter, timerRef) => {
-    timerRef.current = setTimeout(() => setter(false), 250);
+    timerRef.current = setTimeout(() => setter(false), 150);
   };
 
   const categories = [
@@ -93,11 +93,12 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
                 {/* Categories Mega Menu */}
                 <div
                   className="relative h-full flex items-center"
-                  onMouseEnter={() => handleOpen(setCategoriesOpen, catTimer)}
+                  onMouseEnter={() => { setAboutOpen(false); setLoginOpen(false); handleOpen(setCategoriesOpen, catTimer); }}
                   onMouseLeave={() => handleClose(setCategoriesOpen, catTimer)}
                 >
-                  <button className={`flex items-center gap-1 px-3 py-2 rounded-lg text-[0.95rem] font-medium uppercase tracking-wider transition-all hover:bg-black/5 ${categoriesOpen ? 'bg-black/5 text-[#1a1a1a]' : 'text-gray-600'}`}>
-                    Categories <i className="fa-solid fa-chevron-down text-[10px] opacity-70 ml-1"></i>
+                  <button className={`relative group flex items-center gap-1 px-3 py-2 rounded-lg text-[0.95rem] font-medium uppercase tracking-wider transition-all ${categoriesOpen ? 'text-[#1a1a1a]' : 'text-gray-600'}`}>
+                    <span className="inline-flex items-center gap-1">Categories</span>
+                    <span className="absolute left-0 right-0 bottom-0.5 h-[2px] bg-[#ffd021]/90 rounded-full scale-x-0 transition-transform duration-200 group-hover:scale-x-100" />
                   </button>
                   
                   <div className={`fixed top-20 left-0 w-full bg-white border-y border-gray-200/60 shadow-2xl py-8 flex justify-center transition-all duration-300 z-50 
@@ -125,16 +126,17 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
 
                 {/* About Dropdown */}
                 <div className="relative h-full flex items-center"
-                  onMouseEnter={() => handleOpen(setAboutOpen, aboutTimer)}
+                  onMouseEnter={() => { setCategoriesOpen(false); setLoginOpen(false); handleOpen(setAboutOpen, aboutTimer); }}
                   onMouseLeave={() => handleClose(setAboutOpen, aboutTimer)}>
-                  <button className={`flex items-center gap-1 px-3 py-2 rounded-lg text-[0.95rem] font-medium uppercase tracking-wider transition-all hover:bg-black/5 ${aboutOpen ? 'bg-black/5 text-[#1a1a1a]' : 'text-gray-600'}`}>
-                    About <i className="fa-solid fa-chevron-down text-[10px] opacity-70 ml-1"></i>
+                  <button className={`relative group flex items-center gap-1 px-3 py-2 rounded-lg text-[0.95rem] font-medium uppercase tracking-wider transition-all ${aboutOpen ? 'text-[#1a1a1a]' : 'text-gray-600'}`}>
+                    <span className="inline-flex items-center gap-1">About</span>
+                    <span className="absolute left-0 right-0 bottom-0.5 h-[2px] bg-[#ffd021]/90 rounded-full scale-x-0 transition-transform duration-200 group-hover:scale-x-100" />
                   </button>
                   <div className={`absolute top-[calc(100%+4px)] left-1/2 -translate-x-1/2 min-w-[180px] bg-white border border-gray-200/60 rounded-xl shadow-xl p-2 transition-all duration-200 z-50 
                     ${aboutOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-2 pointer-events-none'}`}>
-                    <Link to="/about" className="block p-2.5 rounded-lg text-gray-600 font-medium text-[0.9rem] hover:bg-gray-100 hover:text-black transition-colors">About Us</Link>
-                    <a href="#how-it-works" onClick={(e) => onScrollLink(e, "#how-it-works")} className="block p-2.5 rounded-lg text-gray-600 font-medium text-[0.9rem] hover:bg-gray-100 hover:text-black transition-colors">How it Works</a>
-                    <a href="#features" onClick={(e) => onScrollLink(e, "#features")} className="block p-2.5 rounded-lg text-gray-600 font-medium text-[0.9rem] hover:bg-gray-100 hover:text-black transition-colors">Why Us</a>
+                    <Link to="/about" className="block p-2.5 rounded-lg text-gray-700 font-semibold text-[0.9rem] transition-all hover:bg-white hover:shadow-lg hover:-translate-y-0.5 hover:text-black">About Us</Link>
+                    <a href="#how-it-works" onClick={(e) => onScrollLink(e, "#how-it-works")} className="block p-2.5 rounded-lg text-gray-700 font-semibold text-[0.9rem] transition-all hover:bg-white hover:shadow-lg hover:-translate-y-0.5 hover:text-black">How it Works</a>
+                    <a href="#features" onClick={(e) => onScrollLink(e, "#features")} className="block p-2.5 rounded-lg text-gray-700 font-semibold text-[0.9rem] transition-all hover:bg-white hover:shadow-lg hover:-translate-y-0.5 hover:text-black">Why Us</a>
                   </div>
                 </div>
               </div>
@@ -142,18 +144,18 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
               {/* Auth / Profile */}
               {userRole === 'guest' ? (
                 <div className="relative"
-                  onMouseEnter={() => handleOpen(setLoginOpen, loginTimer)}
+                  onMouseEnter={() => { setCategoriesOpen(false); setAboutOpen(false); handleOpen(setLoginOpen, loginTimer); }}
                   onMouseLeave={() => handleClose(setLoginOpen, loginTimer)}>
-                  <button className="flex items-center gap-1.5 px-0.5 py-1.5 text-[0.95rem] font-medium uppercase tracking-wider text-[#1a1a1a] opacity-85 hover:opacity-100 transition-opacity">
-                    <span>Log In</span>
-                    <i className={`fa-solid fa-chevron-down text-[0.85rem] text-gray-500 transition-transform duration-200 ${loginOpen ? 'rotate-180' : ''}`} />
+                  <button className={`relative group flex items-center gap-1.5 px-0.5 py-1.5 text-[0.95rem] font-medium uppercase tracking-wider transition-all ${loginOpen ? 'text-[#1a1a1a]' : 'text-gray-600'}`}>
+                    <span className="inline-flex items-center gap-2">Log In</span>
+                    <span className="absolute left-0 right-0 bottom-0.5 h-[2px] bg-[#ffd021]/90 rounded-full scale-x-0 transition-transform duration-200 group-hover:scale-x-100" />
                   </button>
                   <div className={`absolute top-[calc(100%+10px)] right-0 min-w-[210px] bg-white border border-[#eef2f7] rounded-[14px] shadow-[0_24px_50px_rgba(16,24,40,0.18)] p-1.5 transition-all duration-300 origin-top-right z-50 
                     ${loginOpen ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto' : 'opacity-0 scale-95 translate-y-2 pointer-events-none'}`}>
-                    <Link to="/freelancer/login" className="flex items-center gap-2.5 p-2.5 rounded-xl font-semibold text-[0.9rem] text-gray-900 hover:bg-[#ffd021]/10 hover:text-[#ffd021] hover:shadow-lg transition-all">
+                    <Link to="/freelancer/login" className="flex items-center gap-2.5 p-2.5 rounded-xl font-semibold text-[0.9rem] text-gray-700 transition-all hover:bg-white hover:shadow-lg hover:-translate-y-0.5 hover:text-black">
                       <i className="fa-solid fa-user-tie text-gray-400" /> Freelancer Login
                     </Link>
-                    <Link to="/company/login" className="flex items-center gap-2.5 p-2.5 rounded-xl font-semibold text-[0.9rem] text-gray-900 hover:bg-[#ffd021]/10 hover:text-[#ffd021] hover:shadow-lg transition-all">
+                    <Link to="/company/login" className="flex items-center gap-2.5 p-2.5 rounded-xl font-semibold text-[0.9rem] text-gray-700 transition-all hover:bg-white hover:shadow-lg hover:-translate-y-0.5 hover:text-black">
                       <i className="fa-solid fa-building text-gray-400" /> Company Login
                     </Link>
                   </div>
