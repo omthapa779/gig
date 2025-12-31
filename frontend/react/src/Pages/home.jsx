@@ -5,7 +5,6 @@ import FloatingMenu from "../components/floatingMenu";
 import SmoothScroll from "@/components/SmoothScroll";
 import Footer from "@/components/footer";
 import "./resources/styles/home.css"; 
-import { motion, useMotionValue, useSpring } from "framer-motion";
 
 
 const App = () => {

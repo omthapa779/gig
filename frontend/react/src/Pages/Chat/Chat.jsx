@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
+import SmoothScroll from '@/components/SmoothScroll';
 
 
 const Chat = () => {
@@ -10,14 +11,37 @@ const Chat = () => {
     const [loading, setLoading] = useState(true);
     const messagesEndRef = useRef(null);
     const [searchParams] = useSearchParams();
+    const location = useLocation();
     const initialRecipientId = searchParams.get('new');
-    const [currentUser, setCurrentUser] = useState(null); // To know who "I" am (for styling)
+    const [currentUser, setCurrentUser] = useState(null);
     const [filter, setFilter] = useState('all');
+    const [showSidebar, setShowSidebar] = useState(true);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    // Determine if this is freelancer or company chat based on route
+    const isFreelancerChat = location.pathname.includes('/freelancer/chat');
+    const filterOptions = isFreelancerChat 
+        ? ['all', 'companies', 'clients']
+        : ['all', 'interviewing', 'working'];
 
     const filteredConversations = conversations.filter(c => {
+        const matchesSearch = c.user.name.toLowerCase().includes(searchQuery.toLowerCase());
+        
+        if (!matchesSearch) return false;
+        
         if (filter === 'all') return true;
-        if (filter === 'working') return c.status === 'hired';
-        return c.status === filter;
+        
+        if (isFreelancerChat) {
+            // For freelancer: filter by user type (companies/clients)
+            if (filter === 'companies') return c.user.type === 'company';
+            if (filter === 'clients') return c.user.type === 'client' || c.user.type === 'freelancer';
+        } else {
+            // For company: filter by status (interviewing/working)
+            if (filter === 'working') return c.status === 'hired';
+            if (filter === 'interviewing') return c.status === 'interviewing';
+        }
+        
+        return false;
     });
 
     // Fetch conversations
@@ -142,27 +166,56 @@ const Chat = () => {
 
 
     return (
-        <div className="h-[calc(100vh-180px)] w-full mx-auto">
-            <div className="bg-white border border-gray-200 rounded-2xl shadow-sm h-full flex overflow-hidden">
+        <SmoothScroll>
+            <div className="w-full h-screen">
+                <div className="bg-white border border-gray-200 rounded-2xl shadow-sm h-full flex overflow-hidden flex-col lg:flex-row">
 
-                {/* Sidebar */}
-                <div className="w-1/3 border-r border-gray-100 flex flex-col">
-                    <div className="p-4 border-b border-gray-50 bg-gray-50/50">
-                        <h2 className="text-xl font-bold text-gray-900">Messages</h2>
+                {/* Sidebar - Shown on mobile by default, full width on mobile, 1/3 on desktop */}
+                <div className={`${showSidebar ? 'flex' : 'hidden'} lg:flex w-full lg:w-1/3 border-r border-gray-100 flex-col`}>
+                    <div className="p-4 border-b border-gray-50 bg-gray-50/50 flex items-center justify-between">
+                            <h2 className="text-xl font-bold text-gray-900">Messages</h2>
+                            <button 
+                                onClick={() => setShowSidebar(false)}
+                                className="lg:hidden text-gray-500 hover:text-gray-900"
+                                title="Close"
+                            >
+                                <i className="fa-solid fa-chevron-right"></i>
+                            </button>
+                        </div>
+
+                    {/* Search Box */}
+                    <div className="px-4 py-3 border-b border-gray-50 bg-white">
+                        <div className="relative">
+                            <input
+                                type="text"
+                                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                                placeholder="Search conversations..."
+                                className="w-full px-4 py-2.5 bg-gray-100 border border-transparent focus:bg-white focus:border-gray-300 rounded-full outline-none transition-all placeholder:text-gray-400 text-sm"
+                            />
+                            {searchQuery && (
+                                <button
+                                    onClick={() => setSearchQuery('')}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                >
+                                    <i className="fa-solid fa-xmark"></i>
+                                </button>
+                            )}
+                        </div>
                     </div>
 
                     {/* Filter Tabs */}
                     <div className="px-4 py-2 border-b border-gray-50 flex gap-2 overflow-x-auto no-scrollbar bg-white">
-                        {['all', 'interviewing', 'working'].map(f => (
+                        {filterOptions.map(f => (
                             <button
                                 key={f}
                                 onClick={() => setFilter(f)}
-                                className={`px-3 py-1.5 rounded-full text-xs font-bold capitalize transition-colors ${filter === f
+                                className={`px-3 py-1.5 rounded-full text-xs font-bold transition-colors whitespace-nowrap ${filter === f
                                     ? 'bg-black text-white shadow-sm'
                                     : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
                                     }`}
                             >
-                                {f}
+                                {f.charAt(0).toUpperCase() + f.slice(1)}
                             </button>
                         ))}
                     </div>
@@ -178,7 +231,10 @@ const Chat = () => {
                             filteredConversations.map((conv) => (
                                 <div
                                     key={conv.user._id}
-                                    onClick={() => setSelectedUser(conv.user)}
+                                    onClick={() => {
+                                        setSelectedUser(conv.user);
+                                        setShowSidebar(false); // Hide sidebar on mobile after selection
+                                    }}
                                     className={`p-4 hover:bg-gray-50 cursor-pointer border-b border-gray-50 transition-colors ${selectedUser?._id === conv.user._id ? 'bg-blue-50/60 border-blue-100' : ''}`}
                                 >
                                     <div className="flex items-center gap-3">
@@ -217,19 +273,25 @@ const Chat = () => {
                 </div>
 
                 {/* Chat Window */}
-                <div className="flex-1 flex flex-col bg-white">
+                <div className={`${!showSidebar ? 'flex' : 'hidden'} lg:flex flex-1 flex-col bg-white`}>
                     {selectedUser ? (
                         <>
                             {/* Header */}
                             <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-white">
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-3 flex-1">
+                                    <button 
+                                        onClick={() => setShowSidebar(true)}
+                                        className="lg:hidden text-gray-500 hover:text-gray-900 mr-2"
+                                    >
+                                        <i className="fa-solid fa-chevron-left"></i>
+                                    </button>
                                     <img
                                         src={selectedUser.avatar || 'https://via.placeholder.com/40'}
                                         alt={selectedUser.name}
                                         className="w-10 h-10 rounded-full object-cover border border-gray-100"
                                     />
-                                    <div>
-                                        <h3 className="font-bold text-gray-900">{selectedUser.name}</h3>
+                                    <div className="flex-1 min-w-0">
+                                        <h3 className="font-bold text-gray-900 truncate">{selectedUser.name}</h3>
                                         <span className="text-xs text-green-600 font-medium flex items-center gap-1">
                                             <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span> Active
                                         </span>
@@ -238,17 +300,17 @@ const Chat = () => {
                             </div>
 
                             {/* Messages */}
-                            <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50/30">
+                            <div className="flex-1 overflow-y-auto p-3 sm:p-6 space-y-4 bg-gray-50/30">
                                 {messages.map((msg, idx) => {
                                     const isReceived = msg.sender === selectedUser._id;
 
                                     return (
                                         <div key={idx} className={`flex ${!isReceived ? 'justify-end' : 'justify-start'}`}>
-                                            <div className={`max-w-[70%] px-5 py-3 rounded-2xl text-sm ${!isReceived
+                                            <div className={`max-w-[85%] sm:max-w-[70%] px-4 sm:px-5 py-2 sm:py-3 rounded-2xl text-sm ${!isReceived
                                                 ? 'bg-black text-white rounded-br-none'
                                                 : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none shadow-sm'
                                                 }`}>
-                                                <p>{msg.content}</p>
+                                                <p className="break-words">{msg.content}</p>
                                                 <span className={`text-[10px] block mt-1 opacity-70 ${!isReceived ? 'text-gray-300 text-right' : 'text-gray-400'}`}>
                                                     {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                 </span>
@@ -260,21 +322,21 @@ const Chat = () => {
                             </div>
 
                             {/* Input */}
-                            <form onSubmit={handleSendMessage} className="p-4 border-t border-gray-100 bg-white">
+                            <form onSubmit={handleSendMessage} className="p-3 sm:p-4 border-t border-gray-100 bg-white">
                                 <div className="flex gap-2">
                                     <input
                                         type="text"
                                         value={newMessage}
                                         onChange={(e) => setNewMessage(e.target.value)}
                                         placeholder="Type your message..."
-                                        className="flex-1 px-4 py-3 bg-gray-50 border border-transparent focus:bg-white focus:border-gray-200 rounded-xl outline-none transition-all placeholder:text-gray-400"
+                                        className="flex-1 px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 border border-transparent focus:bg-white focus:border-gray-200 rounded-xl outline-none transition-all placeholder:text-gray-400 text-sm"
                                     />
                                     <button
                                         type="submit"
                                         disabled={!newMessage.trim()}
-                                        className="px-6 py-3 bg-black text-white hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl font-semibold transition-colors flex items-center gap-2"
+                                        className="px-3 sm:px-6 py-2 sm:py-3 bg-black text-white hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl font-semibold transition-colors flex items-center gap-2 text-sm"
                                     >
-                                        <span>Send</span>
+                                        <span className="hidden sm:inline">Send</span>
                                         <i className="fa-regular fa-paper-plane"></i>
                                     </button>
                                 </div>
@@ -283,13 +345,14 @@ const Chat = () => {
                     ) : (
                         <div className="flex-1 flex flex-col items-center justify-center text-gray-300">
                             <i className="fa-regular fa-comments text-6xl mb-4 opacity-50"></i>
-                            <p className="font-medium text-gray-500">Select a conversation to start chatting</p>
+                            <p className="font-medium text-gray-500 text-center px-4">Select a conversation to start chatting</p>
                         </div>
                     )}
                 </div>
 
+                </div>
             </div>
-        </div>
+        </SmoothScroll>
     );
 };
 
