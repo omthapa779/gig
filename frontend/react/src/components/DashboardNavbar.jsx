@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
+import ThemeToggle from './ThemeToggle';
 import NotificationDropdown from './NotificationDropdown';
 
 // Simple time ago formatter
@@ -147,18 +148,16 @@ const DashboardNavbar = ({ role }) => {
 
     return (
         <nav
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-                ? 'bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100 py-3'
-                : 'bg-white py-4 border-b border-transparent'
-                }`}
-        >
+                className={`site-nav dashboard-nav fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'shadow-sm py-3' : 'py-4'}`}
+                style={{ backgroundColor: 'var(--nav-bg)', color: 'var(--text-primary)', borderColor: 'rgba(255,255,255,0.04)' }}
+            >
             <div className="w-full px-6 sm:px-10 lg:px-16">
                 <div className="flex justify-between items-center">
                     {/* Logo */}
                     <div className="flex items-center">
                         <Link to="/" className="flex items-center gap-1 group">
                             <img src="/icon.png" alt="Gig Logo" className="h-14 w-auto object-contain" />
-                            <span className="text-4xl font-bold tracking-tight text-slate-900 leading-none mt-1">Gig</span>
+                            <span style={{ color: 'var(--text-primary)' }} className="text-4xl font-bold tracking-tight leading-none mt-1">Gig</span>
                         </Link>
                     </div>
 
@@ -180,10 +179,8 @@ const DashboardNavbar = ({ role }) => {
                                 <Link
                                     key={link.name}
                                     to={link.path}
-                                    className={`text-sm font-medium transition-colors duration-200 ${active
-                                        ? 'text-blue-600'
-                                        : 'text-gray-600 hover:text-blue-600'
-                                        }`}
+                                    className={`text-sm font-medium transition-colors duration-200 ${active ? '' : 'hover:opacity-90'}`}
+                                    style={{ color: active ? 'var(--accent)' : 'var(--text-secondary)' }}
                                 >
                                     {link.name}
                                 </Link>
@@ -193,15 +190,18 @@ const DashboardNavbar = ({ role }) => {
 
                     {/* Right Side Actions */}
                     <div className="hidden md:flex items-center space-x-4">
+                        <div className="flex items-center">
+                            <ThemeToggle />
+                        </div>
                         {/* Notification Icon */}
                         <div className="relative" ref={notificationRef}>
                             <button
                                 onClick={() => setShowNotifications(!showNotifications)}
-                                className={`relative p-2 transition-colors rounded-full hover:bg-gray-50 focus:outline-none ${showNotifications ? 'text-blue-600 bg-blue-50' : 'text-gray-500 hover:text-blue-600'}`}
+                                className={`dashboard-notification relative p-2 transition-colors rounded-full focus:outline-none ${showNotifications ? 'is-active text-blue-600 bg-blue-50' : 'text-gray-500 hover:text-blue-600 hover:bg-gray-50'}`}
                             >
                                 <i className="fa-regular fa-bell text-xl"></i>
                                 {unreadCount > 0 && (
-                                    <span className="absolute top-1.5 right-1.5 h-2.5 w-2.5 bg-red-500 rounded-full ring-2 ring-white animate-pulse"></span>
+                                    <span className="dashboard-notification-dot absolute top-1.5 right-1.5 h-2.5 w-2.5 bg-red-500 rounded-full ring-2 ring-white animate-pulse"></span>
                                 )}
                             </button>
 
@@ -229,30 +229,30 @@ const DashboardNavbar = ({ role }) => {
 
                             {/* Dropdown Menu */}
                             {dropdownOpen && (
-                                <div className="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] border border-gray-100 py-2 ring-1 ring-black ring-opacity-5 animate-fade-in-down origin-top-right transform transition-all">
-                                    <div className="px-4 py-3 border-b border-gray-50 mb-1">
-                                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Signed in as</p>
-                                        <p className="text-sm font-medium text-gray-900 truncate">{isCompany ? 'Company Account' : 'Freelancer Account'}</p>
+                                <div className="dashboard-dropdown absolute right-0 mt-3 w-56 rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] border py-2 ring-1 ring-black ring-opacity-5 animate-fade-in-down origin-top-right transform transition-all">
+                                    <div className="dashboard-dropdown-header px-4 py-3 border-b mb-1">
+                                        <p className="text-xs font-semibold uppercase tracking-wider">Signed in as</p>
+                                        <p className="text-sm font-medium truncate">{isCompany ? 'Company Account' : 'Freelancer Account'}</p>
                                     </div>
 
                                     <Link
                                         to={profilePath}
-                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                                        className="dashboard-dropdown-link block px-4 py-2 text-sm transition-colors"
                                         onClick={() => setDropdownOpen(false)}
                                     >
-                                        <i className="fa-regular fa-user mr-2 text-gray-400"></i> Profile
+                                        <i className="fa-regular fa-user mr-2"></i> Profile
                                     </Link>
                                     <Link
                                         to={settingsPath}
-                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                                        className="dashboard-dropdown-link block px-4 py-2 text-sm transition-colors"
                                         onClick={() => setDropdownOpen(false)}
                                     >
-                                        <i className="fa-solid fa-cog mr-2 text-gray-400"></i> Settings
+                                        <i className="fa-solid fa-cog mr-2"></i> Settings
                                     </Link>
-                                    <div className="border-t border-gray-50 my-1"></div>
+                                    <div className="dashboard-dropdown-divider border-t my-1"></div>
                                     <button
                                         onClick={handleLogout}
-                                        className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                                        className="dashboard-dropdown-logout block w-full text-left px-4 py-2 text-sm transition-colors"
                                     >
                                         <i className="fa-solid fa-sign-out-alt mr-2"></i> Log out
                                     </button>
@@ -262,10 +262,11 @@ const DashboardNavbar = ({ role }) => {
                     </div>
 
                     {/* Mobile Menu Button */}
-                    <div className="md:hidden flex items-center">
+                    <div className="md:hidden flex items-center gap-2">
+                        <ThemeToggle />
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="text-gray-600 hover:text-blue-600 focus:outline-none p-2"
+                            className="dashboard-mobile-toggle text-gray-600 focus:outline-none h-10 w-10 grid place-items-center"
                         >
                             <i className={`fa-solid ${isOpen ? 'fa-xmark' : 'fa-bars'} text-xl`}></i>
                         </button>
@@ -275,7 +276,7 @@ const DashboardNavbar = ({ role }) => {
 
             {/* Mobile Menu */}
             <div
-                className={`md:hidden bg-white border-b border-gray-100 overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                className={`dashboard-mobile-menu md:hidden border-b overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                     }`}
             >
                 <div className="px-4 pt-2 pb-4 space-y-1">
@@ -283,8 +284,8 @@ const DashboardNavbar = ({ role }) => {
                         <Link
                             key={link.name}
                             to={link.path}
-                            className={`block px-3 py-3 rounded-md text-base font-medium ${location.pathname === link.path
-                                ? 'bg-blue-50 text-blue-600'
+                            className={`dashboard-mobile-link block px-3 py-3 rounded-md text-base font-medium ${location.pathname === link.path
+                                ? 'is-active bg-blue-50 text-blue-600'
                                 : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
                                 }`}
                             onClick={() => setIsOpen(false)}
@@ -292,10 +293,10 @@ const DashboardNavbar = ({ role }) => {
                             {link.name}
                         </Link>
                     ))}
-                    <div className="border-t border-gray-100 my-2 pt-2">
+                    <div className="dashboard-mobile-divider border-t my-2 pt-2">
                         <button
                             onClick={handleLogout}
-                            className="w-full text-left block px-3 py-3 rounded-md text-base font-medium text-red-600 hover:bg-red-50"
+                            className="dashboard-mobile-logout w-full text-left block px-3 py-3 rounded-md text-base font-medium text-red-600 hover:bg-red-50"
                         >
                             <i className="fa-solid fa-sign-out-alt mr-2"></i> Log out
                         </button>

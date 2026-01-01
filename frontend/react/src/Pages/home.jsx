@@ -109,7 +109,7 @@ const App = () => {
               data-animate
               style={{ "--delay": "360ms" }}
             >
-              <Link to="/company/register" className="px-7 py-3.5 rounded-[14px] font-bold text-base tracking-widest uppercase flex items-center justify-center transition-all duration-300 bg-[#1A1A1A] text-white shadow-xl hover:-translate-y-1 hover:bg-black hover:border-white/10">
+              <Link to="/company/register" className="btn-primary px-7 py-3.5 rounded-[14px] font-bold text-base tracking-widest uppercase flex items-center justify-center transition-all duration-300 shadow-xl hover:-translate-y-1">
                 Hire Talent
               </Link>
               <Link to="/freelancer/register" className="px-7 py-3.5 rounded-[14px] font-bold text-base tracking-widest uppercase flex items-center justify-center transition-all duration-300 bg-white border border-gray-200 text-gray-800 shadow-sm hover:border-gray-300 hover:bg-gray-50 hover:-translate-y-1 hover:shadow-lg">
@@ -149,7 +149,7 @@ const App = () => {
                 { title: "Connect & Earn", icon: "fa-handshake", text: "Collaborate, get paid securely, and build your reputation.", delay: "240" }
               ].map((step, i) => (
                 <div key={i} className="reveal-up flex-[0_1_350px] max-w-[350px] bg-white p-8 rounded-[20px] border border-slate-100 shadow-sm flex flex-col items-center text-center transition-all duration-[350ms] hover:-translate-y-2 hover:shadow-2xl hover:border-yellow-400/30 z-[1]" data-animate style={{ "--delay": `${step.delay}ms` }}>
-                  <div className="h-16 w-16 rounded-[20px] grid place-items-center mb-5 text-2xl transition-transform duration-300 bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600">
+                  <div className="home-card-icon h-16 w-16 rounded-[20px] grid place-items-center mb-5 text-2xl transition-transform duration-300">
                     <i className={`fa-solid ${step.icon}`}></i>
                   </div>
                   <h3 className="text-xl font-extrabold text-gray-900 mb-2">{step.title}</h3>
@@ -161,7 +161,7 @@ const App = () => {
         </section>
 
         {/* Categories Section */}
-        <section id="services" className="py-[60px] bg-[#F8FAFC] relative">
+        <section id="services" className="services-section py-[60px] bg-[#F8FAFC] relative">
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-16 fade-in" data-animate>
               <h2 className="text-[50px] font-extrabold mb-3">Popular Categories</h2>
@@ -170,23 +170,23 @@ const App = () => {
             
             <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 justify-center">
               {[
-                { title: "Physical Jobs", slug: "local-gigs", icon: "fa-person-digging", color: "bg-emerald-50 text-emerald-600", text: "Plumbing, Moving, Labor.", highlight: true },
-                { title: "Development", slug: "development", icon: "fa-code", color: "bg-blue-50 text-blue-600", text: "Web, Mobile, AI & more." },
-                { title: "Design", slug: "design", icon: "fa-pen-nib", color: "bg-purple-50 text-purple-600", text: "Logo, UI/UX, Art." },
-                { title: "Video", slug: "video-animation", icon: "fa-video", color: "bg-orange-50 text-orange-600", text: "Editing, Animation." },
-                { title: "Sales & Marketing", slug: "marketing", icon: "fa-bullhorn", color: "bg-blue-50 text-blue-600", text: "SEO, Social Media." },
-                { title: "Writing", slug: "writing", icon: "fa-pen-fancy", color: "bg-purple-50 text-purple-600", text: "Content, Translation." },
-                { title: "Finance", slug: "business", icon: "fa-chart-line", color: "bg-emerald-50 text-emerald-600", text: "Accounting, Tax." },
-                { title: "Education", slug: "education", icon: "fa-graduation-cap", color: "bg-orange-50 text-orange-600", text: "Tutoring, Coaching." },
+                { title: "Physical Jobs", slug: "local-gigs", icon: "fa-person-digging", text: "Plumbing, Moving, Labor.", highlight: true, iconClass: "icon-emerald" },
+                { title: "Development", slug: "development", icon: "fa-code", text: "Web, Mobile, AI & more.", iconClass: "" },
+                { title: "Design", slug: "design", icon: "fa-pen-nib", text: "Logo, UI/UX, Art.", iconClass: "icon-purple" },
+                { title: "Video", slug: "video-animation", icon: "fa-video", text: "Editing, Animation.", iconClass: "icon-orange" },
+                { title: "Sales & Marketing", slug: "marketing", icon: "fa-bullhorn", text: "SEO, Social Media.", iconClass: "" },
+                { title: "Writing", slug: "writing", icon: "fa-pen-fancy", text: "Content, Translation.", iconClass: "icon-purple" },
+                { title: "Finance", slug: "business", icon: "fa-chart-line", text: "Accounting, Tax.", iconClass: "icon-emerald" },
+                { title: "Education", slug: "education", icon: "fa-graduation-cap", text: "Tutoring, Coaching.", iconClass: "icon-orange" },
               ].map((card, i) => (
                 <Link
                   to={`/services/${card.slug}`}
                   key={card.title}
-                  className={`reveal-up group bg-white p-8 rounded-[20px] border border-slate-100 shadow-sm flex flex-col items-center text-center transition-all duration-[350ms] hover:-translate-y-2 hover:shadow-2xl`}
+                  className={`service-card reveal-up group bg-white p-8 rounded-[20px] border border-slate-100 shadow-sm flex flex-col items-center text-center transition-all duration-[350ms] hover:-translate-y-2 hover:shadow-2xl`}
                   data-animate
                   style={{ "--delay": `${i * 120}ms` }}
                 >
-                  <div className={`h-16 w-16 rounded-[20px] grid place-items-center mb-5 text-2xl transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 ${card.color}`}>
+                  <div className={`service-icon home-card-icon ${card.iconClass} h-16 w-16 rounded-[20px] grid place-items-center mb-5 text-2xl transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6`}>
                     <i className={`fa-solid ${card.icon}`}></i>
                   </div>
                   <h3 className="text-xl font-extrabold text-gray-900 mb-2">{card.title}</h3>
@@ -219,7 +219,7 @@ const App = () => {
                 { title: "Verified Nepal ID", icon: "fa-id-card", text: "Trust built on real identities. Secure and safe for everyone in Nepal." }
               ].map((feature, i) => (
                 <div key={i} className="reveal-up group bg-white p-10 rounded-[24px] border border-black/5 shadow-md transition-all duration-300 flex flex-col items-start hover:-translate-y-2 hover:shadow-xl hover:border-yellow-400/40" data-animate style={{ "--delay": `${i * 150}ms` }}>
-                  <div className="h-14 w-14 bg-yellow-50 text-[#F59E0B] rounded-[16px] grid place-items-center text-2xl mb-6 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-[#F59E0B] group-hover:text-white">
+                  <div className="home-card-icon h-14 w-14 rounded-[16px] grid place-items-center text-2xl mb-6 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
                     <i className={`fa-solid ${feature.icon}`}></i>
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
