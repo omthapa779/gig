@@ -48,8 +48,8 @@ export default function RateFreelancer() {
 
   return (
     <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
-      <div className="w-full max-w-4xl mx-auto">
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="rating-page w-full max-w-4xl mx-auto">
+      <div className="rating-card bg-white rounded-lg shadow-lg overflow-hidden">
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-8 sm:px-8 text-white">
           <h1 className="text-2xl sm:text-3xl font-bold mb-2">Rate Freelancer</h1>
@@ -73,7 +73,7 @@ export default function RateFreelancer() {
           )}
 
           {/* Freelancer Info */}
-          <div className="mb-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
+          <div className="rating-panel mb-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
             <div className="flex items-center gap-4">
               <img
                 src="https://via.placeholder.com/100"
@@ -151,7 +151,7 @@ export default function RateFreelancer() {
             </div>
 
             {/* Rating Criteria */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="rating-panel rating-guidelines bg-blue-50 border border-blue-200 rounded-lg p-4">
               <p className="text-sm font-semibold text-gray-900 mb-3">Rating Criteria:</p>
               <ul className="text-sm text-gray-700 space-y-2">
                 <li className="flex items-start gap-2">

@@ -167,12 +167,12 @@ const Chat = () => {
 
     return (
         <SmoothScroll>
-            <div className="w-full h-screen">
-                <div className="bg-white border border-gray-200 rounded-2xl shadow-sm h-full flex overflow-hidden flex-col lg:flex-row">
+            <div className="chat-page w-full h-screen">
+                <div className="chat-shell bg-white border border-gray-200 rounded-2xl shadow-sm h-full flex overflow-hidden flex-col lg:flex-row">
 
                 {/* Sidebar - Shown on mobile by default, full width on mobile, 1/3 on desktop */}
-                <div className={`${showSidebar ? 'flex' : 'hidden'} lg:flex w-full lg:w-1/3 border-r border-gray-100 flex-col`}>
-                    <div className="p-4 border-b border-gray-50 bg-gray-50/50 flex items-center justify-between">
+                <div className={`chat-sidebar ${showSidebar ? 'flex' : 'hidden'} lg:flex w-full lg:w-1/3 border-r border-gray-100 flex-col`}>
+                    <div className="chat-sidebar-header p-4 border-b border-gray-50 bg-gray-50/50 flex items-center justify-between">
                             <h2 className="text-xl font-bold text-gray-900">Messages</h2>
                             <button 
                                 onClick={() => setShowSidebar(false)}
@@ -184,14 +184,14 @@ const Chat = () => {
                         </div>
 
                     {/* Search Box */}
-                    <div className="px-4 py-3 border-b border-gray-50 bg-white">
+                    <div className="chat-search-wrap px-4 py-3 border-b border-gray-50 bg-white">
                         <div className="relative">
                             <input
                                 type="text"
                                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder="Search conversations..."
-                                className="w-full px-4 py-2.5 bg-gray-100 border border-transparent focus:bg-white focus:border-gray-300 rounded-full outline-none transition-all placeholder:text-gray-400 text-sm"
+                                className="chat-search-input w-full px-4 py-2.5 bg-gray-100 border border-transparent focus:bg-white focus:border-gray-300 rounded-full outline-none transition-all placeholder:text-gray-400 text-sm"
                             />
                             {searchQuery && (
                                 <button
@@ -205,13 +205,13 @@ const Chat = () => {
                     </div>
 
                     {/* Filter Tabs */}
-                    <div className="px-4 py-2 border-b border-gray-50 flex gap-2 overflow-x-auto no-scrollbar bg-white">
+                    <div className="chat-filters px-4 py-2 border-b border-gray-50 flex gap-2 overflow-x-auto no-scrollbar bg-white">
                         {filterOptions.map(f => (
                             <button
                                 key={f}
                                 onClick={() => setFilter(f)}
-                                className={`px-3 py-1.5 rounded-full text-xs font-bold transition-colors whitespace-nowrap ${filter === f
-                                    ? 'bg-black text-white shadow-sm'
+                                className={`chat-filter-btn px-3 py-1.5 rounded-full text-xs font-bold transition-colors whitespace-nowrap ${filter === f
+                                    ? 'is-active bg-black text-white shadow-sm'
                                     : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
                                     }`}
                             >
@@ -235,7 +235,7 @@ const Chat = () => {
                                         setSelectedUser(conv.user);
                                         setShowSidebar(false); // Hide sidebar on mobile after selection
                                     }}
-                                    className={`p-4 hover:bg-gray-50 cursor-pointer border-b border-gray-50 transition-colors ${selectedUser?._id === conv.user._id ? 'bg-blue-50/60 border-blue-100' : ''}`}
+                                    className={`chat-conversation p-4 hover:bg-gray-50 cursor-pointer border-b border-gray-50 transition-colors ${selectedUser?._id === conv.user._id ? 'is-active bg-blue-50/60 border-blue-100' : ''}`}
                                 >
                                     <div className="flex items-center gap-3">
                                         <div className="relative">
@@ -273,11 +273,11 @@ const Chat = () => {
                 </div>
 
                 {/* Chat Window */}
-                <div className={`${!showSidebar ? 'flex' : 'hidden'} lg:flex flex-1 flex-col bg-white`}>
+                <div className={`chat-window ${!showSidebar ? 'flex' : 'hidden'} lg:flex flex-1 flex-col bg-white`}>
                     {selectedUser ? (
                         <>
                             {/* Header */}
-                            <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-white">
+                            <div className="chat-header p-4 border-b border-gray-100 flex items-center justify-between bg-white">
                                 <div className="flex items-center gap-3 flex-1">
                                     <button 
                                         onClick={() => setShowSidebar(true)}
@@ -300,15 +300,15 @@ const Chat = () => {
                             </div>
 
                             {/* Messages */}
-                            <div className="flex-1 overflow-y-auto p-3 sm:p-6 space-y-4 bg-gray-50/30">
+                            <div className="chat-messages flex-1 overflow-y-auto p-3 sm:p-6 space-y-4 bg-gray-50/30">
                                 {messages.map((msg, idx) => {
                                     const isReceived = msg.sender === selectedUser._id;
 
                                     return (
                                         <div key={idx} className={`flex ${!isReceived ? 'justify-end' : 'justify-start'}`}>
                                             <div className={`max-w-[85%] sm:max-w-[70%] px-4 sm:px-5 py-2 sm:py-3 rounded-2xl text-sm ${!isReceived
-                                                ? 'bg-black text-white rounded-br-none'
-                                                : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none shadow-sm'
+                                                ? 'chat-bubble chat-bubble-sent bg-black text-white rounded-br-none'
+                                                : 'chat-bubble chat-bubble-received bg-white border border-gray-200 text-gray-800 rounded-bl-none shadow-sm'
                                                 }`}>
                                                 <p className="break-words">{msg.content}</p>
                                                 <span className={`text-[10px] block mt-1 opacity-70 ${!isReceived ? 'text-gray-300 text-right' : 'text-gray-400'}`}>
@@ -322,14 +322,14 @@ const Chat = () => {
                             </div>
 
                             {/* Input */}
-                            <form onSubmit={handleSendMessage} className="p-3 sm:p-4 border-t border-gray-100 bg-white">
+                            <form onSubmit={handleSendMessage} className="chat-input-bar p-3 sm:p-4 border-t border-gray-100 bg-white">
                                 <div className="flex gap-2">
                                     <input
                                         type="text"
                                         value={newMessage}
                                         onChange={(e) => setNewMessage(e.target.value)}
                                         placeholder="Type your message..."
-                                        className="flex-1 px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 border border-transparent focus:bg-white focus:border-gray-200 rounded-xl outline-none transition-all placeholder:text-gray-400 text-sm"
+                                        className="chat-message-input flex-1 px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 border border-transparent focus:bg-white focus:border-gray-200 rounded-xl outline-none transition-all placeholder:text-gray-400 text-sm"
                                     />
                                     <button
                                         type="submit"

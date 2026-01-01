@@ -34,7 +34,7 @@ export default function FindTalent() {
     return (
         <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
             <FloatingMenu />
-            <div className="w-full mx-auto">
+            <div className="find-talent-page w-full mx-auto">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pt-8">
                     <div>
                         <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Find Talent</h1>
@@ -47,7 +47,7 @@ export default function FindTalent() {
                             placeholder="Search by name or skill..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 focus:border-black focus:ring-1 focus:ring-black outline-none w-full md:w-64 transition-all"
+                            className="find-talent-search pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 focus:border-black focus:ring-1 focus:ring-black outline-none w-full md:w-64 transition-all"
                         />
                     </div>
                 </div>

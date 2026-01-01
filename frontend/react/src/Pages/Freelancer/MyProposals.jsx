@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import SmoothScroll from '@/components/SmoothScroll';
 
 const MyProposals = () => {
     const [applications, setApplications] = useState([]);
@@ -45,6 +46,7 @@ const MyProposals = () => {
     }
 
     return (
+        <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
         <div className="w-full">
             <h1 className="text-2xl font-bold text-gray-900 mb-6">My Proposals</h1>
 
@@ -111,6 +113,7 @@ const MyProposals = () => {
                 </div>
             )}
         </div>
+        </SmoothScroll>
     );
 };
 

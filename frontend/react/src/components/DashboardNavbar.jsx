@@ -179,7 +179,7 @@ const DashboardNavbar = ({ role }) => {
                                 <Link
                                     key={link.name}
                                     to={link.path}
-                                    className={`text-sm font-medium transition-colors duration-200 ${active ? '' : 'hover:opacity-90'}`}
+                                    className={`dashboard-nav-link text-sm font-medium transition-colors duration-200 ${active ? 'is-active' : 'hover:opacity-90'}`}
                                     style={{ color: active ? 'var(--accent)' : 'var(--text-secondary)' }}
                                 >
                                     {link.name}

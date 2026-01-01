@@ -109,7 +109,7 @@ export default function ProfileEdit() {
   return (
     <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
       <FloatingMenu />
-      <div className="w-full mx-auto">
+      <div className="profile-edit-page w-full mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pt-8">
           <div>

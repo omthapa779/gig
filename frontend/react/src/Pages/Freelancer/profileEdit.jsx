@@ -234,7 +234,7 @@ export default function FreelancerProfileEdit() {
   return (
     <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
       <FloatingMenu />
-      <div className="w-full mx-auto relative">
+      <div className="profile-edit-page w-full mx-auto relative">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pt-8">
           <div>

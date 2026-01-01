@@ -189,8 +189,8 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
             </div>
 
             {/* Mobile controls: Theme toggle + Hamburger */}
-            <div className="md:hidden flex items-center justify-end gap-2 relative flex-1">
-              <div className={`mobile-search absolute right-12 h-10 rounded-full border transition-all duration-300 overflow-hidden origin-right z-10 ${mobileSearchOpen ? 'w-[70vw] border-[#ffd021] ring-4 ring-[#ffd021]/20' : 'w-10'}`}>
+            <div className="md:hidden flex items-center justify-end gap-2 relative w-[96px] flex-shrink-0">
+              <div className={`mobile-search absolute right-12 h-10 max-w-[calc(100vw-6rem)] rounded-full border transition-all duration-300 overflow-hidden origin-right z-10 ${mobileSearchOpen ? 'w-[70vw] border-[#ffd021] ring-4 ring-[#ffd021]/20' : 'w-10'}`}>
                 <button
                   type="button"
                   className="absolute top-0 left-0 h-full w-10 grid place-items-center"

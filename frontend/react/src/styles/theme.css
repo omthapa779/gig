@@ -222,6 +222,80 @@ body {
 .home-card-icon.icon-orange { background: linear-gradient(135deg, #ffedd5, #fed7aa); color: #ea580c; }
 .dark .home-card-icon { background: rgba(56,189,248,0.12); color: #7dd3fc; }
 
+/* Home hire button */
+.home-hire-btn { background: var(--text-primary); color: var(--bg-primary); }
+.home-hire-btn:hover { background: var(--text-primary); }
+.dark .home-hire-btn { background: var(--accent); color: #0E1117; }
+.dark .home-hire-btn:hover { background: var(--accent-hover); }
+
+/* Home page background */
+.dark .home-page { background: var(--bg-primary); }
+
+/* Dashboard active link */
+.dashboard-nav .dashboard-nav-link.is-active { color: var(--accent) !important; }
+
+/* Chat page */
+.dark .chat-shell { background: var(--surface); border-color: rgba(255,255,255,0.08); }
+.dark .chat-sidebar { border-color: rgba(255,255,255,0.08); }
+.dark .chat-sidebar-header { background: var(--elevated); border-color: rgba(255,255,255,0.08); }
+.dark .chat-search-wrap { background: var(--surface); border-color: rgba(255,255,255,0.08); }
+.dark .chat-search-input { background: var(--elevated); color: var(--text-primary); }
+.dark .chat-search-input:focus { background: var(--surface); border-color: rgba(255,255,255,0.12); }
+.dark .chat-filters { background: var(--surface); border-color: rgba(255,255,255,0.08); }
+.dark .chat-filter-btn { background: rgba(255,255,255,0.06); color: var(--text-secondary); }
+.dark .chat-filter-btn.is-active { background: var(--accent-subtle); color: var(--accent); }
+.dark .chat-conversation { border-color: rgba(255,255,255,0.06); }
+.dark .chat-conversation:hover { background: var(--elevated); }
+.dark .chat-conversation.is-active { background: rgba(245,179,1,0.08); border-color: rgba(245,179,1,0.25); }
+.dark .chat-window { background: var(--surface); }
+.dark .chat-header { background: var(--surface); border-color: rgba(255,255,255,0.08); }
+.dark .chat-messages { background: var(--bg-primary); }
+.dark .chat-bubble-sent { background: var(--accent); color: #0E1117; }
+.dark .chat-bubble-received { background: var(--elevated); border-color: rgba(255,255,255,0.08); color: var(--text-primary); }
+.dark .chat-input-bar { background: var(--surface); border-color: rgba(255,255,255,0.08); }
+.dark .chat-message-input { background: var(--elevated); color: var(--text-primary); }
+.dark .chat-message-input:focus { background: var(--surface); border-color: rgba(255,255,255,0.12); }
+
+/* Profile edit */
+.dark .profile-edit-page .bg-white { background-color: var(--surface) !important; }
+.dark .profile-edit-page .border-gray-100,
+.dark .profile-edit-page .border-gray-200,
+.dark .profile-edit-page .border-gray-300,
+.dark .profile-edit-page .border-gray-50 { border-color: rgba(255,255,255,0.08) !important; }
+.dark .profile-edit-page input,
+.dark .profile-edit-page select,
+.dark .profile-edit-page textarea {
+  background: var(--elevated);
+  color: var(--text-primary);
+  border-color: rgba(255,255,255,0.12);
+}
+.dark .profile-edit-page input::placeholder,
+.dark .profile-edit-page textarea::placeholder { color: var(--muted); }
+.dark .profile-edit-page .bg-blue-50 { background: rgba(59,130,246,0.12) !important; }
+.dark .profile-edit-page .text-blue-900 { color: #93c5fd !important; }
+.dark .profile-edit-page .text-blue-800 { color: #bfdbfe !important; }
+.dark .profile-edit-page .text-blue-500 { color: #60a5fa !important; }
+.dark .profile-edit-page .text-blue-400 { color: #93c5fd !important; }
+
+/* Rating pages */
+.dark .rating-card { background: var(--surface); border: 1px solid rgba(255,255,255,0.08); }
+.dark .rating-panel { background: var(--elevated); border-color: rgba(255,255,255,0.08); }
+.dark .rating-guidelines { background: rgba(59,130,246,0.12); border-color: rgba(59,130,246,0.25); }
+.dark .rating-page textarea {
+  background: var(--elevated);
+  color: var(--text-primary);
+  border-color: rgba(255,255,255,0.12);
+}
+.dark .rating-page textarea::placeholder { color: var(--muted); }
+
+/* Find talent search */
+.dark .find-talent-search {
+  background: var(--surface);
+  border-color: rgba(255,255,255,0.12);
+  color: var(--text-primary);
+}
+.dark .find-talent-search::placeholder { color: var(--muted); }
+
 /* Footer */
 .site-footer { background: var(--surface); border-color: rgba(17,24,39,0.08); color: var(--text-secondary); }
 .site-footer-brand { color: var(--text-primary); }

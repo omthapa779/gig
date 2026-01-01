@@ -70,12 +70,12 @@ const App = () => {
 
   return (
     <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
-      <div className="bg-white text-[#1A1A1A] font-['Outfit'] selection:bg-yellow-200" ref={rootRef}>
+      <div className="home-page bg-[#F8FAFC] text-[#1A1A1A] font-['Outfit'] selection:bg-yellow-200" ref={rootRef}>
         <Navbar />
         <FloatingMenu />
 
         {/* Hero Section */}
-        <section className="pt-[100px] overflow-hidden">
+        <section className="min-h-screen flex items-center overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
             <div
               className="badge reveal-up inline-flex items-center gap-2 bg-white/80 border border-gray-200/60 backdrop-blur-sm px-4 py-2 rounded-full font-semibold text-[0.8rem] tracking-widest uppercase mb-6 shadow-sm"
@@ -109,7 +109,7 @@ const App = () => {
               data-animate
               style={{ "--delay": "360ms" }}
             >
-              <Link to="/company/register" className="btn-primary px-7 py-3.5 rounded-[14px] font-bold text-base tracking-widest uppercase flex items-center justify-center transition-all duration-300 shadow-xl hover:-translate-y-1">
+              <Link to="/company/register" className="home-hire-btn px-7 py-3.5 rounded-[14px] font-bold text-base tracking-widest uppercase flex items-center justify-center transition-all duration-300 shadow-xl hover:-translate-y-1">
                 Hire Talent
               </Link>
               <Link to="/freelancer/register" className="px-7 py-3.5 rounded-[14px] font-bold text-base tracking-widest uppercase flex items-center justify-center transition-all duration-300 bg-white border border-gray-200 text-gray-800 shadow-sm hover:border-gray-300 hover:bg-gray-50 hover:-translate-y-1 hover:shadow-lg">
@@ -117,30 +117,43 @@ const App = () => {
               </Link>
             </div>
 
-            <div className="fade-in mt-10 pt-10 border-t border-black/5" data-animate style={{ "--delay": "200ms" }}>
-              <p className="inline-block text-[0.75rem] font-extrabold text-gray-400 uppercase tracking-[0.15em] mb-6 bg-black/5 px-3 py-1.5 rounded-full">
-                Trusted by Nepalese Businesses
-              </p>
-              <div className="marquee-container overflow-hidden">
-                <div className="marquee-content flex gap-20 w-max py-4">
-                  {Array(8).fill(["Daraz", "eSewa", "Khalti", "Pathao", "WorldLink", "Foodmandu", "Bhoj", "Indrive"]).flat().map((brand, i) => (
-                    <span key={`${brand}-${i}`} className="text-2xl font-extrabold text-gray-300 hover:text-gray-800 transition-colors duration-300">
-                      {brand}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
           </div>
         </section>
 
         {/* How It Works Section */}
-        <section id="how-it-works" className="py-[60px] bg-white relative">
+        <section id="how-it-works" className="py-[60px] bg-transparent relative">
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-16 fade-in" data-animate>
+
+              <div className="fade-in my-10 flex flex-col items-center justify-center min-h-[140px]" data-animate style={{ "--delay": "80ms" }}>
+              <p className="inline-block text-[0.75rem] font-extrabold text-gray-500 uppercase tracking-[0.18em] mb-6 bg-black/10 px-4 py-2 rounded-full">
+                Trusted by Nepalese Businesses
+              </p>
+              <div className="marquee-container overflow-hidden">
+                <div className="marquee-track">
+                  <div className="marquee-content py-4">
+                    {["Daraz", "eSewa", "Khalti", "Pathao", "WorldLink", "Foodmandu", "Bhoj", "Indrive"].map((brand, i) => (
+                      <span key={`${brand}-${i}`} className="text-2xl font-extrabold text-gray-500 hover:text-gray-800 transition-colors duration-300">
+                        {brand}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="marquee-content py-4" aria-hidden="true">
+                    {["Daraz", "eSewa", "Khalti", "Pathao", "WorldLink", "Foodmandu", "Bhoj", "Indrive"].map((brand, i) => (
+                      <span key={`${brand}-clone-${i}`} className="text-2xl font-extrabold text-gray-500 hover:text-gray-800 transition-colors duration-300">
+                        {brand}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              </div>
+              
               <h2 className="text-[50px] font-extrabold mb-3">How it Works</h2>
               <p className="text-xl text-gray-500 font-medium">Simple steps to get started with Gig.</p>
             </div>
+
+            
 
             <div className="flex flex-wrap justify-center gap-8 relative max-w-[1200px] mx-auto step-connector">
               {[
@@ -161,7 +174,7 @@ const App = () => {
         </section>
 
         {/* Categories Section */}
-        <section id="services" className="services-section py-[60px] bg-[#F8FAFC] relative">
+        <section id="services" className="services-section py-[60px] bg-transparent relative">
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-16 fade-in" data-animate>
               <h2 className="text-[50px] font-extrabold mb-3">Popular Categories</h2>
@@ -205,7 +218,7 @@ const App = () => {
         </section>
 
         {/* Features Section */}
-        <section id="features" className="py-20 md:py-24 bg-gray-50 relative overflow-hidden">
+        <section id="features" className="py-20 md:py-24 bg-transparent relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center max-w-[700px] mx-auto mb-16 reveal-up" data-animate>
               <h2 className="text-[2.5rem] font-extrabold mb-4 text-gray-900 tracking-tight">Why businesses choose Gig?</h2>
