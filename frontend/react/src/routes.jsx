@@ -19,6 +19,10 @@ import FreelancerLogin from "./Pages/Freelancer/loginFreelancer.jsx";
 import FreelancerProfile from "./Pages/Freelancer/profile.jsx";
 import FreelancerProfileEdit from "./Pages/Freelancer/profileEdit.jsx";
 import FreelancerProposals from "./Pages/Freelancer/MyProposals.jsx";
+import RateCompany from "./Pages/Freelancer/RateCompany.jsx";
+
+// Rating Pages
+import RateFreelancer from "./Pages/Company/RateFreelancer.jsx";
 
 import About from "./Pages/Support_FAQ_about/about.jsx";
 import FAQ from "./Pages/Support_FAQ_about/FAQ.jsx";
@@ -61,6 +65,7 @@ export default function App() {
             <Route path="/company/profileEdit" element={<CompanyProfileEdit />} />
             <Route path="/company/find-talent" element={<FindTalent />} />
             <Route path="/company/chat" element={<Chat />} />
+            <Route path="/company/rate-freelancer" element={<RateFreelancer />} />
             <Route path="/freelancer/:id" element={<FreelancerPublicProfile />} />
           </Route>
 
@@ -70,6 +75,7 @@ export default function App() {
             <Route path="/freelancer/proposals" element={<FreelancerProposals />} />
             <Route path="/freelancer/profileEdit" element={<FreelancerProfileEdit />} />
             <Route path="/freelancer/chat" element={<Chat />} />
+            <Route path="/freelancer/rate-company" element={<RateCompany />} />
           </Route>
 
 

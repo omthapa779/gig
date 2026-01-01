@@ -111,7 +111,7 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
                         </Link>
                       ))}
                       <div className="col-span-4 text-right mt-4 pt-4 border-t border-gray-100">
-                        <Link to="/explore-jobs" className="font-bold text-blue-600 no-underline text-[0.9rem] uppercase tracking-wider inline-flex items-center hover:underline">
+                        <Link to="/categories" className="font-bold text-blue-600 no-underline text-[0.9rem] uppercase tracking-wider inline-flex items-center hover:underline">
                           View All Categories <i className="fa-solid fa-arrow-right ml-2"></i>
                         </Link>
                       </div>
