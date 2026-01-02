@@ -47,6 +47,7 @@ const App = () => {
     const els = root.querySelectorAll("[data-animate]");
     if (!els.length) return;
 
+    const isMobile = window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -61,7 +62,10 @@ const App = () => {
           }
         });
       },
-      { threshold: 0.18, rootMargin: "0px 0px -10% 0px" }
+      {
+        threshold: isMobile ? 0.01 : 0.18,
+        rootMargin: isMobile ? "0px 0px 50% 0px" : "0px 0px -10% 0px",
+      }
     );
 
     els.forEach((el) => observer.observe(el));

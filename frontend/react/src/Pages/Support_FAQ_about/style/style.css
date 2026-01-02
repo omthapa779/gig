@@ -61,6 +61,64 @@
   font-size: 1.02rem;
 }
 
+/* Button styling aligned with home hero CTA */
+.page .btn-primary,
+.page .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0.85rem 1.75rem;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+  box-shadow: 0 16px 30px rgba(17, 24, 39, 0.16);
+}
+
+.page .btn-primary {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border: 1px solid transparent;
+}
+
+.page .btn-primary:hover {
+  background: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 38px rgba(17, 24, 39, 0.2);
+}
+
+.page .btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid rgba(17, 24, 39, 0.18);
+}
+
+.page .btn-secondary:hover {
+  background: rgba(17, 24, 39, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 18px 34px rgba(17, 24, 39, 0.18);
+}
+
+.page .btn-primary.full,
+.page .btn-secondary.full {
+  width: 100%;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
 /* =========================================================
    SUPPORT PAGE
 ========================================================= */
@@ -460,6 +518,125 @@
   .faq-search {
     max-width: 100%;
   }
+}
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+.dark .page {
+  background: #0E1117;
+  color: var(--text-primary);
+}
+
+.dark .page-hero {
+  background: var(--surface);
+}
+
+.dark .page-subtitle,
+.dark .card-text,
+.dark .support-card-text,
+.dark .support-way-text,
+.dark .faq-answer p,
+.dark .faq-help p {
+  color: var(--text-secondary);
+}
+
+.dark .section.alt,
+.dark .alt,
+.dark .support-contact.alt,
+.dark .faq-help,
+.dark .support-topics,
+.dark .faq-list,
+.dark .about-story,
+.dark .about-values,
+.dark .about-cta {
+  background: #0E1117;
+}
+
+.dark .card,
+.dark .support-card,
+.dark .faq-card,
+.dark .about-block,
+.dark .about-highlight,
+.dark .faq-help {
+  background: linear-gradient(160deg, #161B22 0%, #1B2230 100%);
+  border-color: rgba(255,255,255,0.1);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+}
+
+.dark .support-way {
+  background: #1F2633;
+  border-color: rgba(255,255,255,0.08);
+}
+
+.dark .highlight-card {
+  background: #1F2633;
+  border-color: rgba(255,255,255,0.08);
+}
+
+.dark .form-row input,
+.dark .form-row select,
+.dark .form-row textarea,
+.dark .faq-search input {
+  background: var(--elevated);
+  color: var(--text-primary);
+  border-color: rgba(255,255,255,0.12);
+}
+
+.dark .form-row input::placeholder,
+.dark .form-row textarea::placeholder,
+.dark .faq-search input::placeholder {
+  color: var(--muted);
+}
+
+.dark .faq-item {
+  border-color: rgba(255,255,255,0.08);
+}
+
+.dark .faq-question {
+  color: var(--text-primary);
+}
+
+.dark .faq-question i {
+  color: var(--muted);
+}
+
+.dark .page-hero {
+  background:
+    radial-gradient(1200px 400px at 50% -120px, rgba(245, 179, 1, 0.12), transparent 60%),
+    var(--surface);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.dark .support-topics,
+.dark .faq-list,
+.dark .about-story,
+.dark .about-values,
+.dark .support-contact.alt {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.28));
+  border-top: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.dark .page .btn-primary {
+  background: var(--accent);
+  color: #0E1117;
+  box-shadow: 0 18px 32px rgba(245,179,1,0.28);
+}
+
+.dark .page .btn-primary:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 22px 40px rgba(245,179,1,0.34);
+}
+
+.dark .page .btn-secondary {
+  border-color: rgba(255,255,255,0.16);
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.04);
+}
+
+.dark .page .btn-secondary:hover {
+  background: rgba(255,255,255,0.08);
 }
 
 

@@ -77,7 +77,7 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
         style={{ backgroundColor: 'var(--nav-bg)', borderColor: 'rgba(255,255,255,0.04)', color: 'var(--text-primary)' }}
       >
         <div className="w-full max-w-full px-[5%]">
-          <div className="min-h-[80px] py-3 flex items-center justify-between gap-3.5">
+          <div className="min-h-[80px] py-3 flex items-center justify-between gap-3.5 relative">
             {/* Logo */}
               <div className={`flex items-center overflow-hidden transition-all duration-200 ${mobileSearchOpen ? 'opacity-0 scale-95 pointer-events-none max-w-0 md:opacity-100 md:scale-100 md:pointer-events-auto md:max-w-none' : 'opacity-100 scale-100 max-w-[220px] md:max-w-none'}`}>
               <Link to="/" className="inline-flex items-center gap-1 no-underline" style={{ color: 'var(--text-primary)' }}>
@@ -189,30 +189,38 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
             </div>
 
             {/* Mobile controls: Theme toggle + Hamburger */}
-            <div className="md:hidden flex items-center justify-end gap-2 relative w-[96px] flex-shrink-0">
-              <div className={`mobile-search absolute right-12 h-10 max-w-[calc(100vw-6rem)] rounded-full border transition-all duration-300 overflow-hidden origin-right z-10 ${mobileSearchOpen ? 'w-[70vw] border-[#ffd021] ring-4 ring-[#ffd021]/20' : 'w-10'}`}>
+            <div className="md:hidden flex items-center gap-3 ml-auto relative z-[70]">
+              
+              {/* Search Toggle */}
+              <div className={`relative flex items-center transition-all duration-300 ${mobileSearchOpen ? 'w-[65vw]' : 'w-10'}`}>
                 <button
                   type="button"
-                  className="absolute top-0 left-0 h-full w-10 grid place-items-center"
-                  onClick={() => setMobileSearchOpen((prev) => !prev)}
-                  aria-label="Toggle search"
+                  className="h-10 w-10 grid place-items-center rounded-xl border border-white/10"
+                  onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
+                  style={{ color: 'var(--text-primary)' }}
                 >
-                  <i className="fa-solid fa-search search-icon text-[0.9rem]" />
+                  <i className={`fa-solid ${mobileSearchOpen ? 'fa-xmark' : 'fa-search'}`} />
                 </button>
-                <input
-                  type="text"
-                  placeholder="Search for services..."
-                  value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && (window.location.href = `/explore-jobs?search=${encodeURIComponent(searchValue)}`)}
-                  className={`h-full w-full pl-10 pr-3 border-none bg-transparent outline-none text-[0.9rem] font-medium transition-opacity duration-200 ${mobileSearchOpen ? 'opacity-100' : 'opacity-0'}`}
-                />
+                
+                {mobileSearchOpen && (
+                  <input
+                    autoFocus
+                    type="text"
+                    placeholder="Search..."
+                    className="absolute left-12 w-full h-10 bg-white/10 backdrop-blur-md rounded-lg px-3 outline-none border border-[#ffd021]/30"
+                    style={{ color: 'var(--text-primary)' }}
+                    onKeyDown={(e) => e.key === 'Enter' && (window.location.href = `/explore-jobs?search=${e.target.value}`)}
+                  />
+                )}
               </div>
+
+              {/* Hamburger Menu Icon */}
               <button
                 onClick={() => setSidebarOpen(true)}
-                className="mobile-hamburger h-10 w-10 rounded-xl border grid place-items-center transition-colors relative z-20"
+                className="h-10 w-10 rounded-xl border border-white/10 grid place-items-center bg-transparent active:scale-95 transition-all"
+                style={{ color: 'var(--text-primary)' }}
               >
-                <i className="fa-solid fa-bars text-lg" />
+                <i className="fa-solid fa-bars text-xl" />
               </button>
             </div>
           </div>

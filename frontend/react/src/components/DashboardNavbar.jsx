@@ -211,6 +211,7 @@ const DashboardNavbar = ({ role }) => {
                                     onMarkAllRead={handleMarkAllRead}
                                     onClose={() => setShowNotifications(false)}
                                     onNotificationClick={handleNotificationClick}
+                                    historyLink={isCompany ? "/company/notifications" : "/freelancer/notifications"}
                                 />
                             )}
                         </div>
@@ -263,7 +264,27 @@ const DashboardNavbar = ({ role }) => {
 
                     {/* Mobile Menu Button */}
                     <div className="md:hidden flex items-center gap-2">
-                        <ThemeToggle />
+                        <div className="relative" ref={notificationRef}>
+                            <button
+                                onClick={() => setShowNotifications(!showNotifications)}
+                                className={`dashboard-notification relative p-2 transition-colors rounded-full focus:outline-none ${showNotifications ? 'is-active text-blue-600 bg-blue-50' : 'text-gray-500 hover:text-blue-600 hover:bg-gray-50'}`}
+                            >
+                                <i className="fa-regular fa-bell text-lg"></i>
+                                {unreadCount > 0 && (
+                                    <span className="dashboard-notification-dot absolute top-1 right-1 h-2.5 w-2.5 bg-red-500 rounded-full ring-2 ring-white animate-pulse"></span>
+                                )}
+                            </button>
+
+                            {showNotifications && (
+                                <NotificationDropdown
+                                    notifications={notifications}
+                                    onMarkAllRead={handleMarkAllRead}
+                                    onClose={() => setShowNotifications(false)}
+                                    onNotificationClick={handleNotificationClick}
+                                    historyLink={isCompany ? "/company/notifications" : "/freelancer/notifications"}
+                                />
+                            )}
+                        </div>
                         <button
                             onClick={() => setIsOpen(!isOpen)}
                             className="dashboard-mobile-toggle text-gray-600 focus:outline-none h-10 w-10 grid place-items-center"
@@ -276,7 +297,11 @@ const DashboardNavbar = ({ role }) => {
 
             {/* Mobile Menu */}
             <div
-                className={`dashboard-mobile-menu md:hidden border-b overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                className={`md:hidden fixed inset-0 z-40 bg-gray-900/50 transition-opacity duration-200 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                onClick={() => setIsOpen(false)}
+            />
+            <div
+                className={`dashboard-mobile-menu md:hidden border-b overflow-hidden transition-all duration-300 ease-in-out relative z-50 ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                     }`}
             >
                 <div className="px-4 pt-2 pb-4 space-y-1">
@@ -294,6 +319,13 @@ const DashboardNavbar = ({ role }) => {
                         </Link>
                     ))}
                     <div className="dashboard-mobile-divider border-t my-2 pt-2">
+                        <Link
+                            to={settingsPath}
+                            className="dashboard-mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            <i className="fa-solid fa-gear mr-2"></i> Settings
+                        </Link>
                         <button
                             onClick={handleLogout}
                             className="dashboard-mobile-logout w-full text-left block px-3 py-3 rounded-md text-base font-medium text-red-600 hover:bg-red-50"

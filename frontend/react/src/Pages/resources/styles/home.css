@@ -19,6 +19,27 @@
 }
 /* ... rest of your CSS ... */
 
+@media (max-width: 768px) {
+  [data-animate] {
+    --delay: 0ms !important;
+  }
+}
+
+@media (max-width: 768px) {
+  body,
+  .home-page {
+    overflow-x: hidden;
+  }
+
+  .marquee-container {
+    width: 100%;
+  }
+
+  .marquee-track {
+    max-width: 100%;
+  }
+}
+
 .marquee-track {
   display: inline-flex;
   width: max-content;

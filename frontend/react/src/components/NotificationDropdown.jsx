@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const NotificationDropdown = ({ notifications, onMarkAllRead, onClose, onNotificationClick }) => {
+const NotificationDropdown = ({ notifications, onMarkAllRead, onClose, onNotificationClick, historyLink = "#" }) => {
     return (
         <div className="notification-dropdown absolute right-0 mt-3 w-80 sm:w-96 bg-white rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-gray-100 py-2 ring-1 ring-black ring-opacity-5 animate-fade-in-down origin-top-right transform transition-all z-50">
             {/* Header */}
@@ -69,7 +69,7 @@ const NotificationDropdown = ({ notifications, onMarkAllRead, onClose, onNotific
             {/* Footer */}
             <div className="notification-dropdown-footer px-2 py-2 border-t border-gray-50 bg-gray-50/50 rounded-b-2xl">
                 <Link
-                    to="#"
+                    to={historyLink}
                     className="notification-dropdown-footer-link block text-center text-sm font-semibold text-gray-600 hover:text-black py-1.5 transition-colors rounded-lg hover:bg-gray-100"
                     onClick={onClose}
                 >

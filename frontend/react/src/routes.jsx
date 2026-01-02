@@ -20,6 +20,7 @@ import CompanyRefunds from "./Pages/Company/Refunds.jsx";
 import CompanyPlaceOrder from "./Pages/Company/PlaceOrder.jsx";
 import CompanyRevisionRequest from "./Pages/Company/RevisionRequest.jsx";
 import CompanyOrderStatus from "./Pages/Company/OrderStatus.jsx";
+import CompanyNotificationsHistory from "./Pages/Company/NotificationsHistory.jsx";
 
 // Freelancer Pages
 import FreelancerRegister from "./Pages/Freelancer/freelancerRegister.jsx";
@@ -30,6 +31,7 @@ import FreelancerProposals from "./Pages/Freelancer/MyProposals.jsx";
 import RateCompany from "./Pages/Freelancer/RateCompany.jsx";
 import FreelancerTransactionHistory from "./Pages/Freelancer/TransactionHistory.jsx";
 import Settings from "./Pages/Settings/Settings.jsx";
+import FreelancerNotificationsHistory from "./Pages/Freelancer/NotificationsHistory.jsx";
 
 // Rating Pages
 import RateFreelancer from "./Pages/Company/RateFreelancer.jsx";
@@ -82,6 +84,7 @@ export default function App() {
             <Route path="/company/place-order" element={<CompanyPlaceOrder />} />
             <Route path="/company/revision-request" element={<CompanyRevisionRequest />} />
             <Route path="/company/order-status" element={<CompanyOrderStatus />} />
+            <Route path="/company/notifications" element={<CompanyNotificationsHistory />} />
             <Route path="/company/chat" element={<Chat />} />
             <Route path="/company/rate-freelancer" element={<RateFreelancer />} />
             <Route path="/freelancer/:id" element={<FreelancerPublicProfile />} />
@@ -95,6 +98,7 @@ export default function App() {
             <Route path="/freelancer/chat" element={<Chat />} />
             <Route path="/freelancer/rate-company" element={<RateCompany />} />
             <Route path="/freelancer/payouts" element={<FreelancerTransactionHistory />} />
+            <Route path="/freelancer/notifications" element={<FreelancerNotificationsHistory />} />
           </Route>
 
 

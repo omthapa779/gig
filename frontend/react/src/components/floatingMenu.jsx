@@ -47,7 +47,7 @@ export default function FloatingMenu({ enableBottomMargin = true }) {
   return (
     <div
       ref={ref}
-      className={`fixed right-[18px] bottom-[18px] z-[9999] grid gap-[10px] items-end justify-items-end transition-transform duration-[260ms] ease-out will-change-transform 
+      className={`floating-menu fixed right-[18px] bottom-[18px] z-[9999] grid gap-[10px] items-end justify-items-end transition-transform duration-[260ms] ease-out will-change-transform 
         ${atBottom ? "-translate-y-[40px]" : "translate-y-0"}`}
     >
       {/* Action Buttons Stack */}
@@ -62,7 +62,7 @@ export default function FloatingMenu({ enableBottomMargin = true }) {
           <Link
             key={item.label}
             to={item.to}
-            className="flex items-center gap-2.5 bg-white border border-[#eef2f7] rounded-full px-3 py-2.5 shadow-sm font-extrabold transition-all duration-[180ms] hover:-translate-y-0.5 hover:border-[#ffd021]/70 hover:shadow-[0_0_14px_rgba(255,208,33,0.28),0_10px_24px_rgba(16,24,40,0.12)] active:translate-y-0"
+            className="floating-action flex items-center gap-2.5 bg-white border border-[#eef2f7] rounded-full px-3 py-2.5 shadow-sm font-extrabold transition-all duration-[180ms] hover:-translate-y-0.5 hover:border-[#ffd021]/70 hover:shadow-[0_0_14px_rgba(255,208,33,0.28),0_10px_24px_rgba(16,24,40,0.12)] active:translate-y-0"
           >
             <i className={`fa-solid ${item.icon} text-[#ffd021] transition-all duration-[180ms] group-hover:text-[#FF9800] group-hover:translate-x-[1px]`} />
             <span className="text-[0.95rem]">{item.label}</span>
@@ -72,7 +72,7 @@ export default function FloatingMenu({ enableBottomMargin = true }) {
 
       {/* Main Toggle Button */}
       <button
-        className={`relative isolation-auto overflow-hidden w-14 h-14 rounded-full border-none cursor-pointer bg-[#1A1A1A] text-white shadow-[0_14px_30px_rgba(0,0,0,0.18)] grid place-items-center transition-all duration-[180ms] hover:-translate-y-0.5 hover:shadow-[0_0_18px_rgba(255,208,33,0.55),0_0_36px_rgba(255,208,33,0.22),0_14px_30px_rgba(0,0,0,0.18)] focus-visible:outline-none 
+        className={`floating-main relative isolation-auto overflow-hidden w-14 h-14 rounded-full border-none cursor-pointer bg-[#1A1A1A] text-white shadow-[0_14px_30px_rgba(0,0,0,0.18)] grid place-items-center transition-all duration-[180ms] hover:-translate-y-0.5 hover:shadow-[0_0_18px_rgba(255,208,33,0.55),0_0_36px_rgba(255,208,33,0.22),0_14px_30px_rgba(0,0,0,0.18)] focus-visible:outline-none 
           ${open ? "shadow-[0_0_16px_rgba(255,208,33,0.45),0_0_32px_rgba(255,208,33,0.18),0_14px_30px_rgba(0,0,0,0.18)]" : ""}`}
         onClick={() => setOpen((v) => !v)}
         aria-label="Help menu"
