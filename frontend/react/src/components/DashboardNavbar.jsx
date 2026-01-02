@@ -144,7 +144,7 @@ const DashboardNavbar = ({ role }) => {
         ];
 
     const profilePath = isCompany ? '/company/profile' : '/freelancer/profile';
-    const settingsPath = isCompany ? '/company/profileEdit' : '/freelancer/profileEdit';
+    const settingsPath = isCompany ? '/company/settings' : '/freelancer/settings';
 
     return (
         <nav

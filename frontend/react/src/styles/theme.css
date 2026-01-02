@@ -296,6 +296,101 @@ body {
 }
 .dark .find-talent-search::placeholder { color: var(--muted); }
 
+/* Checkout */
+.checkout-input { background: #ffffff; color: #111827; }
+.checkout-input::placeholder { color: #9ca3af; }
+.checkout-apply { background: #111827; color: #ffffff; }
+.checkout-apply:hover { background: #000000; }
+.dark .checkout-input {
+  background: var(--elevated);
+  color: var(--text-primary);
+  border-color: rgba(255,255,255,0.12);
+}
+.dark .checkout-input::placeholder { color: var(--muted); }
+.dark .checkout-apply { background: var(--accent); color: #0E1117; }
+.dark .checkout-apply:hover { background: var(--accent-hover); }
+
+/* Payment pages */
+.payment-secondary { background: #f9fafb; color: #111827; }
+.payment-secondary:hover { background: #f3f4f6; color: #111827; }
+.dark .payment-secondary { background: rgba(255,255,255,0.08); color: var(--text-primary); border-color: rgba(255,255,255,0.12); }
+.dark .payment-secondary:hover { background: rgba(255,255,255,0.12); color: var(--text-primary); }
+
+/* Transaction history badges */
+.dark .bg-green-50 { background: rgba(16,185,129,0.16) !important; }
+.dark .text-green-600 { color: #34d399 !important; }
+.dark .bg-red-50 { background: rgba(239,68,68,0.16) !important; }
+.dark .text-red-600 { color: #f87171 !important; }
+.dark .bg-yellow-50 { background: rgba(245,158,11,0.16) !important; }
+.dark .text-yellow-600 { color: #fbbf24 !important; }
+.dark .border-gray-100 { border-color: rgba(255,255,255,0.08) !important; }
+
+/* Refunds */
+.dark .refunds-input {
+  background: var(--elevated);
+  color: var(--text-primary);
+  border-color: rgba(255,255,255,0.12);
+}
+.dark .refunds-input::placeholder { color: var(--muted); }
+
+/* Orders & revisions */
+.dark .order-input,
+.dark .revision-input {
+  background: var(--elevated);
+  color: var(--text-primary);
+  border-color: rgba(255,255,255,0.12);
+}
+.dark .order-input::placeholder,
+.dark .revision-input::placeholder { color: var(--muted); }
+
+/* Order & revision buttons (light mode hover only) */
+.order-submit { background: #111827; color: #ffffff; }
+.order-submit:hover { background: #111827; }
+.dark .order-submit { background: var(--accent); color: #0E1117; }
+.dark .order-submit:hover { background: var(--accent-hover); }
+
+.revision-submit { background: #111827; color: #ffffff; }
+.revision-submit:hover { background: #111827; }
+.dark .revision-submit { background: var(--accent); color: #0E1117; }
+.dark .revision-submit:hover { background: var(--accent-hover); }
+
+/* Revision file input */
+.revision-file { background: #ffffff; }
+.revision-file-btn { background: #111827; color: #ffffff; }
+.revision-file-btn:hover { background: #000000; }
+.dark .revision-file { background: var(--elevated); border-color: rgba(255,255,255,0.12); }
+.dark .revision-file-btn { background: var(--accent); color: #0E1117; }
+.dark .revision-file-btn:hover { background: var(--accent-hover); }
+
+/* Status badge sizing */
+.status-badge { min-width: 96px; }
+
+/* Settings page */
+.settings-page { background: #f9fafb; color: var(--text-primary); }
+.settings-card { background: var(--surface); }
+.settings-tab { color: var(--text-secondary); }
+.settings-tab.is-active { background: rgba(245,179,1,0.16); color: var(--accent); }
+.settings-input { background: #ffffff; color: #111827; }
+.settings-input::placeholder { color: #9ca3af; }
+.settings-back:hover { background: #f3f4f6; }
+
+.dark .settings-page { background: var(--bg-primary); }
+.dark .settings-card { background: var(--surface); border-color: rgba(255,255,255,0.08); }
+.dark .settings-tab { color: var(--text-secondary); }
+.dark .settings-tab.is-active { background: var(--accent-subtle); color: var(--accent); }
+.dark .settings-input {
+  background: var(--elevated);
+  color: var(--text-primary);
+  border-color: rgba(255,255,255,0.12);
+}
+.dark .settings-input::placeholder { color: var(--muted); }
+.dark .settings-back { border-color: rgba(255,255,255,0.12); color: var(--text-primary); }
+.dark .settings-back:hover { background: rgba(255,255,255,0.08); }
+
+/* Order status */
+.dark .bg-blue-50 { background: rgba(59,130,246,0.16) !important; }
+.dark .text-blue-600 { color: #93c5fd !important; }
+
 /* Footer */
 .site-footer { background: var(--surface); border-color: rgba(17,24,39,0.08); color: var(--text-secondary); }
 .site-footer-brand { color: var(--text-primary); }

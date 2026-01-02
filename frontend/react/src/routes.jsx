@@ -12,6 +12,14 @@ import CompanyProfileEdit from "./Pages/Company/profileEdit.jsx";
 import CompanyJobApplications from "./Pages/Company/JobApplications.jsx";
 import FindTalent from "./Pages/Company/FindTalent.jsx";
 import FreelancerPublicProfile from "./Pages/Public/FreelancerPublicProfile.jsx";
+import CompanyCheckout from "./Pages/Company/Checkout.jsx";
+import CompanyPaymentSuccess from "./Pages/Company/PaymentSuccess.jsx";
+import CompanyPaymentFailure from "./Pages/Company/PaymentFailure.jsx";
+import CompanyTransactionHistory from "./Pages/Company/TransactionHistory.jsx";
+import CompanyRefunds from "./Pages/Company/Refunds.jsx";
+import CompanyPlaceOrder from "./Pages/Company/PlaceOrder.jsx";
+import CompanyRevisionRequest from "./Pages/Company/RevisionRequest.jsx";
+import CompanyOrderStatus from "./Pages/Company/OrderStatus.jsx";
 
 // Freelancer Pages
 import FreelancerRegister from "./Pages/Freelancer/freelancerRegister.jsx";
@@ -20,6 +28,8 @@ import FreelancerProfile from "./Pages/Freelancer/profile.jsx";
 import FreelancerProfileEdit from "./Pages/Freelancer/profileEdit.jsx";
 import FreelancerProposals from "./Pages/Freelancer/MyProposals.jsx";
 import RateCompany from "./Pages/Freelancer/RateCompany.jsx";
+import FreelancerTransactionHistory from "./Pages/Freelancer/TransactionHistory.jsx";
+import Settings from "./Pages/Settings/Settings.jsx";
 
 // Rating Pages
 import RateFreelancer from "./Pages/Company/RateFreelancer.jsx";
@@ -64,6 +74,14 @@ export default function App() {
             <Route path="/company/job/:id/applications" element={<CompanyJobApplications />} />
             <Route path="/company/profileEdit" element={<CompanyProfileEdit />} />
             <Route path="/company/find-talent" element={<FindTalent />} />
+            <Route path="/company/checkout" element={<CompanyCheckout />} />
+            <Route path="/company/payment-success" element={<CompanyPaymentSuccess />} />
+            <Route path="/company/payment-failure" element={<CompanyPaymentFailure />} />
+            <Route path="/company/transactions" element={<CompanyTransactionHistory />} />
+            <Route path="/company/refunds" element={<CompanyRefunds />} />
+            <Route path="/company/place-order" element={<CompanyPlaceOrder />} />
+            <Route path="/company/revision-request" element={<CompanyRevisionRequest />} />
+            <Route path="/company/order-status" element={<CompanyOrderStatus />} />
             <Route path="/company/chat" element={<Chat />} />
             <Route path="/company/rate-freelancer" element={<RateFreelancer />} />
             <Route path="/freelancer/:id" element={<FreelancerPublicProfile />} />
@@ -76,6 +94,7 @@ export default function App() {
             <Route path="/freelancer/profileEdit" element={<FreelancerProfileEdit />} />
             <Route path="/freelancer/chat" element={<Chat />} />
             <Route path="/freelancer/rate-company" element={<RateCompany />} />
+            <Route path="/freelancer/payouts" element={<FreelancerTransactionHistory />} />
           </Route>
 
 
@@ -88,6 +107,10 @@ export default function App() {
 
           {/* Categories Page */}
           <Route path="/categories" element={<Categories />} />
+
+          {/* Settings (fullscreen, no dashboard layout) */}
+          <Route path="/company/settings" element={<Settings role="company" />} />
+          <Route path="/freelancer/settings" element={<Settings role="freelancer" />} />
 
           {/* 404 */}
           <Route path="*" element={<div className="p-10 text-center text-xl">404 - Page not found</div>} />
