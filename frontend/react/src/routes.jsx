@@ -2,6 +2,8 @@ import { Routes, Route } from "react-router-dom";
 
 import Home from "./Pages/home.jsx";
 import DashboardLayout from "./layouts/DashboardLayout";
+import HomeNav from "./components/homeNav.jsx";
+import Footer from "./components/footer.jsx";
 
 // Company Pages
 import CompanyRegister from "./Pages/Company/registerCompany.jsx";
@@ -22,6 +24,7 @@ import CompanyRefunds from "./Pages/Company/Refunds.jsx";
 import CompanyPlaceOrder from "./Pages/Company/PlaceOrder.jsx";
 import CompanyRevisionRequest from "./Pages/Company/RevisionRequest.jsx";
 import CompanyOrderStatus from "./Pages/Company/OrderStatus.jsx";
+import CompanyOrderDetails from "./Pages/Company/OrderDetails.jsx";
 import CompanyNotificationsHistory from "./Pages/Company/NotificationsHistory.jsx";
 
 // Freelancer Pages
@@ -54,6 +57,16 @@ import Categories from "./Pages/Categories/categories.jsx";
 import JobDetail from "./Pages/Public/JobDetail.jsx";
 import JobFeed from "./Pages/Public/JobFeed.jsx";
 import CategoryJobs from "./Pages/Public/CategoryJobs.jsx";
+
+const NotFound = () => (
+  <div className="min-h-screen flex flex-col site-bg">
+    <HomeNav />
+    <main className="not-found-page flex-grow pt-28 px-6 sm:px-10 lg:px-16">
+      <div className="p-10 text-center text-xl">404 - Page not found</div>
+    </main>
+    <Footer />
+  </div>
+);
 
 export default function App() {
   return (
@@ -90,6 +103,7 @@ export default function App() {
             <Route path="/company/place-order" element={<CompanyPlaceOrder />} />
             <Route path="/company/revision-request" element={<CompanyRevisionRequest />} />
             <Route path="/company/order-status" element={<CompanyOrderStatus />} />
+            <Route path="/company/order/:id" element={<CompanyOrderDetails />} />
             <Route path="/company/notifications" element={<CompanyNotificationsHistory />} />
             <Route path="/company/chat" element={<Chat />} />
             <Route path="/company/rate-freelancer" element={<RateFreelancer />} />
@@ -125,7 +139,7 @@ export default function App() {
           <Route path="/freelancer/settings" element={<Settings role="freelancer" />} />
 
           {/* 404 */}
-          <Route path="*" element={<div className="p-10 text-center text-xl">404 - Page not found</div>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
     </div>

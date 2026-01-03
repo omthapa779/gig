@@ -168,7 +168,7 @@ export default function Jobs() {
     return (
       <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
         <FloatingMenu />
-        <div className="w-full mx-auto">
+        <div className="company-jobs-page w-full mx-auto">
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pt-8">
             <div>
@@ -260,7 +260,7 @@ export default function Jobs() {
   return (
     <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
       <FloatingMenu />
-      <div className="w-full mx-auto">
+      <div className="company-jobs-page w-full mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pt-8">
           <div>
@@ -326,7 +326,7 @@ export default function Jobs() {
             </div>
 
             {/* Card 2: Tips */}
-            <div className="bg-blue-50 rounded-2xl p-6 border border-blue-100">
+            <div className="job-tips-card bg-blue-50 rounded-2xl p-6 border border-blue-100">
               <h4 className="font-bold text-blue-900 mb-3 flex items-center gap-2">
                 <i className="fa-solid fa-lightbulb text-blue-500"></i>
                 Job Posting Tips

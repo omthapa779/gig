@@ -387,6 +387,50 @@ body {
 .dark .settings-back { border-color: rgba(255,255,255,0.12); color: var(--text-primary); }
 .dark .settings-back:hover { background: rgba(255,255,255,0.08); }
 
+/* 404 page */
+.dark .not-found-page {
+  color: var(--text-primary);
+}
+
+/* Company jobs form inputs */
+.dark .company-jobs-page input,
+.dark .company-jobs-page select,
+.dark .company-jobs-page textarea {
+  background: var(--elevated);
+  color: var(--text-primary);
+  border-color: rgba(255,255,255,0.12);
+}
+.dark .company-jobs-page input::placeholder,
+.dark .company-jobs-page textarea::placeholder {
+  color: var(--muted);
+}
+.dark .company-jobs-page select {
+  color: var(--text-primary);
+}
+
+/* Job posting tips card (dark mode) */
+.dark .company-jobs-page .job-tips-card {
+  background: linear-gradient(160deg, rgba(59, 130, 246, 0.18), rgba(15, 23, 42, 0.6));
+  border-color: rgba(96, 165, 250, 0.4);
+  color: var(--text-primary);
+}
+.dark .company-jobs-page .job-tips-card h4 {
+  color: #bfdbfe;
+}
+.dark .company-jobs-page .job-tips-card li,
+.dark .company-jobs-page .job-tips-card span {
+  color: #e2e8f0;
+}
+.dark .company-jobs-page .job-tips-card i {
+  color: #93c5fd;
+}
+
+@media (max-width: 640px) {
+  .settings-page .settings-card {
+    border-radius: 18px;
+  }
+}
+
 /* Order status */
 .dark .bg-blue-50 { background: rgba(59,130,246,0.16) !important; }
 .dark .text-blue-600 { color: #93c5fd !important; }

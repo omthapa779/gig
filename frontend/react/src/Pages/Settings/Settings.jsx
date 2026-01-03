@@ -7,12 +7,12 @@ const tabs = [
   { id: "security", label: "Security" },
   { id: "notifications", label: "Notifications" },
   { id: "billing", label: "Billing" },
-  { id: "appearance", label: "Appearance" },
 ];
 
 const Settings = ({ role = "company" }) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("account");
+  const [mobileTabOpen, setMobileTabOpen] = useState(false);
 
   return (
     <div className="settings-page min-h-screen w-full bg-gray-50">
@@ -29,7 +29,7 @@ const Settings = ({ role = "company" }) => {
               Manage profile, security, notifications, and billing preferences.
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 w-full sm:w-auto justify-end sm:justify-start">
             <ThemeToggle />
             <button
               onClick={() => navigate(-1)}
@@ -41,12 +41,15 @@ const Settings = ({ role = "company" }) => {
         </div>
 
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6">
-          <div className="settings-card bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
+          <div className={`settings-card bg-white border border-gray-100 rounded-2xl p-4 shadow-sm ${mobileTabOpen ? "hidden" : "block"} lg:block`}>
             <div className="grid gap-2">
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => {
+                    setActiveTab(tab.id);
+                    setMobileTabOpen(true);
+                  }}
                   className={`settings-tab text-left px-4 py-3 rounded-xl font-semibold transition-colors ${
                     activeTab === tab.id ? "is-active" : ""
                   }`}
@@ -57,7 +60,19 @@ const Settings = ({ role = "company" }) => {
             </div>
           </div>
 
-          <div className="settings-card bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
+          <div className={`settings-card bg-white border border-gray-100 p-6 shadow-sm ${mobileTabOpen ? "block" : "hidden"} lg:block rounded-none border-0 shadow-none lg:rounded-2xl lg:border lg:shadow-sm`}>
+            <div className="lg:hidden flex items-center justify-between mb-6">
+              <p className="text-sm font-semibold text-gray-500 uppercase tracking-[0.2em]">
+                {tabs.find((tab) => tab.id === activeTab)?.label}
+              </p>
+              <button
+                type="button"
+                onClick={() => setMobileTabOpen(false)}
+                className="px-3 py-2 rounded-lg border border-gray-200 text-gray-700 font-semibold"
+              >
+                Back
+              </button>
+            </div>
             {activeTab === "account" && (
               <div className="space-y-4">
                 <h2 className="text-xl font-bold text-gray-900">Account</h2>
@@ -167,16 +182,6 @@ const Settings = ({ role = "company" }) => {
                     />
                   </div>
                 </div>
-              </div>
-            )}
-
-            {activeTab === "appearance" && (
-              <div className="space-y-4">
-                <h2 className="text-xl font-bold text-gray-900">Appearance</h2>
-                <p className="text-gray-500">
-                  Toggle dark mode using the switch above. Your preference is
-                  saved automatically.
-                </p>
               </div>
             )}
           </div>
