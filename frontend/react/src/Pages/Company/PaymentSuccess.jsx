@@ -1,8 +1,10 @@
 import React from "react";
+import FloatingMenu from "@/components/floatingMenu";
 
 const PaymentSuccess = () => {
   return (
     <div className="max-w-3xl mx-auto w-full">
+      <FloatingMenu />
       <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-8 sm:p-12 text-center">
         <div className="mx-auto mb-6 h-20 w-20 rounded-full bg-green-50 text-green-600 grid place-items-center text-3xl">
           <i className="fa-solid fa-check leading-none"></i>

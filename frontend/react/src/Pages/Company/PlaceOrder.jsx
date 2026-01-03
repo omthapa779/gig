@@ -1,5 +1,6 @@
 import React from "react";
 import SmoothScroll from "@/components/SmoothScroll";
+import FloatingMenu from "@/components/floatingMenu";
 
 const PlaceOrder = () => {
   const items = [
@@ -14,7 +15,8 @@ const PlaceOrder = () => {
 
   return (
     <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
-    <div className="order-page max-w-6xl mx-auto w-full">
+      <div className="order-page max-w-6xl mx-auto w-full">
+        <FloatingMenu />
       <div className="mb-8">
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">
           Order

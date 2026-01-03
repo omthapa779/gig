@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import SmoothScroll from "@/components/SmoothScroll";
+import FloatingMenu from "@/components/floatingMenu";
 
 const RevisionRequest = () => {
   const [notes, setNotes] = useState("");
@@ -7,7 +8,8 @@ const RevisionRequest = () => {
 
   return (
     <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
-    <div className="revision-page max-w-5xl mx-auto w-full">
+      <div className="revision-page max-w-5xl mx-auto w-full">
+        <FloatingMenu />
       <div className="mb-8">
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">
           Revision

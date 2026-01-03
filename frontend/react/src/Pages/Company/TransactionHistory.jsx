@@ -1,5 +1,6 @@
 import React from "react";
 import SmoothScroll from "@/components/SmoothScroll";
+import FloatingMenu from "@/components/floatingMenu";
 
 const transactions = [
   {
@@ -28,7 +29,8 @@ const transactions = [
 const TransactionHistory = () => {
   return (
     <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
-    <div className="max-w-6xl mx-auto w-full">
+      <div className="max-w-6xl mx-auto w-full">
+        <FloatingMenu />
       <div className="mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
           Transaction History

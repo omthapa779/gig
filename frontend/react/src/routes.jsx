@@ -7,6 +7,8 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import CompanyRegister from "./Pages/Company/registerCompany.jsx";
 import CompanyLogin from "./Pages/Company/loginCompany.jsx";
 import CompanyProfile from "./Pages/Company/profile.jsx";
+import CompanyDashboard from "./Pages/Company/Dashboard.jsx";
+import CompanySavedTalent from "./Pages/Company/SavedTalent.jsx";
 import CompanyJobs from "./Pages/Company/jobs.jsx";
 import CompanyProfileEdit from "./Pages/Company/profileEdit.jsx";
 import CompanyJobApplications from "./Pages/Company/JobApplications.jsx";
@@ -26,6 +28,8 @@ import CompanyNotificationsHistory from "./Pages/Company/NotificationsHistory.js
 import FreelancerRegister from "./Pages/Freelancer/freelancerRegister.jsx";
 import FreelancerLogin from "./Pages/Freelancer/loginFreelancer.jsx";
 import FreelancerProfile from "./Pages/Freelancer/profile.jsx";
+import FreelancerDashboard from "./Pages/Freelancer/Dashboard.jsx";
+import FreelancerSavedJobs from "./Pages/Freelancer/SavedJobs.jsx";
 import FreelancerProfileEdit from "./Pages/Freelancer/profileEdit.jsx";
 import FreelancerProposals from "./Pages/Freelancer/MyProposals.jsx";
 import RateCompany from "./Pages/Freelancer/RateCompany.jsx";
@@ -71,6 +75,8 @@ export default function App() {
 
           {/* Protected Company Routes */}
           <Route element={<DashboardLayout role="company" />}>
+            <Route path="/company/dashboard" element={<CompanyDashboard />} />
+            <Route path="/company/saved-talent" element={<CompanySavedTalent />} />
             <Route path="/company/profile" element={<CompanyProfile />} />
             <Route path="/company/jobs" element={<CompanyJobs />} />
             <Route path="/company/job/:id/applications" element={<CompanyJobApplications />} />
@@ -92,6 +98,8 @@ export default function App() {
 
           {/* Protected Freelancer Routes */}
           <Route element={<DashboardLayout role="freelancer" />}>
+            <Route path="/freelancer/dashboard" element={<FreelancerDashboard />} />
+            <Route path="/freelancer/saved-jobs" element={<FreelancerSavedJobs />} />
             <Route path="/freelancer/profile" element={<FreelancerProfile />} />
             <Route path="/freelancer/proposals" element={<FreelancerProposals />} />
             <Route path="/freelancer/profileEdit" element={<FreelancerProfileEdit />} />

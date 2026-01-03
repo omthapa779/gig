@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SmoothScroll from "@/components/SmoothScroll";
+import FloatingMenu from "@/components/floatingMenu";
 
 export default function RateFreelancer() {
   const navigate = useNavigate();
@@ -49,28 +50,29 @@ export default function RateFreelancer() {
   return (
     <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
       <div className="rating-page w-full max-w-4xl mx-auto">
-      <div className="rating-card bg-white rounded-lg shadow-lg overflow-hidden">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-8 sm:px-8 text-white">
-          <h1 className="text-2xl sm:text-3xl font-bold mb-2">Rate Freelancer</h1>
-          <p className="text-blue-100">Share your experience working with this freelancer</p>
-        </div>
+        <FloatingMenu />
+        <div className="rating-card bg-white rounded-lg shadow-lg overflow-hidden">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-8 sm:px-8 text-white">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-2">Rate Freelancer</h1>
+            <p className="text-blue-100">Share your experience working with this freelancer</p>
+          </div>
 
-        {/* Content */}
-        <div className="p-6 sm:p-8">
-          {success && (
-            <div className="bg-green-50 border border-green-200 text-green-700 px-6 py-4 rounded-lg mb-8 flex items-center">
-              <i className="fa-solid fa-check-circle mr-3 text-lg"></i>
-              <span>Rating submitted successfully! Redirecting...</span>
-            </div>
-          )}
+          {/* Content */}
+          <div className="p-6 sm:p-8">
+            {success && (
+              <div className="bg-green-50 border border-green-200 text-green-700 px-6 py-4 rounded-lg mb-8 flex items-center">
+                <i className="fa-solid fa-check-circle mr-3 text-lg"></i>
+                <span>Rating submitted successfully! Redirecting...</span>
+              </div>
+            )}
 
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-lg mb-8 flex items-center">
-              <i className="fa-solid fa-circle-exclamation mr-3 text-lg"></i>
-              <span>{error}</span>
-            </div>
-          )}
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-lg mb-8 flex items-center">
+                <i className="fa-solid fa-circle-exclamation mr-3 text-lg"></i>
+                <span>{error}</span>
+              </div>
+            )}
 
           {/* Freelancer Info */}
           <div className="rating-panel mb-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
