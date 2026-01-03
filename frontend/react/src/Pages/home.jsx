@@ -133,7 +133,7 @@ const App = () => {
               <p className="inline-block text-[0.75rem] font-extrabold text-gray-500 uppercase tracking-[0.18em] mb-6 bg-black/10 px-4 py-2 rounded-full">
                 Trusted by Nepalese Businesses
               </p>
-              <div className="marquee-container overflow-hidden">
+              <div className="marquee-container">
                 <div className="marquee-track">
                   <div className="marquee-content py-4">
                     {["Daraz", "eSewa", "Khalti", "Pathao", "WorldLink", "Foodmandu", "Bhoj", "Indrive"].map((brand, i) => (

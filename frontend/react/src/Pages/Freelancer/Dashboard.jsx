@@ -8,7 +8,7 @@ const FreelancerDashboard = () => {
     { label: "Proposals Sent", value: "12", helper: "3 awaiting reply" },
     { label: "Active Contracts", value: "2", helper: "1 ending soon" },
     { label: "Earnings", value: "NPR 46k", helper: "This month" },
-    { label: "Profile Strength", value: "82%", helper: "Add portfolio" },
+    { label: "Profile Completion", value: "82%", helper: "Add portfolio" },
   ];
 
   const actions = [

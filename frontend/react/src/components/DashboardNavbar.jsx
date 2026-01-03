@@ -139,7 +139,7 @@ const DashboardNavbar = ({ role }) => {
         ]
         : [
             { name: 'Dashboard', path: '/freelancer/dashboard' },
-            { name: 'Find Work', path: '/explore-jobs' },
+            { name: 'Find Work', path: '/explore-jobs?from=dashboard' },
             { name: 'My Proposals', path: '/freelancer/proposals' },
             { name: 'Messages', path: '/freelancer/chat' },
             { name: 'Saved Jobs', path: '/freelancer/saved-jobs' },
@@ -299,14 +299,28 @@ const DashboardNavbar = ({ role }) => {
 
             {/* Mobile Menu */}
             <div
-                className={`md:hidden fixed inset-0 z-40 bg-gray-900/50 transition-opacity duration-200 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-                onClick={() => setIsOpen(false)}
+                className={`md:hidden fixed inset-x-0 bottom-0 top-[72px] z-40 bg-gray-900/50 transition-opacity duration-200 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                onClick={() => {
+                    setIsOpen(false);
+                    setDropdownOpen(false);
+                    setShowNotifications(false);
+                }}
+                onTouchStart={() => {
+                    setIsOpen(false);
+                    setDropdownOpen(false);
+                    setShowNotifications(false);
+                }}
+                onPointerDown={() => {
+                    setIsOpen(false);
+                    setDropdownOpen(false);
+                    setShowNotifications(false);
+                }}
             />
             <div
-                className={`dashboard-mobile-menu md:hidden border-b overflow-hidden transition-all duration-300 ease-in-out relative z-50 ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                className={`dashboard-mobile-menu md:hidden border-b overflow-hidden transition-all duration-300 ease-in-out relative z-50 ${isOpen ? 'max-h-[80vh] opacity-100' : 'max-h-0 opacity-0'
                     }`}
             >
-                <div className="px-4 pt-2 pb-4 space-y-1">
+                <div className="px-4 pt-2 pb-4 space-y-1 overflow-y-auto">
                     {navLinks.map((link) => (
                         <Link
                             key={link.name}

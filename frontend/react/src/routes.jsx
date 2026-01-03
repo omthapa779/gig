@@ -33,6 +33,7 @@ import FreelancerLogin from "./Pages/Freelancer/loginFreelancer.jsx";
 import FreelancerProfile from "./Pages/Freelancer/profile.jsx";
 import FreelancerDashboard from "./Pages/Freelancer/Dashboard.jsx";
 import FreelancerSavedJobs from "./Pages/Freelancer/SavedJobs.jsx";
+import FreelancerJobDetails from "./Pages/Freelancer/JobDetails.jsx";
 import FreelancerProfileEdit from "./Pages/Freelancer/profileEdit.jsx";
 import FreelancerProposals from "./Pages/Freelancer/MyProposals.jsx";
 import RateCompany from "./Pages/Freelancer/RateCompany.jsx";
@@ -114,6 +115,7 @@ export default function App() {
           <Route element={<DashboardLayout role="freelancer" />}>
             <Route path="/freelancer/dashboard" element={<FreelancerDashboard />} />
             <Route path="/freelancer/saved-jobs" element={<FreelancerSavedJobs />} />
+            <Route path="/freelancer/job/:id" element={<FreelancerJobDetails />} />
             <Route path="/freelancer/profile" element={<FreelancerProfile />} />
             <Route path="/freelancer/proposals" element={<FreelancerProposals />} />
             <Route path="/freelancer/profileEdit" element={<FreelancerProfileEdit />} />

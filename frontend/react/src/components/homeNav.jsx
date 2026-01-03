@@ -14,10 +14,8 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [aboutOpen, setAboutOpen] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
 
-  const aboutTimer = useRef(null);
   const catTimer = useRef(null);
   const loginTimer = useRef(null);
 
@@ -62,7 +60,6 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
 
   const onScrollLink = (e, hash) => {
     e.preventDefault();
-    setAboutOpen(false);
     const el = document.querySelector(hash);
     if (el) {
       const y = el.getBoundingClientRect().top + window.pageYOffset - 80;
@@ -95,7 +92,7 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
                 {/* Categories Mega Menu */}
                 <div
                   className="relative h-full flex items-center"
-                  onMouseEnter={() => { setAboutOpen(false); setLoginOpen(false); handleOpen(setCategoriesOpen, catTimer); }}
+                  onMouseEnter={() => { setLoginOpen(false); handleOpen(setCategoriesOpen, catTimer); }}
                   onMouseLeave={() => handleClose(setCategoriesOpen, catTimer)}
                 >
                   <button className={`relative group flex items-center gap-1 px-3 py-2 rounded-lg text-[0.95rem] font-medium uppercase tracking-wider transition-all nav-item-text`} style={{ color: 'var(--text-secondary)' }}>
@@ -121,32 +118,29 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
                   </div>
                 </div>
 
-                <Link to="/explore-jobs" className="relative font-medium nav-item-text text-[0.95rem] tracking-[0.08em] uppercase py-1.5 transition-all group" style={{ color: 'var(--text-secondary)' }}>
+                <Link
+                  to="/explore-jobs"
+                  className="relative group flex items-center gap-1 px-3 py-2 rounded-lg text-[0.95rem] font-medium uppercase tracking-wider transition-all nav-item-text"
+                  style={{ color: 'var(--text-secondary)' }}
+                >
                   Explore Jobs
                   <span className="absolute left-0 right-0 bottom-0.5 h-[2px] bg-[#ffd021]/90 rounded-full scale-x-0 transition-transform duration-200 group-hover:scale-x-100"></span>
                 </Link>
 
-                {/* About Dropdown */}
-                <div className="relative h-full flex items-center"
-                  onMouseEnter={() => { setCategoriesOpen(false); setLoginOpen(false); handleOpen(setAboutOpen, aboutTimer); }}
-                  onMouseLeave={() => handleClose(setAboutOpen, aboutTimer)}>
-                  <button className={`relative group flex items-center gap-1 px-3 py-2 rounded-lg text-[0.95rem] font-medium uppercase tracking-wider transition-all nav-item-text`} style={{ color: 'var(--text-secondary)' }}>
-                    <span className="inline-flex items-center gap-1">About</span>
-                    <span className="absolute left-0 right-0 bottom-0.5 h-[2px] bg-[#ffd021]/90 rounded-full scale-x-0 transition-transform duration-200 group-hover:scale-x-100" />
-                  </button>
-                  <div className={`absolute top-[calc(100%+4px)] left-1/2 -translate-x-1/2 min-w-[180px] menu-surface rounded-xl shadow-xl p-2 transition-all duration-200 z-50 
-                    ${aboutOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-2 pointer-events-none'}`}>
-                    <Link to="/about" className="block p-2.5 rounded-lg menu-link font-semibold text-[0.9rem] transition-all">About Us</Link>
-                    <a href="#how-it-works" onClick={(e) => onScrollLink(e, "#how-it-works")} className="block p-2.5 rounded-lg menu-link font-semibold text-[0.9rem] transition-all">How it Works</a>
-                    <a href="#features" onClick={(e) => onScrollLink(e, "#features")} className="block p-2.5 rounded-lg menu-link font-semibold text-[0.9rem] transition-all">Why Us</a>
-                  </div>
-                </div>
+                <Link
+                  to="/about"
+                  className="relative group flex items-center gap-1 px-3 py-2 rounded-lg text-[0.95rem] font-medium uppercase tracking-wider transition-all nav-item-text"
+                  style={{ color: 'var(--text-secondary)' }}
+                >
+                  About Us
+                  <span className="absolute left-0 right-0 bottom-0.5 h-[2px] bg-[#ffd021]/90 rounded-full scale-x-0 transition-transform duration-200 group-hover:scale-x-100"></span>
+                </Link>
               </div>
 
               {/* Auth / Profile */}
               {userRole === 'guest' ? (
                 <div className="relative"
-                  onMouseEnter={() => { setCategoriesOpen(false); setAboutOpen(false); handleOpen(setLoginOpen, loginTimer); }}
+                  onMouseEnter={() => { setCategoriesOpen(false); handleOpen(setLoginOpen, loginTimer); }}
                   onMouseLeave={() => handleClose(setLoginOpen, loginTimer)}>
                   <button className={`relative group flex items-center gap-1.5 px-0.5 py-1.5 text-[0.95rem] font-medium uppercase tracking-wider transition-all nav-item-text`} style={{ color: 'var(--text-secondary)' }}>
                     <span className="inline-flex items-center gap-2">Log In</span>
@@ -228,9 +222,9 @@ const HomeNavbar = ({ handleSmoothScroll }) => {
       </nav>
 
       {/* Mobile Sidebar */}
-      <div className={`fixed inset-0 z-[59] bg-gray-900/50 transition-opacity duration-250 ${sidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={() => setSidebarOpen(false)} />
+      <div className={`fixed inset-0 z-[10050] bg-gray-900/50 transition-opacity duration-250 ${sidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={() => setSidebarOpen(false)} />
       
-      <aside className={`home-sidebar fixed top-0 bottom-0 right-0 w-[min(82vw,340px)] site-surface shadow-2xl transition-transform duration-300 z-[61] flex flex-col p-5 font-['Outfit'] ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ backgroundColor: 'var(--surface)', color: 'var(--text-primary)' }}>
+      <aside className={`home-sidebar fixed top-0 bottom-0 right-0 w-[min(82vw,340px)] site-surface shadow-2xl transition-transform duration-300 z-[10060] flex flex-col p-5 font-['Outfit'] ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ backgroundColor: 'var(--surface)', color: 'var(--text-primary)' }}>
         <div className="sidebar-header flex items-center justify-between pb-3 border-b">
           <Link to="/" onClick={() => setSidebarOpen(false)} className="inline-flex items-center gap-2.5" style={{ color: 'var(--text-primary)', fontWeight: 800 }}>
             <img src={logo} alt="gig logo" className="w-[30px] h-[30px] object-contain" />

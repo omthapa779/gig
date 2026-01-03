@@ -175,7 +175,7 @@ export default function Jobs() {
               <h1 className="text-3xl font-bold text-gray-900 tracking-tight">My Jobs</h1>
               <p className="text-gray-500 mt-1">Manage all your active job listings.</p>
             </div>
-            <Link to="/company/jobs?action=new" className="px-6 py-2.5 bg-black hover:bg-gray-800 text-white font-semibold rounded-lg shadow-md transition-all flex items-center gap-2">
+            <Link to="/company/jobs?action=new" className="btn-secondary dashboard-cta-secondary px-6 py-2.5 rounded-xl font-semibold flex items-center gap-2">
               <i className="fa-solid fa-plus"></i> Post New Job
             </Link>
           </div>
@@ -267,7 +267,7 @@ export default function Jobs() {
             <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Post a New Job</h1>
             <p className="text-gray-500 mt-1">Find the perfect talent for your next project.</p>
           </div>
-          <Link to="/company/jobs" className="text-sm font-semibold text-gray-600 hover:text-black hover:underline flex items-center gap-2 transition-all">
+          <Link to="/company/jobs" className="btn-secondary dashboard-cta-secondary px-5 py-2.5 rounded-xl font-semibold flex items-center gap-2">
             <i className="fa-solid fa-arrow-left"></i> Back to My Jobs
           </Link>
         </div>

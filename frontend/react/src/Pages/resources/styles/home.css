@@ -16,6 +16,7 @@
 .marquee-container {
   mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
   -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  overflow: hidden;
 }
 /* ... rest of your CSS ... */
 
@@ -36,13 +37,15 @@
   }
 
   .marquee-track {
-    max-width: 100%;
+    width: max-content;
+    max-width: none;
   }
 }
 
 .marquee-track {
-  display: inline-flex;
+  display: flex;
   width: max-content;
+  flex-wrap: nowrap;
   animation: marquee 26s linear infinite;
   will-change: transform;
 }
@@ -50,9 +53,26 @@
 .marquee-content {
   display: inline-flex;
   align-items: center;
-  gap: 6rem;
-  padding-right: 6rem;
+  gap: 5rem;
+  padding-right: 0;
   flex: 0 0 auto;
+  min-width: 100%;
+  justify-content: space-around;
+}
+
+@media (max-width: 768px) {
+  .marquee-container {
+    overflow: hidden;
+  }
+  .marquee-content {
+    gap: 2.5rem;
+    padding-right: 1.5rem;
+    min-width: 100%;
+    justify-content: space-around;
+  }
+  .marquee-track {
+    animation-duration: 18s;
+  }
 }
 
 @keyframes marquee {

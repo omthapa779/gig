@@ -254,7 +254,7 @@ export default function FreelancerProfileEdit() {
               </div>
             </div>
 
-            <Link to="/freelancer/profile" className="text-sm font-semibold text-gray-600 hover:text-black hover:underline flex items-center gap-2 transition-all">
+            <Link to="/freelancer/profile" className="btn-secondary dashboard-cta-secondary px-5 py-2.5 rounded-xl font-semibold flex items-center gap-2">
               <i className="fa-solid fa-arrow-left"></i> Back to Profile
             </Link>
           </div>

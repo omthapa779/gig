@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Navbar from "@/components/homeNav";
+import DashboardNavbar from "@/components/DashboardNavbar";
 import FloatingMenu from "../../components/floatingMenu";
 import "../Categories/categories.css"; // Reuse Categories styles
 import SmoothScroll from "@/components/SmoothScroll";
@@ -11,6 +12,8 @@ const JobFeed = () => {
     const [loading, setLoading] = useState(true);
     const [query, setQuery] = useState("");
     const [activeFilter, setActiveFilter] = useState("All");
+    const [searchParams] = useSearchParams();
+    const fromDashboard = searchParams.get("from") === "dashboard";
 
     const filters = useMemo(() => [
         "All",
@@ -114,7 +117,7 @@ const JobFeed = () => {
     return (
         <SmoothScroll options={{ duration: 1.2, smoothWheel: true }}>
             <div className="categories-page" ref={rootRef}>
-                <Navbar />
+                {fromDashboard ? <DashboardNavbar role="freelancer" /> : <Navbar />}
                 <FloatingMenu />
 
                 {/* HERO */}
@@ -239,7 +242,7 @@ const JobFeed = () => {
                         ) : (
                             /* EMPTY STATE */
                             <div className="cat-empty">
-                                <div className="cat-empty-card reveal-up" data-animate style={{ "--delay": "0ms" }}>
+                                <div className="cat-empty-card">
                                     <div className="cat-empty-icon">
                                         <i className="fa-solid fa-face-frown" />
                                     </div>
