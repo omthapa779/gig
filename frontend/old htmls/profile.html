@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Company Profile | Freelancer Nepal</title>
+  <link rel="stylesheet" href="/resources/styles/profile.css" />
+</head>
+<body>
+  <div class="profile-summary">
+    <div class="profile-header">
+      <img id="companyLogo" src="/resources/essentials/default-logo.png" alt="Company Logo" />
+      <div>
+        <h1 id="companyName">Loading...</h1>
+        <p id="industry">Industry: —</p>
+        <p id="size">Company Size: —</p>
+        <p id="location">Location: —</p>
+      </div>
+    </div>
+
+    <div class="profile-details">
+      <h3>About Company</h3>
+      <p id="about">Loading description...</p>
+
+      <h3>Website</h3>
+      <p><a id="website" href="#" target="_blank">—</a></p>
+
+      <h3>Contact</h3>
+      <p id="email">Email: —</p>
+      <p id="phone">Phone: —</p>
+    </div>
+
+    <!-- Jobs summary + link to manage page -->
+    <section id="jobsSection" style="border-top:1px solid #eee; padding-top:20px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2>Active Jobs</h2>
+        <a href="/company/jobs"><button id="manageJobsBtn">Manage Jobs</button></a>
+      </div>
+
+      <div id="jobList" style="max-width:900px; margin-top:20px;">
+        <!-- populated by JS -->
+      </div>
+    </section>
+
+    <div style="margin-left:20px;">
+      <button id="logoutBtn">Logout</button>
+    </div>
+
+    <button id="editBtn">Complete / Edit Profile</button>
+  </div>
+
+  <script src="/resources/scripts/company/profileSummaryCompany.js"></script>
+</body>
+</html>

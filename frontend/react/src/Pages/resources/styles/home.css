@@ -1,0 +1,104 @@
+/* Update these in your home.css */
+
+.reveal-up {
+  opacity: 0;
+  /* Remove the transition: all 0.8s... line */
+}
+
+/* You can remove .reveal-up.is-visible entirely */
+
+.fade-in {
+  opacity: 0;
+  /* Remove the transition: opacity 1s... line */
+}
+
+/* Keep everything else as is */
+.marquee-container {
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  overflow: hidden;
+}
+/* ... rest of your CSS ... */
+
+@media (max-width: 768px) {
+  [data-animate] {
+    --delay: 0ms !important;
+  }
+}
+
+/* Apply overflow-x hidden globally to prevent scrollbars */
+body, 
+.home-page {
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+
+  .marquee-container {
+    width: 100%;
+  }
+
+  .marquee-track {
+    width: max-content;
+    max-width: none;
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  flex-wrap: nowrap;
+  animation: marquee 26s linear infinite;
+  will-change: transform;
+}
+
+.marquee-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 5rem;
+  padding-right: 0;
+  flex: 0 0 auto;
+  min-width: 100%;
+  justify-content: space-around;
+}
+
+@media (max-width: 768px) {
+  .marquee-container {
+    overflow: hidden;
+  }
+  .marquee-content {
+    gap: 2.5rem;
+    padding-right: 1.5rem;
+    min-width: 100%;
+    justify-content: space-around;
+  }
+  .marquee-track {
+    animation-duration: 18s;
+  }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Steps Connector */
+@media (min-width: 1024px) {
+  .step-connector::before {
+    content: "";
+    position: absolute;
+    top: 35%;
+    left: 15%;
+    right: 15%;
+    height: 3px;
+    background-image: linear-gradient(to right, #CBD5E1 55%, transparent 55%);
+    background-size: 18px 100%;
+    opacity: 0.9;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .dark .step-connector::before {
+    background-image: linear-gradient(to right, rgba(255,255,255,0.08) 50%, transparent 50%);
+    opacity: 0.45;
+  }
+}

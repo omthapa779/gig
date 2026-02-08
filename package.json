@@ -1,0 +1,50 @@
+{
+  "name": "gig",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "concurrently \"nodemon backend/server.js\" \"npm run dev --prefix frontend/react\"",
+    "postinstall": "npm install --prefix frontend/react"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@gsap/react": "^2.1.2",
+    "argon2": "^0.44.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^8.1.0",
+    "google-auth-library": "^10.5.0",
+    "gsap": "^3.14.2",
+    "helmet": "^8.1.0",
+    "joi": "^18.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.19.2",
+    "morgan": "^1.10.1",
+    "multer": "^2.0.2",
+    "nodemailer": "^7.0.11",
+    "nodemon": "^3.1.10",
+    "react-easy-crop": "^5.5.6",
+    "sanitize-html": "^2.17.0",
+    "winston": "^3.18.3",
+    "xss-clean": "^0.1.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omthapa779/gig.git"
+  },
+  "bugs": {
+    "url": "https://github.com/omthapa779/gig/issues"
+  },
+  "homepage": "https://github.com/omthapa779/gig#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Freelancer Profile — Edit | Freelancer Nepal</title>
+  <link rel="stylesheet" href="/resources/styles/profile.css" />
+</head>
+<body>
+  <div class="profile-container">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h2>Welcome, <span id="fullNameDisplay"></span> 👋</h2>
+      <button id="logoutBtn">Logout</button>
+    </div>
+    <p class="intro-text">
+      Complete your freelancer profile to attract the best opportunities.
+    </p>
+
+    <form id="profileForm" class="profile-form" enctype="multipart/form-data">
+      <label>Profile Picture</label>
+      <input type="file" id="profile_picture" name="profile_picture" accept="image/*" />
+
+      <label>Full Name</label>
+      <input type="text" id="fullName" name="fullName" placeholder="Jane Doe" required />
+
+      <label>Date of Birth</label>
+      <input type="date" id="DOB" name="DOB" />
+
+      <label>Location</label>
+      <input type="text" id="location" name="location" placeholder="Kathmandu, Nepal" />
+
+      <label>Skills (comma separated)</label>
+      <input type="text" id="skills" name="skills" placeholder="JavaScript, React, Node" />
+
+      <label>About / Bio</label>
+      <textarea id="bio" name="bio" placeholder="Short bio..."></textarea>
+
+      <label>Portfolio URL</label>
+      <input type="url" id="portfolio" name="portfolio" placeholder="https://portfolio.example.com" />
+
+      <label>Resume URL</label>
+      <input type="url" id="resume" name="resume" placeholder="https://example.com/resume.pdf" />
+
+      <button type="submit">Save Profile</button>
+      <p id="message"></p>
+    </form>
+  </div>
+
+  <script src="/resources/scripts/freelancer/profileFreelancer.js" defer></script>
+</body>
+</html>
