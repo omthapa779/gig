@@ -13,16 +13,16 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Availability'),
-      ),
+      appBar: AppBar(title: const Text('Availability')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             ListTile(
               title: const Text('Available for work'),
-              subtitle: const Text('Turn off to hide your gigs from search results.'),
+              subtitle: const Text(
+                'Turn off to hide your gigs from search results.',
+              ),
               trailing: Switch(
                 value: _isAvailable,
                 onChanged: (value) {
@@ -30,7 +30,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                     _isAvailable = value;
                   });
                 },
-                 activeColor: const Color(0xFFFFD021),
+                activeThumbColor: const Color(0xFFFFD021),
               ),
             ),
             if (!_isAvailable) ...[
@@ -39,7 +39,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                 title: Text('Set unavailability period'),
                 trailing: Icon(Icons.chevron_right),
               ),
-            ]
+            ],
           ],
         ),
       ),

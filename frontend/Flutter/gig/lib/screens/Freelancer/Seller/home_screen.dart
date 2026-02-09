@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'profile_screens/seller_public_profile_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -47,14 +48,47 @@ class HomeScreen extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundColor: isDark
-                  ? Colors.grey[800]
-                  : const Color(0xFFE5E7EB),
-              radius: 20,
-              child: Icon(
-                Icons.person,
-                color: isDark ? Colors.grey[400] : const Color(0xFF9CA3AF),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const SellerPublicProfileScreen(),
+                    transitionsBuilder: (
+                      context,
+                      animation,
+                      secondaryAnimation,
+                      child,
+                    ) {
+                      const begin = Offset(1.0, 0.0);
+                      const end = Offset.zero;
+                      const curve = Curves.easeInOut;
+
+                      final tween = Tween<Offset>(
+                        begin: begin,
+                        end: end,
+                      ).chain(CurveTween(curve: curve));
+
+                      return FadeTransition(
+                        opacity: animation,
+                        child: SlideTransition(
+                          position: animation.drive(tween),
+                          child: child,
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+              child: CircleAvatar(
+                backgroundColor: isDark
+                    ? Colors.grey[800]
+                    : const Color(0xFFE5E7EB),
+                radius: 20,
+                child: Icon(
+                  Icons.person,
+                  color: isDark ? Colors.grey[400] : const Color(0xFF9CA3AF),
+                ),
               ),
             ),
           ),

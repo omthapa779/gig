@@ -130,7 +130,7 @@ class ProfileScreen extends StatelessWidget {
                     Switch(
                       value: isSellerMode,
                       onChanged: onToggleMode,
-                      activeColor: Colors.white,
+                      activeThumbColor: Colors.white,
                       activeTrackColor: Colors.grey,
                     ),
                   ],
@@ -206,7 +206,12 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 _buildListItem(context, Icons.history, 'Browsing History'),
               ],
-              _buildListItem(context, Icons.send_outlined, 'Invite friends'),
+              _buildListItem(
+                context,
+                Icons.send_outlined,
+                'Invite friends',
+                showTrailing: false,
+              ),
 
               const SizedBox(height: 24),
               _buildSectionTitle(context, 'Settings'),
@@ -275,6 +280,7 @@ class ProfileScreen extends StatelessWidget {
     IconData icon,
     String title, {
     VoidCallback? onTap,
+    bool showTrailing = true,
   }) {
     final textColor = Theme.of(context).textTheme.bodyLarge?.color;
     return ListTile(
@@ -283,7 +289,9 @@ class ProfileScreen extends StatelessWidget {
         title,
         style: TextStyle(color: textColor, fontWeight: FontWeight.normal),
       ),
-      trailing: const Icon(Icons.chevron_right, color: Colors.grey, size: 20),
+      trailing: showTrailing
+          ? const Icon(Icons.chevron_right, color: Colors.grey, size: 20)
+          : null,
       onTap: onTap,
     );
   }

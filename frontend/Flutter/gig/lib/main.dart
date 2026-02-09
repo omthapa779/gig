@@ -23,8 +23,8 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 
-  static _MyAppState of(BuildContext context) =>
-      context.findAncestorStateOfType<_MyAppState>()!;
+  static _MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -119,10 +119,12 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
+  int _previousIndex = 0;
   bool _isSellerMode = true;
 
   void _onItemTapped(int index) {
     setState(() {
+      _previousIndex = _selectedIndex;
       _selectedIndex = index;
     });
   }
@@ -130,7 +132,9 @@ class _MainScreenState extends State<MainScreen> {
   void _toggleSellerMode(bool value) {
     setState(() {
       _isSellerMode = value;
-      _selectedIndex = 0; // Reset to Home to avoid index out of bounds
+      // Reset to Home to avoid index out of bounds
+      _previousIndex = 0;
+      _selectedIndex = 0;
     });
   }
 
@@ -149,10 +153,7 @@ class _MainScreenState extends State<MainScreen> {
         : [
             BuyerHomeScreen(
               onSearchTap: () {
-                setState(() {
-                  _selectedIndex =
-                      2; // Switch to Search Tab (Index 2 in Buyer Mode)
-                });
+                _onItemTapped(2); // Use _onItemTapped for smooth animation
               },
             ),
             const MessagesScreen(),
@@ -230,14 +231,27 @@ class _MainScreenState extends State<MainScreen> {
 
     return Scaffold(
       body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 500),
-        transitionBuilder: (Widget child, Animation<double> animation) {
-          return FadeTransition(opacity: animation, child: child);
+        duration: const Duration(milliseconds: 280),
+        transitionBuilder: (child, animation) {
+          final bool isForward = _selectedIndex >= _previousIndex;
+          final beginOffset = Offset(isForward ? 1.0 : -1.0, 0.0);
+          final tween = Tween<Offset>(
+            begin: beginOffset,
+            end: Offset.zero,
+          ).chain(
+            CurveTween(curve: Curves.easeInOut),
+          );
+
+          return FadeTransition(
+            opacity: animation,
+            child: SlideTransition(
+              position: animation.drive(tween),
+              child: child,
+            ),
+          );
         },
         child: KeyedSubtree(
-          key: ValueKey<int>(
-            _selectedIndex + (_isSellerMode ? 100 : 0),
-          ), // Unique key for transition
+          key: ValueKey('$_isSellerMode-$_selectedIndex'),
           child: screens[_selectedIndex],
         ),
       ),

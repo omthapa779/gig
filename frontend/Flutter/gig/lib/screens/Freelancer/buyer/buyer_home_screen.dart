@@ -278,10 +278,17 @@ class BuyerHomeScreen extends StatelessWidget {
     Color color,
     IconData icon,
   ) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor =
+        isDark ? const Color(0xFF222222) : const Color(0xFFF3F4F6);
+    final innerColor =
+        isDark ? const Color(0xFF2C2C2C) : const Color(0xFFFFFFFF);
+    final textColor = isDark ? Colors.white : const Color(0xFF111827);
+
     return Container(
       width: 120,
       decoration: BoxDecoration(
-        color: const Color(0xFF222222),
+        color: backgroundColor,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Stack(
@@ -290,7 +297,7 @@ class BuyerHomeScreen extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: const Color(0xFF2C2C2C),
+                color: innerColor,
               ),
               child: Center(
                 child: Icon(icon, size: 48, color: color.withOpacity(0.8)),
@@ -302,8 +309,8 @@ class BuyerHomeScreen extends StatelessWidget {
             left: 12,
             child: Text(
               title,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: textColor,
                 fontWeight: FontWeight.bold,
               ),
             ),
