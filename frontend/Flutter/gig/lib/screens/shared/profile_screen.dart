@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
 import 'settings_screen.dart';
+import '../freelancer/seller/profile_screens/earnings_screen.dart';
+import '../freelancer/seller/profile_screens/offer_templates_screen.dart';
+import '../freelancer/seller/profile_screens/briefs_screen.dart';
+import '../freelancer/seller/profile_screens/share_gigs_screen.dart';
+import '../freelancer/seller/profile_screens/manage_gigs_screen.dart';
+import '../freelancer/seller/profile_screens/availability_screen.dart';
+import '../freelancer/seller/profile_screens/account_screen.dart';
+import '../freelancer/seller/profile_screens/seller_public_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  final bool isSellerMode;
+  final ValueChanged<bool> onToggleMode;
+
+  const ProfileScreen({
+    super.key,
+    required this.isSellerMode,
+    required this.onToggleMode,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -113,8 +128,8 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     Switch(
-                      value: false,
-                      onChanged: (value) {},
+                      value: isSellerMode,
+                      onChanged: onToggleMode,
                       activeColor: Colors.white,
                       activeTrackColor: Colors.grey,
                     ),
@@ -123,31 +138,74 @@ class ProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
-              // Buying Section (or Selling if user preferred) - mocked based on screenshot
-              _buildSectionTitle(context, 'Selling'),
-              _buildListItem(
-                context,
-                Icons.monetization_on_outlined,
-                'Earnings',
-              ),
-              _buildListItem(
-                context,
-                Icons.bolt_outlined,
-                'Custom offer templates',
-              ),
-              _buildListItem(context, Icons.article_outlined, 'Briefs'),
-              _buildListItem(context, Icons.share_outlined, 'Share Gigs'),
-              _buildListItem(context, Icons.person_outline, 'My profile'),
-              _buildListItem(
-                context,
-                Icons.video_library_outlined,
-                'Manage Gigs',
-              ),
-              _buildListItem(
-                context,
-                Icons.calendar_today_outlined,
-                'Availability',
-              ),
+              // Sections
+              _buildSectionTitle(context, isSellerMode ? 'Selling' : 'Buying'),
+              if (isSellerMode) ...[
+                _buildListItem(
+                  context,
+                  Icons.monetization_on_outlined,
+                  'Earnings',
+                  onTap: () => Navigator.of(
+                    context,
+                  ).push(_createRoute(const EarningsScreen())),
+                ),
+                _buildListItem(
+                  context,
+                  Icons.bolt_outlined,
+                  'Custom offer templates',
+                  onTap: () => Navigator.of(
+                    context,
+                  ).push(_createRoute(const OfferTemplatesScreen())),
+                ),
+                _buildListItem(
+                  context,
+                  Icons.article_outlined,
+                  'Briefs',
+                  onTap: () => Navigator.of(
+                    context,
+                  ).push(_createRoute(const BriefsScreen())),
+                ),
+                _buildListItem(
+                  context,
+                  Icons.share_outlined,
+                  'Share Gigs',
+                  onTap: () => Navigator.of(
+                    context,
+                  ).push(_createRoute(const ShareGigsScreen())),
+                ),
+                _buildListItem(
+                  context,
+                  Icons.person_outline,
+                  'My profile',
+                  onTap: () => Navigator.of(
+                    context,
+                  ).push(_createRoute(const SellerPublicProfileScreen())),
+                ),
+                _buildListItem(
+                  context,
+                  Icons.video_library_outlined,
+                  'Manage Gigs',
+                  onTap: () => Navigator.of(
+                    context,
+                  ).push(_createRoute(const ManageGigsScreen())),
+                ),
+                _buildListItem(
+                  context,
+                  Icons.calendar_today_outlined,
+                  'Availability',
+                  onTap: () => Navigator.of(
+                    context,
+                  ).push(_createRoute(const AvailabilityScreen())),
+                ),
+              ] else ...[
+                _buildListItem(context, Icons.favorite_border, 'Saved Gigs'),
+                _buildListItem(
+                  context,
+                  Icons.list_alt_outlined,
+                  'Post a Request',
+                ),
+                _buildListItem(context, Icons.history, 'Browsing History'),
+              ],
               _buildListItem(context, Icons.send_outlined, 'Invite friends'),
 
               const SizedBox(height: 24),
@@ -162,7 +220,14 @@ class ProfileScreen extends StatelessWidget {
                   ).push(_createRoute(const SettingsScreen()));
                 },
               ),
-              _buildListItem(context, Icons.account_circle_outlined, 'Account'),
+              _buildListItem(
+                context,
+                Icons.account_circle_outlined,
+                'Account',
+                onTap: () => Navigator.of(
+                  context,
+                ).push(_createRoute(const AccountScreen())),
+              ),
 
               const SizedBox(height: 24),
               _buildSectionTitle(context, 'Resources'),

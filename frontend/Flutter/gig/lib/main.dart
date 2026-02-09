@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'screens/home_screen.dart';
-import 'screens/messages_screen.dart';
-import 'screens/proposals_screen.dart';
-import 'screens/profile_screen.dart';
+import 'screens/freelancer/seller/home_screen.dart';
+import 'screens/shared/messages_screen.dart';
+import 'screens/freelancer/seller/proposals_screen.dart';
+import 'screens/shared/profile_screen.dart';
+import 'screens/freelancer/buyer/buyer_home_screen.dart';
+import 'screens/freelancer/buyer/search_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +28,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ThemeMode _themeMode = ThemeMode.light;
+  ThemeMode _themeMode = ThemeMode.system;
 
   void changeTheme(ThemeMode themeMode) {
     setState(() {
@@ -111,18 +113,13 @@ class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
   @override
+  @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
-
-  static const List<Widget> _screens = <Widget>[
-    HomeScreen(),
-    MessagesScreen(),
-    ProposalsScreen(),
-    ProfileScreen(),
-  ];
+  bool _isSellerMode = true;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -130,37 +127,122 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  void _toggleSellerMode(bool value) {
+    setState(() {
+      _isSellerMode = value;
+      _selectedIndex = 0; // Reset to Home to avoid index out of bounds
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final List<Widget> screens = _isSellerMode
+        ? [
+            const HomeScreen(),
+            const MessagesScreen(),
+            const ProposalsScreen(),
+            ProfileScreen(
+              isSellerMode: _isSellerMode,
+              onToggleMode: _toggleSellerMode,
+            ),
+          ]
+        : [
+            BuyerHomeScreen(
+              onSearchTap: () {
+                setState(() {
+                  _selectedIndex =
+                      2; // Switch to Search Tab (Index 2 in Buyer Mode)
+                });
+              },
+            ),
+            const MessagesScreen(),
+            const SearchScreen(),
+            const ProposalsScreen(),
+            ProfileScreen(
+              isSellerMode: _isSellerMode,
+              onToggleMode: _toggleSellerMode,
+            ),
+          ];
+
+    final List<BottomNavigationBarItem> navItems = _isSellerMode
+        ? [
+            BottomNavigationBarItem(
+              icon: Icon(
+                _selectedIndex == 0 ? Icons.home : Icons.home_outlined,
+              ),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                _selectedIndex == 1 ? Icons.mail : Icons.mail_outlined,
+              ),
+              label: 'Inbox',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                _selectedIndex == 2
+                    ? Icons.description
+                    : Icons.description_outlined,
+              ),
+              label: 'Manage Orders',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                _selectedIndex == 3 ? Icons.person : Icons.person_outlined,
+              ),
+              label: 'Profile',
+            ),
+          ]
+        : [
+            BottomNavigationBarItem(
+              icon: Icon(
+                _selectedIndex == 0 ? Icons.home : Icons.home_outlined,
+              ),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                _selectedIndex == 1 ? Icons.mail : Icons.mail_outlined,
+              ),
+              label: 'Inbox',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                _selectedIndex == 2 ? Icons.search : Icons.search_outlined,
+              ),
+              label: 'Search',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                _selectedIndex == 3
+                    ? Icons.description
+                    : Icons.description_outlined,
+              ),
+              label: 'Manage Orders',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                _selectedIndex == 4 ? Icons.person : Icons.person_outlined,
+              ),
+              label: 'Profile',
+            ),
+          ];
+
     return Scaffold(
-      body: _screens[_selectedIndex],
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 500),
+        transitionBuilder: (Widget child, Animation<double> animation) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+        child: KeyedSubtree(
+          key: ValueKey<int>(
+            _selectedIndex + (_isSellerMode ? 100 : 0),
+          ), // Unique key for transition
+          child: screens[_selectedIndex],
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(_selectedIndex == 0 ? Icons.home : Icons.home_outlined),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              _selectedIndex == 1 ? Icons.mail : Icons.mail_outlined,
-            ), // Using mail for messages
-            label: 'Inbox',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              _selectedIndex == 2
-                  ? Icons.description
-                  : Icons.description_outlined,
-            ),
-            label: 'Manage Orders',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              _selectedIndex == 3 ? Icons.person : Icons.person_outlined,
-            ),
-            label: 'Profile',
-          ),
-        ],
+        items: navItems,
         currentIndex: _selectedIndex,
         selectedItemColor: Theme.of(
           context,
